@@ -6,7 +6,7 @@ exports.port = null;
 exports.bServeAsHub = false;
 exports.bLight = false;
 
-exports.webPort = 4000;
+exports.webPort = 6000;
 
 exports.storage = 'sqlite';
 
@@ -60,7 +60,7 @@ exports.initial_witnesses = [
 ];
 */
 exports.initial_peers = [
-	'wss://trustgraph.org/bb'
+	'wss://trustgraph.org/tg'
 ];
 
 console.log('finished explorer conf');
