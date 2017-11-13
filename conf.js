@@ -6,7 +6,7 @@ exports.port = null;
 exports.bServeAsHub = false;
 exports.bLight = false;
 
-exports.webPort = 5000;
+exports.webPort = 6000;
 
 exports.storage = 'sqlite';
 
