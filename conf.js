@@ -62,7 +62,7 @@ exports.initial_witnesses = [
 
 /*'wss://trustgraph.org/tg' */
 exports.initial_peers = [
-	'ws://123.206.95.213/tg'
+	'ws://211.159.160.220/tn'
 ];
 
 console.log('finished explorer conf');
