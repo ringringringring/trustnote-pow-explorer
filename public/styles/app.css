@@ -5,6 +5,13 @@ body {
 	padding: 0;
 }
 
+.split-line {
+	height: 20px;
+	border: none;
+	border-bottom: 1px solid #BBB;
+	margin: 0 10px;
+}
+
 #menu {
 	position: absolute;
 	left: 0;
