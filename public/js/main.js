@@ -65,7 +65,7 @@ function createCy() {
 			{
 				selector: 'node',
 				style: {
-					'content': 'data(unit_s)',
+					// 'content': 'data(unit_s)',
 					'text-opacity': 1,
 					'min-zoomed-font-size': 13,
 					'text-valign': 'bottom',
@@ -75,9 +75,10 @@ function createCy() {
 					'background-color': '#fff',
 					'border-width': 1,
 					'border-color': '#2980b9',
+					'shape': 'hexagon',
 					//	'border-color': '#333',
 					//	'border-style': 'dotted',
-					'width': 25,
+					'width': 30,
 					'height': 25
 				}
 			},
@@ -110,7 +111,7 @@ function createCy() {
 			{
 				selector: '.best_parent_unit',
 				style: {
-					'width': 5,
+					'width': 4,
 					'target-arrow-shape': 'triangle',
 					'line-color': '#2980b9',
 					'target-arrow-color': '#2980b9',
