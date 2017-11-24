@@ -24,10 +24,10 @@ body {
 	background-color: #eee;
 }
 
-#menuInput {
+/*#menuInput {
 	float: left;
 	margin-left: 15px;
-}
+}*/
 
 #menu input[type=text] {
 	width: 280px;
@@ -74,6 +74,11 @@ body {
 	color: #000;
 }
 
+#menuRight {
+	float: right;
+	margin-top: -7px;
+}
+
 #menuSocial {
 	float: right;
 	padding: 5px;
@@ -104,8 +109,8 @@ body {
 
 #cy {
 	position: absolute;
-	left: 0;
-	right: 450px;
+	right: 0;
+	left: 450px;
 	top: 45px;
 	bottom: 0;
 	z-index: 999;
@@ -113,12 +118,12 @@ body {
 
 #info {
 	position: absolute;
-	right: 0;
+	left: 0;
 	top: 45px;
 	bottom: 0;
 	width: 450px;
 	border-left: 1px solid #ccc;
-	overflow: auto;
+	overflow: scroll;
 }
 
 #unitParent {
@@ -311,6 +316,8 @@ pre{
 	right: 0;
 	bottom: 0;
 	left: 0;
+	width: 100%;
+	height: 100%;
 	z-index: 1000;
 	background-color: #fff;
 	font-size: 16px;
@@ -351,7 +358,7 @@ pre{
 
 #scroll {
 	position: absolute;
-	right: 451px;
+	right: 0px;
 	top: 45px;
 	bottom: 0;
 	width: 50px;
@@ -372,7 +379,7 @@ pre{
 	background: url(/img/goToTop.svg) center no-repeat;
 	background-size: 28px;
 	top: 68px;
-	right: 490px;
+	right: 50px;
 	border: 1px solid #5e5e5e;
 	border-radius: 100%;
 }
@@ -461,11 +468,19 @@ pre{
 		top: 86px;
 	}
 
+	#menuRight {
+		position: absolute;
+		top: 52px;
+		right: 5px;
+	}
+
+
 	#menuInput, #menuInput > form {
-		width: 98%;
+		/*width: 98%;	*/
+		margin-right: -15px;
 	}
 
 	#menuInput input[type=text] {
-		width: 70%;
+		width: 65%;
 	}
 }
