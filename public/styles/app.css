@@ -8,8 +8,9 @@ body {
 .split-line {
 	height: 20px;
 	border: none;
-	border-bottom: 1px solid #BBB;
-	margin: 0 10px;
+	margin-left: -3px;
+	/*border-bottom: 1px solid #BBB;*/
+	background-color: #eee;
 }
 
 #menu {
@@ -204,7 +205,6 @@ body {
 	padding: 5px;
 	margin-bottom: 7px;
 	cursor: pointer;
-	background-color: #f1f1f1;
 	color: #333333;
 }
 
