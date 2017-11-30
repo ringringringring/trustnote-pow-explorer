@@ -940,7 +940,7 @@ socket.on('addressInfo', function(data) {
 		lastInputsROWID = data.newLastInputsROWID;
 		lastOutputsROWID = data.newLastOutputsROWID;
 		nextPageTransactionsEnd = data.end;
-		// for (var k in data.objBalance) {
+		for (var k in data.objBalance) {
 		// 	if (k === 'notes') {
 				balance += '<div><span class="numberFormat">' + data.objBalance[k] + '</span> notes</div>';
 			// }
