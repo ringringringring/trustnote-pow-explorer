@@ -657,7 +657,7 @@ socket.on('start', function(data) {
 	if (data.not_found) showInfoMessage("Unit not found");
 	notLastUnitDown = true;
 	if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
-	if (!notLastUnitUp || (location.hash.length != 33)) {
+	if (!notLastUnitUp && (location.hash.length != 33)) {
 		highlightNode(data.nodes[0].data.unit);
 	}
 });
