@@ -1,7 +1,7 @@
 /*jslint node: true */
 'use strict';
 
-var db = require('trustgraph-common/db.js');
+var db = require('trustnote-common/db.js');
 var moment = require('moment');
 var async = require('async');
 var BIGINT = 9223372036854775807;

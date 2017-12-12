@@ -1,1 +1,1 @@
-*/5 * * * * cd trustgraph-relay; node check_daemon.js 1>>~/.config/trustgraph-relay/check_daemon.log 2>>~/.config/trustgraph-relay/check_daemon.err
+*/5 * * * * cd trustnote-relay; node check_daemon.js 1>>~/.config/trustnote-relay/check_daemon.log 2>>~/.config/trustnote-relay/check_daemon.err

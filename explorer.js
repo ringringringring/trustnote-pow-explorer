@@ -1,8 +1,8 @@
 /*jslint node: true */
 "use strict";
 require('./relay');
-var conf = require('trustgraph-common/conf.js');
-var eventBus = require('trustgraph-common/event_bus.js');
+var conf = require('trustnote-common/conf.js');
+var eventBus = require('trustnote-common/event_bus.js');
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);

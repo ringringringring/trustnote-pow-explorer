@@ -27,7 +27,7 @@ exports.initial_witnesses = [
 ];
 
 
-/*'wss://trustgraph.org/tg' */
+/*'wss://trustnote.org/tg' */
 exports.initial_peers = [
 	'ws://hub1.trustnote.org/tn',
 	'ws://hub2.trustnote.org/tn',

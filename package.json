@@ -1,12 +1,12 @@
 {
-  "name": "trustgraph-explorer",
-  "description": "Trustgraph explorer",
-  "author": "Trustgraph",
+  "name": "trustnote-explorer",
+  "description": "Trustnote explorer",
+  "author": "Trustnote",
   "version": "0.1.0",
   "main": "start.js",
   "keywords": [
     "explorer",
-    "trustgraph",
+    "trustnote",
     "full node"
   ],
   "scripts": {
@@ -15,11 +15,11 @@
   },
   "license": "MIT",
   "repository": {
-    "url": "https://gitee.com/trustgraph/trustgraph-explorer.git",
+    "url": "https://gitee.com/trustnote/trustnote-explorer.git",
     "type": "git"
   },
   "bugs": {
-    "url": "https://gitee.com/trustgraph/trustgraph-explorer/issues"
+    "url": "https://gitee.com/trustnote/trustnote-explorer/issues"
   },
   "browser": {
     "request": "browser-request",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "async": "^2.1.5",
-    "trustgraph-common": "git+ssh://git@gitee.com:trustgraph/trustgraph-common.git",
+    "trustnote-common": "git+ssh://git@gitee.com:trustnote/trustnote-common.git",
     "express": "^4.14.0",
     "moment": "^2.17.1",
     "socket.io": "^1.7.1"

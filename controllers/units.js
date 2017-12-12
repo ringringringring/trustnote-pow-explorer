@@ -1,8 +1,8 @@
 /*jslint node: true */
 'use strict';
 
-var db = require('trustgraph-common/db.js');
-var storage = require('trustgraph-common/storage.js');
+var db = require('trustnote-common/db.js');
+var storage = require('trustnote-common/storage.js');
 var moment = require('moment');
 var async = require('async');
 

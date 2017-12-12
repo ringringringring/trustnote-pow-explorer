@@ -1,7 +1,7 @@
 /*jslint node: true */
 'use strict';
 
-var db = require('trustgraph-common/db.js');
+var db = require('trustnote-common/db.js');
 var units = require('./units');
 var address = require('./address');
 
