@@ -29,9 +29,9 @@ exports.initial_witnesses = [
 
 /*'wss://trustnote.org/tg' */
 exports.initial_peers = [
-	'ws://hub1.trustnote.org/tn',
-	'ws://hub2.trustnote.org/tn',
-	'ws://hub3.trustnote.org/tn'
+	'ws://Galilei.trustnote.org/tn',
+	'ws://Newton.trustnote.org/tn',
+	'ws://Einstein.trustnote.org/tn'
 ];
 
 console.log('finished explorer conf');
