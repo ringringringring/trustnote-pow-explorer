@@ -29,12 +29,12 @@ exports.initial_witnesses = [
 
 /*'wss://trustnote.org/tg' */
 exports.initial_peers = [
-	'wss://jeff.trustnote.org/tn',
-	'wss://snow.trustnote.org/tn',
-	'wss://horsen.trustnote.org/tn',
-	'wss://claire.trustnote.org/tn',
-	'wss://patric.trustnote.org/tn',
-	'wss://sure.trustnote.org/tn'
+	'wss://victor.trustnote.org/tn',
+	'wss://eason.trustnote.org/tn',
+	'wss://lymn.trustnote.org/tn',
+	'wss://bob.trustnote.org/tn',
+	'wss://curry.trustnote.org/tn',
+	'wss://kake.trustnote.org/tn'
 ];
 
 console.log('finished explorer conf');
