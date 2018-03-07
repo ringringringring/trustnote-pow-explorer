@@ -3,7 +3,6 @@ body {
 	font-size: 14px;
 	margin: 0;
 	padding: 0;
-	background-color: #f2f2f2;
 }
 
 .split-line {
@@ -47,7 +46,6 @@ body {
 	top: 0;
 	vertical-align: middle;
 }
-
 #menuLeft {
 	/*padding: 7px;*/
 	margin-left: 32px;
@@ -104,60 +102,7 @@ body {
 #menuSocialSlack {
 	margin-right: 10px;
 }
-.main{
-	padding: 24px;
-	position: relative;
-}
-.dataList{
-	display: flex;
-	justify-content: space-around;
-}
-.dataList .first,.dataList .second ,.dataList .third{
-	width: 400px;
-	height: 300px;
-	padding: 24px;
-	background-color: #FFFFFF;
-}
-.dataList h3{
-	margin: 0;
-	padding-bottom: 10px;
-	border-bottom: solid 1px #EEEEEE;
-}
-.third{
-	position: relative;
-}
-#received{
-	font-weight: 400;
-	padding-left: 10px;
-}
-.cover{
-	height: 60px;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: -webkit-linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,1)); /* Safari 5.1 - 6.0 */
-	background: -o-linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,1)); /* Opera 11.1 - 12.0 */
-	background: -moz-linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,1)); /* Firefox 3.6 - 15 */
-	background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,1)); /* 标准的语法 */
-}
-.cover a{
-	display: block;
-	width: 88px;
-	height: 28px;
-	border: solid 1px #000000;
-	position: absolute;
-	right: 6px;
-	bottom: 15px;
-	text-align: center;
-	line-height: 30px;
-	color: #000000;
-	background-color: #FFFFFF;
-}
-.cover a:hover{
-	cursor: pointer;
-	opacity: 0.8;
-}
+
 #infoMessage {
 	position: absolute;
 	z-index: 1001;
@@ -172,45 +117,20 @@ body {
 	cursor: pointer;
 	display: none;
 }
-.canvasBox{
-	width: 100%;
-	height: 370px;
-	overflow: hidden;
-	position: relative;
-	margin-top: 15px;
-	background-color: #FFFFFF;
-}
-#middleware{
-	width: 370px;
-	height: 1920px;
-	position: absolute;
-	/*top: 0;*/
-	/*bottom: 0;*/
-	/*left: 0;*/
-	right: 0;
-	transform: rotate(90deg);
-	/*transform-origin: center center;*/
-	transform-origin: 185px 185px;
-	-webkit-transform: rotate(90deg);
-	/*-webkit-transform-origin: center center;*/
-	-webkit-transform-origin: 185px 185px;
-}
+
 #cy {
-	width: 370px;
-	height: 1920px;
+	position: absolute;
+	right: 0;
+	left: 450px;
+	top: 78px;
+	bottom: 0;
+	z-index: 999;
 }
-canvas[data-id='layer1-drag'],canvas[data-id='layer0-selectbox']{
-	 /*transform: rotate(180deg);*/
-	 /*transform-origin: center center;*/
-	 /*transform-origin: 185px 185px;*/
-	 /*-webkit-transform: rotate(180deg);*/
-	 /*-webkit-transform-origin: center center;*/
-	 /*-webkit-transform-origin: 185px 185px;*/
- }
+
 #info {
 	position: absolute;
 	left: 0;
-	top: 45px;
+	top: 78px;
 	bottom: 0;
 	width: 450px;
 	border-left: 1px solid #ccc;
@@ -218,12 +138,11 @@ canvas[data-id='layer1-drag'],canvas[data-id='layer0-selectbox']{
 }
 
 #unitParent {
-	/*padding-left: 5px;*/
+	padding-left: 5px;
 }
 
 #unit {
-	color: deepskyblue;
-	font-weight: 400;
+	color: #808080;
 }
 
 #infoClose, #addressClose {
@@ -255,7 +174,7 @@ canvas[data-id='layer1-drag'],canvas[data-id='layer0-selectbox']{
 
 .infoTitle {
 	font-weight: bold;
-	padding: 5px 0;
+	padding: 5px;
 	cursor: pointer;
 	color: #333333;
 }
@@ -275,7 +194,6 @@ canvas[data-id='layer1-drag'],canvas[data-id='layer0-selectbox']{
 	width: 12px;
 	height: 12px;
 	margin-bottom: -2px;
-	margin-left: 5px;
 }
 
 .infoTitle.hideTitle > .infoTitleImg {
@@ -315,22 +233,19 @@ canvas[data-id='layer1-drag'],canvas[data-id='layer0-selectbox']{
 }
 
 .messagesInfo {
-	/*padding-left: 5px;*/
+	padding-left: 5px;
 	margin-bottom: 10px;
 }
 
 .infoTitleInputs, .infoTitleInput {
 	font-weight: bold;
-	/*margin-bottom: 7px;*/
+	margin-bottom: 7px;
 	cursor: pointer;
 	color: #333333;
 }
-.message_inputs .infoTitle,.message_outputs .infoTitle{
-	padding: 0;
-	margin-bottom: 5px;
-}
+
 .inputsInfo, .inputInfo, .inputsInf {
-	/*margin-bottom: 10px;*/
+	margin-bottom: 10px;
 }
 
 .messagesInfo > div {
@@ -349,12 +264,6 @@ a {
 #info #authors > div, #info #children > div, #info #parents > div , #info #witnesses > div{
 	display: block;
 	padding: 5px;
-
-}
-#authors a{
-	padding-left: 5px;
-	font-weight: 400;
-	color: deepskyblue;
 }
 
 pre{
@@ -460,12 +369,11 @@ pre{
 
 #scroll {
 	position: absolute;
-	right: 0;
-	/*top: 45px;*/
-	top: 0;
+	right: 0px;
+	top: 78px;
 	bottom: 0;
-	width: 20px;
-	overflow: scroll;
+	width: 50px;
+	overflow: auto;
 	z-index: 999;
 }
 
@@ -481,7 +389,7 @@ pre{
 	cursor: pointer;
 	background: url(/img/goToTop.svg) center no-repeat;
 	background-size: 28px;
-	top: 68px;
+	top: 85px;
 	right: 50px;
 	border: 1px solid #5e5e5e;
 	border-radius: 100%;
@@ -512,7 +420,7 @@ pre{
 
 #tableListTransactions {
 	width: 100%;
-    border-collapse: collapse;
+	border-collapse: collapse;
 }
 /* adaptive */
 

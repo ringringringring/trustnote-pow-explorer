@@ -39,7 +39,7 @@ function init(_nodes, _edges) {
 }
 
 function start() {
-    if (!location.hash || (location.hash.length != 45 && location.hash.length != 33)) {
+	if (!location.hash || (location.hash.length != 45 && location.hash.length != 33)) {
 		socket.emit('start', {type: 'last'});
 	}
 	else if (location.hash.length == 45) {
@@ -228,8 +228,10 @@ function generate(_nodes, _edges) {
 	graph.nodes().forEach(function(unit) {
 		_node = graph.node(unit);
 		if (_node) {
-			if (_node.x < left) left = _node.x;
-			if (_node.x > right) right = _node.x;
+			// if (_node.x < left) left = _node.x;
+			if (_node.y < left) left = _node.y;
+			// if (_node.x > right) right = _node.x;
+			if (_node.y > right) right = _node.y;
 		}
 	});
 	graph.nodes().forEach(function(unit) {
@@ -241,8 +243,10 @@ function generate(_nodes, _edges) {
 			if (_node.sequence === 'final-bad') classes += 'finalBad';
 			if (_node.sequence === 'temp-bad') classes += 'tempBad';
 			if (!first) {
-				newOffset_x = -_node.x - ((right - left) / 2);
-				newOffset_y = generateOffset - _node.y + 66;
+				//newOffset_x = -_node.x - ((right - left) / 2);
+				newOffset_x =  _node.x - generateOffset  - 66;
+				//newOffset_y = generateOffset - _node.y + 66;
+				newOffset_y = -_node.y - ((left - right) / 2);
 				first = true;
 			}
 			if (phantoms[unit] !== undefined) {
@@ -250,20 +254,23 @@ function generate(_nodes, _edges) {
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {x: phantoms[unit], y: _node.y + newOffset_y},
+					//position: {x: phantoms[unit], y: _node.y + newOffset_y},
+					position: {x: _node.x - newOffset_x, y: phantoms[unit]},
 					classes: classes
 				});
 				delete phantoms[unit];
 			}
 			else {
-				pos_iomc = setMaxWidthNodes(_node.x + newOffset_x);
+				//pos_iomc = setMaxWidthNodes(_node.x + newOffset_x);
+				pos_iomc = setMaxWidthNodes(_node.y + newOffset_y);
 				if (pos_iomc == 0 && _node.is_on_main_chain == 0) {
 					pos_iomc += 40;
 				}
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {x: pos_iomc, y: _node.y + newOffset_y},
+					//position: {x: pos_iomc, y: _node.y + newOffset_y},
+					position: {x: _node.x - newOffset_x, y: pos_iomc},
 					classes: classes
 				});
 			}
@@ -271,7 +278,8 @@ function generate(_nodes, _edges) {
 	});
 	generateAdd = fixConflicts(generateAdd);
 	_cy.add(generateAdd);
-	generateOffset = _cy.nodes()[_cy.nodes().length - 1].position().y;
+	//generateOffset = _cy.nodes()[_cy.nodes().length - 1].position().y;
+	generateOffset = _cy.nodes()[_cy.nodes().length - 1].position().x;
 	nextPositionUpdates = generateOffset;
 	_cy.add(createEdges());
 	updListNotStableUnit();
@@ -317,11 +325,16 @@ function setNew(_nodes, _edges, newUnits) {
 	graph.nodes().forEach(function(unit) {
 		_node = graph.node(unit);
 		if (_node) {
-			y = _node.y;
-			if (y < min) min = y;
-			if (y > max) max = y;
-			if (_node.x < left) left = _node.x;
-			if (_node.x > right) right = _node.x;
+			// y = _node.y;
+			// if (y < min) min = y;
+			// if (y > max) max = y;
+			// if (_node.x < left) left = _node.x;
+			// if (_node.x > right) right = _node.x;
+			x = _node.x;
+			if (x < min) min = x;
+			if (x > max) max = x;
+			if (_node.y < left) left = _node.y;
+			if (_node.y > right) right = _node.y;
 		}
 	});
 	graph.nodes().forEach(function(unit) {
@@ -351,14 +364,16 @@ function setNew(_nodes, _edges, newUnits) {
 				});
 				delete phantomsTop[unit];
 			} else {
-				pos_iomc = setMaxWidthNodes(_node.x + newOffset_x);
+				// pos_iomc = setMaxWidthNodes(_node.x + newOffset_x);
+				pos_iomc = setMaxWidthNodes(_node.y + newOffset_y);
 				if (pos_iomc == 0 && _node.is_on_main_chain == 0) {
 					pos_iomc += 40;
 				}
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {x: pos_iomc, y: _node.y + newOffset_y},
+					//position: {x: pos_iomc, y: _node.y + newOffset_y},
+					position: {x: _node.x + newOffset_x, y: pos_iomc},
 					classes: classes
 				});
 			}
@@ -717,27 +732,24 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 		if (message.payload) {
 			asset = message.payload.asset || 'null';
 			messagesOut +=
-				'<div class="message">' //+
-				//'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
-
+				'<div class="message">' +
+				'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
 			if (message.app == 'payment') {
-				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1) + ' in ' + (asset == 'null' ? 'notes' : asset);
+				messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1) + ' in ' + (asset == 'null' ? 'notes' : asset);
 			}
 			else if (message.app == 'asset') {
-				//messagesOut += 'Definition of new asset';
+				messagesOut += 'Definition of new asset';
 			}
 			else {
-				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1);
+				messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1);
 			}
-
-			//messagesOut += '</div>' +
-			messagesOut += //'</div>' +
+			messagesOut += '</div>' +
 				'<div class="messagesInfo" id="message_' + (blockId++) + '">';
 
 			switch (message.app) {
 				case 'payment':
 					if (message.payload) {
-						messagesOut += '<div class="message_inputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Inputs<div class="infoTitleImg"></div></div>' +
+						messagesOut += '<div class="message_inputs"><div class="infoTitleInputs" onclick="showHideBlock(event, \'message_' + blockId + '\')">Inputs</div>' +
 							'<div class="inputsInfo" id="message_' + (blockId++) + '">';
 
 						message.payload.inputs.forEach(function(input) {
@@ -764,7 +776,7 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 						});
 
 						messagesOut += '</div></div>' +
-							'<div class="message_outputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Outputs<div class="infoTitleImg"></div></div>' +
+							'<div class="message_outputs"><div class="infoTitleInputs" onclick="showHideBlock(event, \'message_' + blockId + '\')">Outputs</div>' +
 							'<div class="inputsInf" id="message_' + (blockId++) + '">';
 
 						outputsUnit[asset].forEach(function(output) {
@@ -823,15 +835,13 @@ socket.on('info', function(data) {
 		});
 		var incAuthors = 0;
 		data.authors.forEach(function(author) {
-			//authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
-			authorsOut += '<a href="#' + author.address + '">' + author.address + '</a>';
+			authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
 			if (author.definition) {
 				authorsOut += '<span class="infoTitle hideTitle" class="definitionTitle" onclick="showHideBlock(event, \'definition' + incAuthors + '\')">Definition<div class="infoTitleImg"></div></span>' +
 					'<div id="definition' + (incAuthors++) + '" style="display: none"><pre>' + JSON.stringify(JSON.parse(author.definition), null, '   ') + '</pre></div>';
 
 			}
-			//authorsOut += '</div>';
-			authorsOut += '';
+			authorsOut += '</div>';
 		});
 		data.witnesses.forEach(function(witness) {
 			witnessesOut += '<div><a href="#' + witness + '">' + witness + '</a></div>';
@@ -1103,7 +1113,6 @@ function hideInfoMessage() {
 	$('#infoMessage').hide(350).html('');
 }
 
-
 //scroll
 var scroll = $('#scroll');
 var scrollTopPos = 0, scrollLowPos;
@@ -1173,7 +1182,6 @@ $(document).on('mouseout', '.numberFormat', function() {
 		}, 250);
 	}
 });
-
 
 //escape
 function htmlEscape(str) {

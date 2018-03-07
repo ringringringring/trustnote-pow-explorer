@@ -39,7 +39,7 @@ function init(_nodes, _edges) {
 }
 
 function start() {
-    if (!location.hash || (location.hash.length != 45 && location.hash.length != 33)) {
+	if (!location.hash || (location.hash.length != 45 && location.hash.length != 33)) {
 		socket.emit('start', {type: 'last'});
 	}
 	else if (location.hash.length == 45) {
@@ -277,6 +277,7 @@ function generate(_nodes, _edges) {
 	updListNotStableUnit();
 	updateScrollHeigth();
 }
+
 
 function animationPanUp(distance) {
 	if (animationPlaysPanUp) {
@@ -717,27 +718,24 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 		if (message.payload) {
 			asset = message.payload.asset || 'null';
 			messagesOut +=
-				'<div class="message">' //+
-				//'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
-
+				'<div class="message">' +
+				'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
 			if (message.app == 'payment') {
-				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1) + ' in ' + (asset == 'null' ? 'notes' : asset);
+				messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1) + ' in ' + (asset == 'null' ? 'notes' : asset);
 			}
 			else if (message.app == 'asset') {
-				//messagesOut += 'Definition of new asset';
+				messagesOut += 'Definition of new asset';
 			}
 			else {
-				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1);
+				messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1);
 			}
-
-			//messagesOut += '</div>' +
-			messagesOut += //'</div>' +
+			messagesOut += '</div>' +
 				'<div class="messagesInfo" id="message_' + (blockId++) + '">';
 
 			switch (message.app) {
 				case 'payment':
 					if (message.payload) {
-						messagesOut += '<div class="message_inputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Inputs<div class="infoTitleImg"></div></div>' +
+						messagesOut += '<div class="message_inputs"><div class="infoTitleInputs" onclick="showHideBlock(event, \'message_' + blockId + '\')">Inputs</div>' +
 							'<div class="inputsInfo" id="message_' + (blockId++) + '">';
 
 						message.payload.inputs.forEach(function(input) {
@@ -764,7 +762,7 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 						});
 
 						messagesOut += '</div></div>' +
-							'<div class="message_outputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Outputs<div class="infoTitleImg"></div></div>' +
+							'<div class="message_outputs"><div class="infoTitleInputs" onclick="showHideBlock(event, \'message_' + blockId + '\')">Outputs</div>' +
 							'<div class="inputsInf" id="message_' + (blockId++) + '">';
 
 						outputsUnit[asset].forEach(function(output) {
@@ -823,15 +821,13 @@ socket.on('info', function(data) {
 		});
 		var incAuthors = 0;
 		data.authors.forEach(function(author) {
-			//authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
-			authorsOut += '<a href="#' + author.address + '">' + author.address + '</a>';
+			authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
 			if (author.definition) {
 				authorsOut += '<span class="infoTitle hideTitle" class="definitionTitle" onclick="showHideBlock(event, \'definition' + incAuthors + '\')">Definition<div class="infoTitleImg"></div></span>' +
 					'<div id="definition' + (incAuthors++) + '" style="display: none"><pre>' + JSON.stringify(JSON.parse(author.definition), null, '   ') + '</pre></div>';
 
 			}
-			//authorsOut += '</div>';
-			authorsOut += '';
+			authorsOut += '</div>';
 		});
 		data.witnesses.forEach(function(witness) {
 			witnessesOut += '<div><a href="#' + witness + '">' + witness + '</a></div>';

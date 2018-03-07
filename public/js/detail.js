@@ -39,7 +39,7 @@ function init(_nodes, _edges) {
 }
 
 function start() {
-    if (!location.hash || (location.hash.length != 45 && location.hash.length != 33)) {
+	if (!location.hash || (location.hash.length != 45 && location.hash.length != 33)) {
 		socket.emit('start', {type: 'last'});
 	}
 	else if (location.hash.length == 45) {
@@ -63,7 +63,7 @@ function createCy() {
 		},
 		style: [
 			{
-				selector: 'node',//不在主链上 not in main chain
+				selector: 'node',
 				style: {
 					// 'content': 'data(unit_s)',
 					'text-opacity': 1,
@@ -72,63 +72,60 @@ function createCy() {
 					'text-halign': 'center',
 					'font-size': '13px',
 					'text-margin-y': '5px',
-					'background-color': '#E0F8F5',
+					'background-color': '#fff',
 					'border-width': 1,
-					'border-color': '#209285',
-					'shape': 'circle',
-					// 'border-color': '#333',
+					'border-color': '#2980b9',
+					'shape': 'hexagon',
+					//	'border-color': '#333',
 					//	'border-style': 'dotted',
 					'width': 30,
-					// 'height': 25
+					'height': 25
 				}
 			},
 			{
-				selector: 'node.hover',//node hover 显示地址的样式
+				selector: 'node.hover',
 				style: {
 					'content': 'data(id)',
 					'text-opacity': 1,
 					'font-weight': 'bold',
 					'font-size': '14px',
-					//'text-background-color': '#72CBC1',
 					'text-background-color': '#fff',
 					'text-background-opacity': 1,
 					'text-background-shape': 'rectangle',
 					'text-border-opacity': 1,
-					'text-border-width': 1,
-					//'text-border-color': '#209285',
+					'text-border-width': 4,
 					'text-border-color': '#fff',
-					'z-index': 9999,
-					'opacity':0.7
+					'z-index': 9999
 				}
 			},
 			{
-				selector: 'edge',//箭头
+				selector: 'edge',
 				style: {
 					'width': 2,
 					'target-arrow-shape': 'triangle',
-					'line-color': '#72CBC1',
-					'target-arrow-color': '#72CBC1',
+					'line-color': '#2980b9',
+					'target-arrow-color': '#2980b9',
 					'curve-style': 'bezier'
 				}
 			},
 			{
-				selector: '.best_parent_unit',//指向最优父节点
+				selector: '.best_parent_unit',
 				style: {
 					'width': 4,
 					'target-arrow-shape': 'triangle',
-					'line-color': '#72CBC1',
-					'target-arrow-color': '#72CBC1',
+					'line-color': '#2980b9',
+					'target-arrow-color': '#2980b9',
 					'curve-style': 'bezier'
 				}
 			},
 			{
-				selector: '.is_on_main_chain',//在主链上
+				selector: '.is_on_main_chain',
 				style: {
 					//	'border-width': 4,
 					//	'border-style': 'solid',
 					//	'border-color': '#2980b9'
-					// 	'border-color': '#333'
-					'background-color': '#72CBC1'
+					//	'border-color': '#333'
+					'background-color': '#9cc0da'
 				}
 			},
 			{
@@ -137,29 +134,28 @@ function createCy() {
 					//	'background-color': '#2980b9'
 					'border-width': 4,
 					'border-style': 'solid',
-					'border-color': '#209285',
+					'border-color': '#2980b9',
 					//	'background-color': '#9cc0da'
 				}
 			},
 			{
 				selector: '.active',
 				style: {
-					'background-color': '#54A69D',
-					'border-color': '#17675E',
+					//	'background-color': '#2980b9',
+					'border-color': '#333',
 					'border-width': '4'
 				}
 			},
 			{
 				selector: '.finalBad',
 				style: {
-					'background-color': 'F6A665'
+					'background-color': 'red'
 				}
 			},
 			{
 				selector: '.tempBad',
 				style: {
-					'background-color': '#F6A665',
-					'border-color': '#B67046',
+					'background-color': 'red'
 				}
 			}
 		],
@@ -277,6 +273,7 @@ function generate(_nodes, _edges) {
 	updListNotStableUnit();
 	updateScrollHeigth();
 }
+
 
 function animationPanUp(distance) {
 	if (animationPlaysPanUp) {
@@ -717,27 +714,24 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 		if (message.payload) {
 			asset = message.payload.asset || 'null';
 			messagesOut +=
-				'<div class="message">' //+
-				//'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
-
+				'<div class="message">' +
+				'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
 			if (message.app == 'payment') {
-				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1) + ' in ' + (asset == 'null' ? 'notes' : asset);
+				messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1) + ' in ' + (asset == 'null' ? 'notes' : asset);
 			}
 			else if (message.app == 'asset') {
-				//messagesOut += 'Definition of new asset';
+				messagesOut += 'Definition of new asset';
 			}
 			else {
-				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1);
+				messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1);
 			}
-
-			//messagesOut += '</div>' +
-			messagesOut += //'</div>' +
+			messagesOut += '</div>' +
 				'<div class="messagesInfo" id="message_' + (blockId++) + '">';
 
 			switch (message.app) {
 				case 'payment':
 					if (message.payload) {
-						messagesOut += '<div class="message_inputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Inputs<div class="infoTitleImg"></div></div>' +
+						messagesOut += '<div class="message_inputs"><div class="infoTitleInputs" onclick="showHideBlock(event, \'message_' + blockId + '\')">Inputs</div>' +
 							'<div class="inputsInfo" id="message_' + (blockId++) + '">';
 
 						message.payload.inputs.forEach(function(input) {
@@ -764,7 +758,7 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 						});
 
 						messagesOut += '</div></div>' +
-							'<div class="message_outputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Outputs<div class="infoTitleImg"></div></div>' +
+							'<div class="message_outputs"><div class="infoTitleInputs" onclick="showHideBlock(event, \'message_' + blockId + '\')">Outputs</div>' +
 							'<div class="inputsInf" id="message_' + (blockId++) + '">';
 
 						outputsUnit[asset].forEach(function(output) {
@@ -823,15 +817,13 @@ socket.on('info', function(data) {
 		});
 		var incAuthors = 0;
 		data.authors.forEach(function(author) {
-			//authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
-			authorsOut += '<a href="#' + author.address + '">' + author.address + '</a>';
+			authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
 			if (author.definition) {
 				authorsOut += '<span class="infoTitle hideTitle" class="definitionTitle" onclick="showHideBlock(event, \'definition' + incAuthors + '\')">Definition<div class="infoTitleImg"></div></span>' +
 					'<div id="definition' + (incAuthors++) + '" style="display: none"><pre>' + JSON.stringify(JSON.parse(author.definition), null, '   ') + '</pre></div>';
 
 			}
-			//authorsOut += '</div>';
-			authorsOut += '';
+			authorsOut += '</div>';
 		});
 		data.witnesses.forEach(function(witness) {
 			witnessesOut += '<div><a href="#' + witness + '">' + witness + '</a></div>';

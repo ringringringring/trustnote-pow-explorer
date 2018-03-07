@@ -15,6 +15,10 @@ app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/views/index.html');
 });
 
+app.get('/detail', function(req, res) {
+	res.sendFile(__dirname + '/views/detail.html');
+});
+
 eventBus.on('new_joint', function() {
 	io.sockets.emit('update');
 });
@@ -29,4 +33,13 @@ io.on('connection', function(socket) {
 	socket.on('nextPageTransactions', ws.nextPageTransactions);
 });
 
+io.of('detail').on('connection', function(socket) {
+	socket.on('start', ws.start);
+	socket.on('next', ws.next);
+	socket.on('prev', ws.prev);
+	socket.on('new', ws.newUnits);
+	socket.on('info', ws.info);
+	socket.on('highlightNode', ws.highlightNode);
+	socket.on('nextPageTransactions', ws.nextPageTransactions);
+});
 server.listen(conf.webPort);
