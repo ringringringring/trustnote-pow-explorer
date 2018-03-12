@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>TrustNote Explorer</title>
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=0, maximum-scale=1">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
 	<link rel="stylesheet" href="/styles/app.css?v7">
 	<link rel="icon" href="/img/icon.png">
@@ -39,11 +39,13 @@
 			<p>Total fees:  <span>0.01</span> MN</p>
 		</div>
 		<div class="third">
-			<h3>Current Unit</h3>
-			<p class="infoTitle" id="unitParent">Unit <span id="unit"></span></p>
-			<p class="infoTitle" >Received time: <span id="received"></span></p>
-			<p class="infoTitle" >Authors:<span id="authors"></span></p>
-			<div id="messages"></div>
+			<div class="scroll">
+				<h3>Current Unit</h3>
+				<p class="infoTitle" id="unitParent">Unit: <span id="unit"></span></p>
+				<p class="infoTitle" >Received time: <span id="received"></span></p>
+				<p class="infoTitle" >Authors:<span id="authors"></span></p>
+				<div id="messages"></div>
+			</div>
 			<div class="cover">
 				<a href="./detail">Dedail</a>
 			</div>
@@ -52,9 +54,12 @@
 	<div class="canvasBox" id="canvasBox">
 		<div id="middleware">
 			<div id="cy"></div>
-			<div id="scroll">
-				<div id="scrollBody">&nbsp;</div>
+			<div id="goToTop" onclick="goToTop()">
+				<div id="titleGoToTop">Go to top</div>
 			</div>
+			<!--<div id="scroll">-->
+				<!--<div id="scrollBody">&nbsp;</div>-->
+			<!--</div>-->
 		</div>
 	</div>
 </div>
@@ -62,12 +67,16 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/moment.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/cytoscape.min.js"></script>
-<script src="/js/dagre.min.js"></script>
+<script src="/js/cytoscape.js"></script>
+<script src="/js/dagre.js"></script>
+<script src="/js/cytoscape-dagre.js"></script>
 <script src="/js/main.js?v12"></script>
 <script>
 	$(function () {
 		// console.log($('canvas'));
+		setTimeout(function () {
+
+		},100)
 	})
 </script>
 </body>

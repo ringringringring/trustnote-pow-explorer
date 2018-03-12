@@ -63,7 +63,7 @@ function createCy() {
 		},
 		style: [
 			{
-				selector: 'node',
+				selector: 'node',//不在主链上 not in main chain
 				style: {
 					// 'content': 'data(unit_s)',
 					'text-opacity': 1,
@@ -72,60 +72,63 @@ function createCy() {
 					'text-halign': 'center',
 					'font-size': '13px',
 					'text-margin-y': '5px',
-					'background-color': '#fff',
+					'background-color': '#E0F8F5',
 					'border-width': 1,
-					'border-color': '#2980b9',
-					'shape': 'hexagon',
-					//	'border-color': '#333',
+					'border-color': '#209285',
+					'shape': 'circle',
+					// 'border-color': '#333',
 					//	'border-style': 'dotted',
 					'width': 30,
-					'height': 25
+					// 'height': 25
 				}
 			},
 			{
-				selector: 'node.hover',
+				selector: 'node.hover',//node hover 显示地址的样式
 				style: {
 					'content': 'data(id)',
 					'text-opacity': 1,
 					'font-weight': 'bold',
 					'font-size': '14px',
+					//'text-background-color': '#72CBC1',
 					'text-background-color': '#fff',
 					'text-background-opacity': 1,
 					'text-background-shape': 'rectangle',
 					'text-border-opacity': 1,
-					'text-border-width': 4,
+					'text-border-width': 1,
+					//'text-border-color': '#209285',
 					'text-border-color': '#fff',
-					'z-index': 9999
+					'z-index': 9999,
+					'opacity':0.7,
 				}
 			},
 			{
-				selector: 'edge',
+				selector: 'edge',//箭头
 				style: {
 					'width': 2,
 					'target-arrow-shape': 'triangle',
-					'line-color': '#2980b9',
-					'target-arrow-color': '#2980b9',
-					'curve-style': 'bezier'
+					'line-color': '#72CBC1',
+					'target-arrow-color': '#72CBC1',
+					'curve-style': 'bezier',
 				}
 			},
 			{
-				selector: '.best_parent_unit',
+				selector: '.best_parent_unit',//指向最优父节点
 				style: {
 					'width': 4,
 					'target-arrow-shape': 'triangle',
-					'line-color': '#2980b9',
-					'target-arrow-color': '#2980b9',
-					'curve-style': 'bezier'
+					'line-color': '#72CBC1',
+					'target-arrow-color': '#72CBC1',
+					'curve-style': 'bezier',
 				}
 			},
 			{
-				selector: '.is_on_main_chain',
+				selector: '.is_on_main_chain',//在主链上
 				style: {
 					//	'border-width': 4,
 					//	'border-style': 'solid',
 					//	'border-color': '#2980b9'
-					//	'border-color': '#333'
-					'background-color': '#9cc0da'
+					// 	'border-color': '#333'
+					'background-color': '#72CBC1',
 				}
 			},
 			{
@@ -134,28 +137,29 @@ function createCy() {
 					//	'background-color': '#2980b9'
 					'border-width': 4,
 					'border-style': 'solid',
-					'border-color': '#2980b9',
+					'border-color': '#209285',
 					//	'background-color': '#9cc0da'
 				}
 			},
 			{
 				selector: '.active',
 				style: {
-					//	'background-color': '#2980b9',
-					'border-color': '#333',
-					'border-width': '4'
+					'background-color': '#54A69D',
+					'border-color': '#17675E',
+					'border-width': '4',
 				}
 			},
 			{
 				selector: '.finalBad',
 				style: {
-					'background-color': 'red'
+					'background-color': 'F6A665',
 				}
 			},
 			{
 				selector: '.tempBad',
 				style: {
-					'background-color': 'red'
+					'background-color': '#F6A665',
+					'border-color': '#B67046',
 				}
 			}
 		],

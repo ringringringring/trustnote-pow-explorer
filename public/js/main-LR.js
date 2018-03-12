@@ -26,10 +26,9 @@ function init(_nodes, _edges) {
 	waitGo = null;
 	createCy();
 	generate(_nodes, _edges);
-	oldOffset = _cy.getElementById(nodes[0].data.unit).position().x + 66;
+	oldOffset = _cy.getElementById(nodes[0].data.unit).position().y + 66;
 	_cy.viewport({zoom: 1.01});
 	_cy.center(_cy.nodes()[0]);
-	_cy.pan({x:300,y:240});
 	page = 'dag';
 
 	if (location.hash && location.hash.length == 45) {
@@ -40,7 +39,7 @@ function init(_nodes, _edges) {
 }
 
 function start() {
-	if (!location.hash || (location.hash.length != 45 && location.hash.length != 33)) {
+    if (!location.hash || (location.hash.length != 45 && location.hash.length != 33)) {
 		socket.emit('start', {type: 'last'});
 	}
 	else if (location.hash.length == 45) {
@@ -56,14 +55,15 @@ function start() {
 function createCy() {
 	_cy = cytoscape({
 		container: document.getElementById('cy'),
-		boxSelectionEnabled: true,
+		boxSelectionEnabled: false,
 		autounselectify: true,
 		hideEdgesOnViewport: false,
-		// layout: {
-		// 	name: 'dagre',
-		// 	rankDir: 'LR',
-		// 	align: 'LR'
-		// },
+		layout: {
+			name: 'preset',
+			// name: 'dagre',
+			// rankDir:'LR',
+			// rotate:'90'
+		},
 		style: [
 			{
 				selector: 'node',//不在主链上 not in main chain
@@ -101,7 +101,7 @@ function createCy() {
 					//'text-border-color': '#209285',
 					'text-border-color': '#fff',
 					'z-index': 9999,
-					'opacity': 0.7,
+					'opacity':0.7,
 				}
 			},
 			{
@@ -171,34 +171,35 @@ function createCy() {
 			edges: []
 		}
 	});
-	_cy.on('mouseover', 'node', function () {
+
+	_cy.on('mouseover', 'node', function() {
 		this.addClass('hover');
 	});
 
-	_cy.on('mouseout', 'node', function () {
+	_cy.on('mouseout', 'node', function() {
 		this.removeClass('hover');
 	});
 
-	_cy.on('click', 'node', function (evt) {
+	_cy.on('click', 'node', function(evt) {
 		location.hash = '#' + evt.cyTarget.id();
 	});
 
-	_cy.on('tap', 'node', function (evt) {
+	_cy.on('tap', 'node', function(evt) {
 		location.hash = '#' + evt.cyTarget.id();
 	});
 
-	_cy.on('pan', function () {
+	_cy.on('pan', function() {
 		var ext = _cy.extent();
-		if (nextPositionUpdates < ext.x2) {
+		if (nextPositionUpdates < ext.y2) {
 			getNext();
 		}
-		else if (notLastUnitUp === true && ext.x2 - (ext.w) < _cy.getElementById(nodes[0].data.unit).position().x) {
+		else if (notLastUnitUp === true && ext.y2 - (ext.h) < _cy.getElementById(nodes[0].data.unit).position().y) {
 			getPrev();
 		}
 		scroll.scrollTop(convertPosPanToPosScroll());
 	});
 
-	$(_cy.container()).on('wheel mousewheel', function (e) {
+	$(_cy.container()).on('wheel mousewheel', function(e) {
 		var deltaY = e.originalEvent.wheelDeltaY || -e.originalEvent.deltaY;
 		if (page == 'dag') {
 			e.preventDefault();
@@ -206,7 +207,7 @@ function createCy() {
 				scrollUp();
 			}
 			else if (deltaY < 0) {
-				_cy.panBy({x: -25, y: 0});
+				_cy.panBy({x: 0, y: -25});
 			}
 			scroll.scrollTop(convertPosPanToPosScroll());
 		}
@@ -216,25 +217,30 @@ function createCy() {
 function updListNotStableUnit() {
 	if (!_cy) return;
 	notStable = [];
-	_cy.nodes().forEach(function (node) {
+	_cy.nodes().forEach(function(node) {
 		if (!node.hasClass('is_stable')) {
 			notStable.push(node.id());
 		}
+		//console.log(node._private.position);
+		// var temp = node._private.position.x;
+		// node._private.position.x = node._private.position.y;
+		// node._private.position.y = temp;
 	});
+	//console.log(_cy.nodes());
 }
 
 function generate(_nodes, _edges) {
 	var newOffset_x, newOffset_y, left = Infinity, right = -Infinity, first = false, generateAdd = [], _node,
 		classes = '', pos_iomc;
 	var graph = createGraph(_nodes, _edges);
-	graph.nodes().forEach(function (unit) {
+	graph.nodes().forEach(function(unit) {
 		_node = graph.node(unit);
 		if (_node) {
-			if (_node.y < left) left = _node.y;
-			if (_node.y > right) right = _node.y;
+			if (_node.x < left) left = _node.x;
+			if (_node.x > right) right = _node.x;
 		}
 	});
-	graph.nodes().forEach(function (unit) {
+	graph.nodes().forEach(function(unit) {
 		_node = graph.node(unit);
 		if (_node) {
 			classes = '';
@@ -243,8 +249,8 @@ function generate(_nodes, _edges) {
 			if (_node.sequence === 'final-bad') classes += 'finalBad';
 			if (_node.sequence === 'temp-bad') classes += 'tempBad';
 			if (!first) {
-				newOffset_y = -_node.y - ((right - left) / 2);
-				newOffset_x = generateOffset - _node.x + 66;
+				newOffset_x = -_node.x - ((right - left) / 2);
+				newOffset_y = generateOffset - _node.y + 66;
 				first = true;
 			}
 			if (phantoms[unit] !== undefined) {
@@ -252,28 +258,31 @@ function generate(_nodes, _edges) {
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {y: phantoms[unit], x: _node.x + newOffset_x},
+					position: {x: phantoms[unit], y: _node.y + newOffset_y},
 					classes: classes
 				});
 				delete phantoms[unit];
 			}
 			else {
-				pos_iomc = setMaxWidthNodes(_node.y + newOffset_y);
+				pos_iomc = setMaxWidthNodes(_node.x + newOffset_x);
 				if (pos_iomc == 0 && _node.is_on_main_chain == 0) {
 					pos_iomc += 40;
 				}
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {y: pos_iomc, x: _node.x + newOffset_x},
+					position: {x: pos_iomc, y: _node.y + newOffset_y},
 					classes: classes
 				});
 			}
+			// var temp = _node.x;
+			// _node.x = _node.y;
+			// _node.y = _node.x;
 		}
 	});
 	generateAdd = fixConflicts(generateAdd);
 	_cy.add(generateAdd);
-	generateOffset = _cy.nodes()[_cy.nodes().length - 1].position().x;
+	generateOffset = _cy.nodes()[_cy.nodes().length - 1].position().y;
 	nextPositionUpdates = generateOffset;
 	_cy.add(createEdges());
 	updListNotStableUnit();
@@ -286,7 +295,7 @@ function animationPanUp(distance) {
 	}
 	else {
 		if (queueAnimationPanUp.length > 1) {
-			distance = queueAnimationPanUp.reduce(function (prev, current) {
+			distance = queueAnimationPanUp.reduce(function(prev, current) {
 				return prev + current;
 			});
 			queueAnimationPanUp = [];
@@ -295,13 +304,13 @@ function animationPanUp(distance) {
 		animationPlaysPanUp = true;
 		_cy.animate({
 			pan: {
-				x: _cy.pan('y'),
-				y: _cy.pan('x') + distance
+				x: _cy.pan('x'),
+				y: _cy.pan('y') + distance
 			}
 		}, {
 			duration: 250,
-			complete: function () {
-				oldOffset = _cy.getElementById(nodes[0].data.unit).position().x + 66;
+			complete: function() {
+				oldOffset = _cy.getElementById(nodes[0].data.unit).position().y + 66;
 				animationPlaysPanUp = false;
 				if (queueAnimationPanUp.length) {
 					animationPanUp(queueAnimationPanUp[0]);
@@ -316,17 +325,17 @@ function setNew(_nodes, _edges, newUnits) {
 	var newOffset_x, newOffset_y, min = Infinity, max = -Infinity, left = Infinity, right = -Infinity, first = false, x,
 		y, generateAdd = [], _node, classes = '', pos_iomc;
 	var graph = createGraph(_nodes, _edges);
-	graph.nodes().forEach(function (unit) {
+	graph.nodes().forEach(function(unit) {
 		_node = graph.node(unit);
 		if (_node) {
-			x = _node.x;
-			if (x < min) min = x;
-			if (x > max) max = x;
-			if (_node.y < left) left = _node.y;
-			if (_node.y > right) right = _node.y;
+			y = _node.y;
+			if (y < min) min = y;
+			if (y > max) max = y;
+			if (_node.x < left) left = _node.x;
+			if (_node.x > right) right = _node.x;
 		}
 	});
-	graph.nodes().forEach(function (unit) {
+	graph.nodes().forEach(function(unit) {
 		_node = graph.node(unit);
 		if (_node) {
 			classes = '';
@@ -335,11 +344,11 @@ function setNew(_nodes, _edges, newUnits) {
 			if (_node.sequence === 'final-bad') classes += 'finalBad';
 			if (_node.sequence === 'temp-bad') classes += 'tempBad';
 			if (!first) {
-				newOffset_y = -_node.y - ((right - left) / 2);
-				newOffset_x = newOffset - (max - min) + 66;
+				newOffset_x = -_node.x - ((right - left) / 2);
+				newOffset_y = newOffset - (max - min) + 66;
 				newOffset -= (max - min) + 66;
 				first = true;
-				if (newUnits && _cy.extent().x1 < oldOffset) {
+				if (newUnits && _cy.extent().y1 < oldOffset) {
 					animationPanUp(max + 54);
 				}
 			}
@@ -348,22 +357,25 @@ function setNew(_nodes, _edges, newUnits) {
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {y: phantomsTop[unit], x: _node.x + newOffset_x},
+					position: {x: phantomsTop[unit], y: _node.y + newOffset_y},
 					classes: classes
 				});
 				delete phantomsTop[unit];
 			} else {
-				pos_iomc = setMaxWidthNodes(_node.y + newOffset_y);
+				pos_iomc = setMaxWidthNodes(_node.x + newOffset_x);
 				if (pos_iomc == 0 && _node.is_on_main_chain == 0) {
 					pos_iomc += 40;
 				}
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {y: pos_iomc, x: _node.x + newOffset_x},
+					position: {x: pos_iomc, y: _node.y + newOffset_y},
 					classes: classes
 				});
 			}
+			// var temp = _node.x;
+			// _node.x = _node.y;
+			// _node.y = _node.x;
 		}
 	});
 	generateAdd = fixConflicts(generateAdd);
@@ -376,13 +388,17 @@ function setNew(_nodes, _edges, newUnits) {
 function createGraph(_nodes, _edges) {
 	var graph = new dagre.graphlib.Graph({
 		multigraph: true,
-		compound: true,
+		compound: true
 	});
-	graph.setGraph({rankdir: "LR"});
-	graph.setDefaultEdgeLabel(function () {
+	// graph.setGraph({});
+	graph.setGraph({
+		rankDir:'LR',
+		rank:'same'
+	})
+	graph.setDefaultEdgeLabel(function() {
 		return {};
 	});
-	_nodes.forEach(function (node) {
+	_nodes.forEach(function(node) {
 		graph.setNode(node.data.unit, {
 			label: node.data.unit_s,
 			width: 32,
@@ -451,12 +467,10 @@ function createEdges() {
 		if (_edges[k]) delete _edges[k];
 	}
 	for (k in phantoms) {
-		// _cy.getElementById(k).position('y', generateOffset + 166);
-		_cy.getElementById(k).position('x', generateOffset + 166);
+		_cy.getElementById(k).position('y', generateOffset + 166);
 	}
 	for (k in phantomsTop) {
-		// _cy.getElementById(k).position('y', newOffset - 166);
-		_cy.getElementById(k).position('x', newOffset - 166);
+		_cy.getElementById(k).position('y', newOffset - 166);
 	}
 	for (k in _edges) {
 		if (_edges.hasOwnProperty(k)) {
@@ -467,26 +481,22 @@ function createEdges() {
 			}
 			else {
 				position = _cy.getElementById(_edges[k].data.source).position();
-				// phantoms[_edges[k].data.target] = position.x + offset;
-				phantoms[_edges[k].data.target] = position.y + offset;
+				phantoms[_edges[k].data.target] = position.x + offset;
 				out.push({
 					group: "nodes",
 					data: {id: _edges[k].data.target, unit_s: _edges[k].data.target.substr(0, 7) + '...'},
-					//position: {x: position.x + offset, y: generateOffset + 166}
-					position: {y: position.y + offset, x: generateOffset + 166}
+					position: {x: position.x + offset, y: generateOffset + 166}
 				});
 				offset += 60;
 				out.push({group: "edges", data: _edges[k].data, classes: classes});
 			}
 			if (!_cy.getElementById(_edges[k].data.source).length) {
 				position = _cy.getElementById(_edges[k].data.target).position();
-				// phantomsTop[_edges[k].data.source] = position.x + offsetTop;
-				phantomsTop[_edges[k].data.source] = position.y + offsetTop;
+				phantomsTop[_edges[k].data.source] = position.x + offsetTop;
 				out.push({
 					group: "nodes",
 					data: {id: _edges[k].data.source, unit_s: _edges[k].data.source.substr(0, 7) + '...'},
-					//position: {x: position.x + offsetTop, y: newOffset - 166}
-					position: {y: position.y + offsetTop, x: newOffset - 166}
+					position: {x: position.x + offsetTop, y: newOffset - 166}
 				});
 				offsetTop += 60;
 				out.push({group: "edges", data: _edges[k].data, classes: classes});
@@ -499,7 +509,7 @@ function createEdges() {
 function setChangesStableUnits(arrStableUnits) {
 	if (!arrStableUnits) return;
 	var node;
-	arrStableUnits.forEach(function (objUnit) {
+	arrStableUnits.forEach(function(objUnit) {
 		node = _cy.getElementById(objUnit.unit);
 		if (node) {
 			if (!node.hasClass('is_stable')) node.addClass('is_stable');
@@ -531,18 +541,17 @@ function highlightNode(unit) {
 	var el = _cy.getElementById(unit);
 	if (el.length && phantoms[unit] === undefined && phantomsTop[unit] === undefined) {
 		var extent = _cy.extent();
-		// var elPositionY = el.position().y;
-		var elPositionX = el.position().x;
+		var elPositionY = el.position().y;
 		lastActiveUnit = location.hash.substr(1);
 		el.addClass('active');
 		activeNode = el.id();
 		socket.emit('info', {unit: activeNode});
-		if (elPositionX < extent.x1 || elPositionX > extent.x2) {
+		if (elPositionY < extent.y1 || elPositionY > extent.y2) {
 			bWaitingForPrev = true;
 			_cy.stop();
 			_cy.animate({
-				pan: {y: _cy.pan('y'), x: _cy.getCenterPan(el).x},
-				complete: function () {
+				pan: {x: _cy.pan('x'), y: _cy.getCenterPan(el).y},
+				complete: function() {
 					bWaitingForPrev = false;
 				}
 			}, {
@@ -560,10 +569,10 @@ function highlightNode(unit) {
 
 function scrollUp() {
 	var ext = _cy.extent();
-	if ((notLastUnitUp === false && ext.x2 - (ext.w / 2) > _cy.getElementById(nodes[0].data.unit).position().x + 20) ||
-		(notLastUnitUp === true && ext.x2 - (ext.w) > _cy.getElementById(nodes[0].data.unit).position().x)
+	if ((notLastUnitUp === false && ext.y2 - (ext.h / 2) > _cy.getElementById(nodes[0].data.unit).position().y + 20) ||
+		(notLastUnitUp === true && ext.y2 - (ext.h) > _cy.getElementById(nodes[0].data.unit).position().y)
 	) {
-		_cy.panBy({x: 25, y: 0});
+		_cy.panBy({x: 0, y: 25});
 	}
 	else if (notLastUnitUp === true) {
 		getPrev();
@@ -591,8 +600,7 @@ function showHideBlock(event, id) {
 
 function searchForm(text) {
 	if (text.length == 44 || text.length == 32) {
-		// location.hash = text;
-		location.href = './detail#'+text;
+		location.hash = text;
 	}
 	else {
 		showInfoMessage("Please enter a unit or address");
@@ -607,7 +615,7 @@ function goToTop() {
 		var el = _cy.getElementById(nodes[0].data.unit);
 		_cy.stop();
 		_cy.animate({
-			pan: {y: _cy.pan('y'), x: _cy.getCenterPan(el).x}
+			pan: {x: _cy.pan('x'), y: _cy.getCenterPan(el).y}
 		}, {
 			duration: 400
 		});
@@ -622,7 +630,7 @@ function goToTop() {
 }
 
 //events
-window.addEventListener('hashchange', function () {
+window.addEventListener('hashchange', function() {
 	if (location.hash.length == 45) {
 		highlightNode(location.hash.substr(1));
 		if ($('#addressInfo').css('display') == 'block') {
@@ -634,7 +642,7 @@ window.addEventListener('hashchange', function () {
 	}
 });
 
-window.addEventListener('keydown', function (e) {
+window.addEventListener('keydown', function(e) {
 	if (page == 'dag') {
 		if (e.keyCode == 38) {
 			e.preventDefault();
@@ -642,12 +650,12 @@ window.addEventListener('keydown', function (e) {
 		}
 		else if (e.keyCode == 40) {
 			e.preventDefault();
-			_cy.panBy({x: -25, y: 0});
+			_cy.panBy({x: 0, y: -25});
 		}
 	}
 }, true);
 
-$(window).scroll(function () {
+$(window).scroll(function() {
 	if (($(window).scrollTop() + $(window).height()) + 200 >= $(document).height()) {
 		if (!nextPageTransactionsEnd) {
 			getNextPageTransactions();
@@ -661,11 +669,11 @@ var bWaitingForNext = false, bWaitingForNew = false, bHaveDelayedNewRequests = f
 	bWaitingForHighlightNode = false, bWaitingForNextPageTransactions = false;
 var nextPageTransactionsEnd = false, lastInputsROWID = 0, lastOutputsROWID = 0;
 
-socket.on('connect', function () {
+socket.on('connect', function() {
 	start();
 });
 
-socket.on('start', function (data) {
+socket.on('start', function(data) {
 	init(data.nodes, data.edges);
 	if (data.not_found) showInfoMessage("Unit not found");
 	notLastUnitDown = true;
@@ -675,7 +683,7 @@ socket.on('start', function (data) {
 	}
 });
 
-socket.on('next', function (data) {
+socket.on('next', function(data) {
 	if (notLastUnitDown) {
 		if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
 		nodes = nodes.concat(data.nodes);
@@ -698,7 +706,7 @@ socket.on('next', function (data) {
 	}
 });
 
-socket.on('prev', function (data) {
+socket.on('prev', function(data) {
 	if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
 	if (data.nodes.length) {
 		nodes = [].concat(data.nodes, nodes);
@@ -721,14 +729,16 @@ socket.on('prev', function (data) {
 	setChangesStableUnits(data.arrStableUnits);
 });
 
+//input output message
 function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissions) {
 	var messagesOut = '', blockId = 0, key, asset, shownHiddenPayments = false;
-	messages.forEach(function (message) {
+	messages.forEach(function(message) {
 		if (message.payload) {
 			asset = message.payload.asset || 'null';
 			messagesOut +=
 				'<div class="message">' //+
-			//'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
+				//'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
+
 			if (message.app == 'payment') {
 				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1) + ' in ' + (asset == 'null' ? 'notes' : asset);
 			}
@@ -738,6 +748,8 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 			else {
 				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1);
 			}
+
+			//messagesOut += '</div>' +
 			messagesOut += //'</div>' +
 				'<div class="messagesInfo" id="message_' + (blockId++) + '">';
 
@@ -747,7 +759,7 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 						messagesOut += '<div class="message_inputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Inputs<div class="infoTitleImg"></div></div>' +
 							'<div class="inputsInfo" id="message_' + (blockId++) + '">';
 
-						message.payload.inputs.forEach(function (input) {
+						message.payload.inputs.forEach(function(input) {
 							if (input.type && input.type == 'issue') {
 								messagesOut +=
 									'<div class="infoTitleInput" onclick="showHideBlock(event, \'message_' + blockId + '\')">Issue</div>' +
@@ -774,14 +786,14 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 							'<div class="message_outputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Outputs<div class="infoTitleImg"></div></div>' +
 							'<div class="inputsInf" id="message_' + (blockId++) + '">';
 
-						outputsUnit[asset].forEach(function (output) {
+						outputsUnit[asset].forEach(function(output) {
 							messagesOut += '<div class="outputs_div">';
 							if (output.is_spent) {
-								messagesOut += '<div><span class="numberFormat">' + output.amount + '</span> to <a href="detail#' + output.address + '">' + output.address + '</a><br> ' +
+								messagesOut += '<div><span class="numberFormat">' + output.amount + '</span> to <a href="#' + output.address + '">' + output.address + '</a><br> ' +
 									'(spent in <a href="#' + output.spent + '">' + output.spent + '</a>)</div>';
 							}
 							else {
-								messagesOut += '<div><span class="numberFormat">' + output.amount + '</span> to <a href="detail#' + output.address + '">' + output.address + '</a><br> (not spent)</div>';
+								messagesOut += '<div><span class="numberFormat">' + output.amount + '</span> to <a href="#' + output.address + '">' + output.address + '</a><br> (not spent)</div>';
 							}
 							messagesOut += '</div>';
 						});
@@ -818,20 +830,20 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 	return messagesOut;
 }
 
-socket.on('info', function (data) {
+socket.on('info', function(data) {
 	if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
 	if (data) {
 		var childOut = '', parentOut = '', authorsOut = '', witnessesOut = '';
-		data.child.forEach(function (unit) {
+		data.child.forEach(function(unit) {
 			childOut += '<div><a href="#' + unit + '">' + unit + '</a></div>';
 		});
-		data.parents.forEach(function (unit) {
+		data.parents.forEach(function(unit) {
 			parentOut += '<div><a href="#' + unit + '">' + unit + '</a></div>';
 		});
 		var incAuthors = 0;
-		data.authors.forEach(function (author) {
+		data.authors.forEach(function(author) {
 			//authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
-			authorsOut += '<a href="detail#' + author.address + '">' + author.address + '</a>';
+			authorsOut += '<a href="#' + author.address + '">' + author.address + '</a>';
 			if (author.definition) {
 				authorsOut += '<span class="infoTitle hideTitle" class="definitionTitle" onclick="showHideBlock(event, \'definition' + incAuthors + '\')">Definition<div class="infoTitleImg"></div></span>' +
 					'<div id="definition' + (incAuthors++) + '" style="display: none"><pre>' + JSON.stringify(JSON.parse(author.definition), null, '   ') + '</pre></div>';
@@ -840,7 +852,7 @@ socket.on('info', function (data) {
 			//authorsOut += '</div>';
 			authorsOut += '';
 		});
-		data.witnesses.forEach(function (witness) {
+		data.witnesses.forEach(function(witness) {
 			witnessesOut += '<div><a href="#' + witness + '">' + witness + '</a></div>';
 		});
 
@@ -850,7 +862,7 @@ socket.on('info', function (data) {
 		$('#authors').html(authorsOut);
 		$('#received').html(moment(data.date).format('DD.MM.YYYY HH:mm:ss'));
 		$('#fees').html('<span class="numberFormat">' + (parseInt(data.headers_commission) + parseInt(data.payload_commission)) + '</span> (<span class="numberFormat">' + data.headers_commission + '</span> headers, <span class="numberFormat">' + data.payload_commission + '</span> payload)');
-		$('#last_ball_unit').html('<a href="#' + data.last_ball_unit + '">' + data.last_ball_unit + '</a>');
+		$('#last_ball_unit').html('<a href="#'+data.last_ball_unit+'">'+data.last_ball_unit+'</a>');
 		$('#level').html(data.level);
 		$('#witnessed_level').html(data.witnessed_level);
 		$('#main_chain_index').html(data.main_chain_index);
@@ -877,7 +889,7 @@ socket.on('info', function (data) {
 
 socket.on('update', getNew);
 
-socket.on('new', function (data) {
+socket.on('new', function(data) {
 	if (data.nodes.length) {
 		nodes = [].concat(data.nodes, nodes);
 		for (var k in data.edges) {
@@ -911,7 +923,7 @@ function generateTransactionsList(objTransactions, address) {
 			'</tr>' +
 			'<tr><th colspan="3"><div style="margin: 5px"></div></th></tr>' +
 			'<tr><td>';
-		transaction.from.forEach(function (objFrom) {
+		transaction.from.forEach(function(objFrom) {
 			if (objFrom.issue) {
 				listTransactions += '<div class="transactionUnitListAddress">' +
 					'<div>' + addressOut + '</div>' +
@@ -949,7 +961,7 @@ function generateTransactionsList(objTransactions, address) {
 	return listTransactions;
 }
 
-socket.on('addressInfo', function (data) {
+socket.on('addressInfo', function(data) {
 	if (data) {
 		var listUnspent = '', balance = '';
 		lastInputsROWID = data.newLastInputsROWID;
@@ -963,8 +975,8 @@ socket.on('addressInfo', function (data) {
 			// 	balance += '<div><span class="numberFormat">' + data.objBalance[k] + '</span> of ' + k + '</div>';
 			// }
 		}
-		if (data.unspent) {
-			data.unspent.forEach(function (row) {
+		if(data.unspent) {
+			data.unspent.forEach(function(row) {
 				listUnspent += '<div><a href="#' + row.unit + '">' + row.unit + '</a> (<span class="numberFormat">' + row.amount + '</span> ' + (row.asset == null ? 'notes' : row.asset) + ')</div>';
 			});
 		}
@@ -972,10 +984,10 @@ socket.on('addressInfo', function (data) {
 		$('#balance').html(balance);
 		$('#listUnspent').html(listUnspent);
 		var transactionsList = generateTransactionsList(data.objTransactions, data.address);
-		if (transactionsList) {
+		if(transactionsList) {
 			$('#listUnits').html(transactionsList);
 			$('#titleListTransactions').show();
-		} else {
+		}else{
 			$('#listUnits').html('');
 			$('#titleListTransactions').hide();
 		}
@@ -1008,7 +1020,7 @@ socket.on('addressInfo', function (data) {
 	if (!nextPageTransactionsEnd && $('#tableListTransactions').height() < $(window).height()) getNextPageTransactions();
 });
 
-socket.on('nextPageTransactions', function (data) {
+socket.on('nextPageTransactions', function(data) {
 	if (data) {
 		if (data.newLastOutputsROWID && data.newLastOutputsROWID) {
 			lastInputsROWID = data.newLastInputsROWID;
@@ -1100,7 +1112,7 @@ function showInfoMessage(text, timeMs) {
 	if (timerInfoMessage) clearTimeout(timerInfoMessage);
 
 	$('#infoMessage').html(text).show(350);
-	timerInfoMessage = setTimeout(function () {
+	timerInfoMessage = setTimeout(function() {
 		$('#infoMessage').hide(350).html('');
 	}, timeMs);
 }
@@ -1121,17 +1133,17 @@ function updateScrollHeigth() {
 	scrollTopPos = convertPosPanToPosScroll(unitTopPos, 0);
 	scrollLowPos = convertPosPanToPosScroll(unitLowPos) + (scroll.height()) + 116;
 	$('#scrollBody').height(convertPosPanToPosScroll(unitLowPos - unitTopPos, 0) + (scroll.height() / 2));
-	setTimeout(function () {
+	setTimeout(function() {
 		scroll.scrollTop(convertPosPanToPosScroll());
 	}, 1);
 }
 
-scroll.scroll(function (e) {
+scroll.scroll(function(e) {
 	e.preventDefault();
 	_cy.pan('y', convertPosScrollToPosPan());
 });
 
-$(window).resize(function () {
+$(window).resize(function() {
 	if (_cy) scroll.scrollTop(convertPosPanToPosScroll());
 });
 
@@ -1154,28 +1166,28 @@ function numberFormat(number) {
 
 function formatAllNumbers() {
 	var numbersSpan = $('.numberFormat').not('.format');
-	$.each(numbersSpan, function (a, v) {
+	$.each(numbersSpan, function(a, v) {
 		$(numbersSpan[a]).addClass('format').html(numberFormat(v.innerHTML));
 	})
 }
 
-$(document).on('mousedown', '.numberFormat', function (e) {
+$(document).on('mousedown', '.numberFormat', function(e) {
 	var self = $(this);
 	if (self.hasClass('format')) {
 		self.html(self.html().replace(/\,/g, '')).removeClass('format');
 	}
 });
-$(document).on('touchstart', '.numberFormat', function () {
+$(document).on('touchstart', '.numberFormat', function() {
 	var self = $(this);
 	if (self.hasClass('format')) {
 		self.html(self.html().replace(/\,/g, '')).removeClass('format');
 	}
 });
-$(document).on('mouseout', '.numberFormat', function () {
+$(document).on('mouseout', '.numberFormat', function() {
 	var self = $(this);
 	if (!self.hasClass('format')) {
 		self.addClass('format');
-		setTimeout(function () {
+		setTimeout(function() {
 			self.html(numberFormat(self.html()));
 		}, 250);
 	}

@@ -61,7 +61,7 @@ body {
 }
 
 #menuLeftImg > img {
-	width: 32px;
+	width: 54px;
 	vertical-align: middle;
 }
 
@@ -104,44 +104,99 @@ body {
 #menuSocialSlack {
 	margin-right: 10px;
 }
-.main{
+
+.main {
 	padding: 24px;
 	position: relative;
 }
-.dataList{
+
+.dataList {
 	display: flex;
 	justify-content: space-around;
 }
-.dataList .first,.dataList .second ,.dataList .third{
-	width: 400px;
+
+.dataList .first, .dataList .second {
+	width: 420px;
 	height: 300px;
 	padding: 24px;
 	background-color: #FFFFFF;
 }
-.dataList h3{
+
+.dataList h3 {
 	margin: 0;
 	padding-bottom: 10px;
 	border-bottom: solid 1px #EEEEEE;
 }
-.third{
+
+.third {
 	position: relative;
 }
-#received{
-	font-weight: 400;
-	padding-left: 10px;
+
+.third .scroll {
+	width: 420px;
+	height: 300px;
+	padding: 24px;
+	background-color: #FFFFFF;
+	overflow-y: scroll;
 }
-.cover{
+#message_2{
+	padding-bottom: 50px;
+}
+
+/*
+  width可以改变右边滚动条的宽度
+  height可以改变下边滚动条的高度
+*/
+.scroll::-webkit-scrollbar {
+	width: 9px;
+	height: 9px;
+	box-sizing: border-box;
+}
+.scroll::-webkit-scrollbar-track {
+	background-color: #FFFFFF;
+}
+/*滚动条中能上下移动的小块*/
+.scroll::-webkit-scrollbar-thumb {
+	height: 50px;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color: #E7E7E7;
+	border: 1px solid rgba(0, 0, 0, 0.21);
+}
+
+/*悬浮时*/
+.scroll::-webkit-scrollbar-thumb:hover {
+	background-color: #F6F6F6;
+	border: 1px solid rgba(0, 0, 0, 0.21);
+}
+/*
+滚动条空白处的样式
+*/
+.scroll::-webkit-scrollbar-track-piece {
+	background-color: rgba(0, 0, 0, 0.15);
+	-webkit-border-radius: 5px;
+}
+
+#received {
+	position: relative;
+	font-weight: 400;
+}
+
+.cover {
 	height: 60px;
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background: -webkit-linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,1)); /* Safari 5.1 - 6.0 */
-	background: -o-linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,1)); /* Opera 11.1 - 12.0 */
-	background: -moz-linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,1)); /* Firefox 3.6 - 15 */
-	background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,1)); /* 标准的语法 */
+	margin-right: 9px;
+	background: -webkit-linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1)); /* Safari 5.1 - 6.0 */
+	background: -o-linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1)); /* Opera 11.1 - 12.0 */
+	background: -moz-linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1)); /* Firefox 3.6 - 15 */
+	background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1)); /* 标准的语法 */
 }
-.cover a{
+
+.cover a {
 	display: block;
 	width: 88px;
 	height: 28px;
@@ -154,10 +209,12 @@ body {
 	color: #000000;
 	background-color: #FFFFFF;
 }
-.cover a:hover{
+
+.cover a:hover {
 	cursor: pointer;
 	opacity: 0.8;
 }
+
 #infoMessage {
 	position: absolute;
 	z-index: 1001;
@@ -172,7 +229,8 @@ body {
 	cursor: pointer;
 	display: none;
 }
-.canvasBox{
+
+.canvasBox {
 	width: 100%;
 	height: 370px;
 	overflow: hidden;
@@ -180,33 +238,32 @@ body {
 	margin-top: 15px;
 	background-color: #FFFFFF;
 }
-#middleware{
-	width: 370px;
-	height: 1920px;
+
+#middleware {
+	/*width: 370px;*/
+	width: 100%;
+	/*height: 1920px;*/
+	height: 370px;
 	position: absolute;
 	/*top: 0;*/
 	/*bottom: 0;*/
 	/*left: 0;*/
 	right: 0;
-	transform: rotate(90deg);
+	/*transform: rotate(90deg);*/
 	/*transform-origin: center center;*/
-	transform-origin: 185px 185px;
-	-webkit-transform: rotate(90deg);
+	/*transform-origin: 185px 185px;*/
+	/*-webkit-transform: rotate(90deg);*/
 	/*-webkit-transform-origin: center center;*/
-	-webkit-transform-origin: 185px 185px;
+	/*-webkit-transform-origin: 185px 185px;*/
 }
+
 #cy {
-	width: 370px;
-	height: 1920px;
+	/*width: 370px;*/
+	/*height: 1920px;*/
+	width: 100%;
+	height: 370px;
 }
-canvas[data-id='layer1-drag'],canvas[data-id='layer0-selectbox']{
-	 /*transform: rotate(180deg);*/
-	 /*transform-origin: center center;*/
-	 /*transform-origin: 185px 185px;*/
-	 /*-webkit-transform: rotate(180deg);*/
-	 /*-webkit-transform-origin: center center;*/
-	 /*-webkit-transform-origin: 185px 185px;*/
- }
+
 #info {
 	position: absolute;
 	left: 0;
@@ -325,10 +382,12 @@ canvas[data-id='layer1-drag'],canvas[data-id='layer0-selectbox']{
 	cursor: pointer;
 	color: #333333;
 }
-.message_inputs .infoTitle,.message_outputs .infoTitle{
+
+.message_inputs .infoTitle, .message_outputs .infoTitle {
 	padding: 0;
 	margin-bottom: 5px;
 }
+
 .inputsInfo, .inputInfo, .inputsInf {
 	/*margin-bottom: 10px;*/
 }
@@ -346,18 +405,19 @@ a {
 	text-decoration: none;
 }
 
-#info #authors > div, #info #children > div, #info #parents > div , #info #witnesses > div{
+#info #authors > div, #info #children > div, #info #parents > div, #info #witnesses > div {
 	display: block;
 	padding: 5px;
 
 }
-#authors a{
+
+#authors a {
 	padding-left: 5px;
 	font-weight: 400;
 	color: deepskyblue;
 }
 
-pre{
+pre {
 	margin: 0;
 }
 
@@ -479,16 +539,16 @@ pre{
 	position: absolute;
 	z-index: 999;
 	cursor: pointer;
-	background: url(/img/goToTop.svg) center no-repeat;
+	background: url(/img/ToTop.svg) center no-repeat;
 	background-size: 28px;
-	top: 68px;
-	right: 50px;
+	top: 25px;
+	right: 25px;
 	border: 1px solid #5e5e5e;
 	border-radius: 100%;
 }
 
 #goToTop:hover {
-	background: url(/img/goToTop_hover.svg) center no-repeat;
+	background: url(/img/ToTop_hover.svg) center no-repeat;
 	background-size: 28px;
 	border: 1px solid #000;
 }
@@ -512,78 +572,78 @@ pre{
 
 #tableListTransactions {
 	width: 100%;
-    border-collapse: collapse;
+	border-collapse: collapse;
 }
+
 /* adaptive */
 
-@media all and (max-width: 1200px) {
-	#cy, #scroll {
-		right: 0;
-	}
+/*@media all and (max-width: 1200px) {*/
+	/*#cy, #scroll {*/
+		/*right: 0;*/
+	/*}*/
 
-	#goToTop {
-		right: 39px;
-	}
+	/*#goToTop {*/
+		/*right: 39px;*/
+	/*}*/
 
-	#cy.showInfoBlock, #scroll.showInfoBlock, #goToTop.showInfoBlock {
-		display: none;
-	}
+	/*#cy.showInfoBlock, #scroll.showInfoBlock, #goToTop.showInfoBlock {*/
+		/*display: none;*/
+	/*}*/
 
-	#info {
-		width: 100%;
-		left: 0;
-		border: 0;
-	}
+	/*#info {*/
+		/*width: 100%;*/
+		/*left: 0;*/
+		/*border: 0;*/
+	/*}*/
 
-	#info.hideInfoBlock {
-		display: none;
-	}
+	/*#info.hideInfoBlock {*/
+		/*display: none;*/
+	/*}*/
 
-	#infoClose {
-		display: block;
-	}
+	/*#infoClose {*/
+		/*display: block;*/
+	/*}*/
 
-	#listUnits td {
-		display: block;
-		width: 100%;
-	}
+	/*#listUnits td {*/
+		/*display: block;*/
+		/*width: 100%;*/
+	/*}*/
 
-	#listUnits > tr > td:nth-child(2) {
-		padding: 5px 7px 8px;
-	}
-}
+	/*#listUnits > tr > td:nth-child(2) {*/
+		/*padding: 5px 7px 8px;*/
+	/*}*/
+/*}*/
 
-@media all and (max-width: 580px) {
-	#menu {
-		height: 85px;
-	}
+/*@media all and (max-width: 580px) {*/
+	/*#menu {*/
+		/*height: 85px;*/
+	/*}*/
 
-	#cy, #scroll, #info {
-		top: 85px;
-	}
+	/*#cy, #scroll, #info {*/
+		/*top: 85px;*/
+	/*}*/
 
-	#goToTop {
-		top: 109px;
-		right: 22px;
-	}
+	/*#goToTop {*/
+		/*top: 109px;*/
+		/*right: 22px;*/
+	/*}*/
 
-	#addressInfo {
-		top: 86px;
-	}
+	/*#addressInfo {*/
+		/*top: 86px;*/
+	/*}*/
 
-	#menuRight {
-		position: absolute;
-		top: 52px;
-		right: 5px;
-	}
+	/*#menuRight {*/
+		/*position: absolute;*/
+		/*top: 52px;*/
+		/*right: 5px;*/
+	/*}*/
 
+	/*#menuInput, #menuInput > form {*/
+		/*!*width: 98%;	*!*/
+		/*margin-right: -15px;*/
+	/*}*/
 
-	#menuInput, #menuInput > form {
-		/*width: 98%;	*/
-		margin-right: -15px;
-	}
-
-	#menuInput input[type=text] {
-		width: 65%;
-	}
-}
+	/*#menuInput input[type=text] {*/
+		/*width: 65%;*/
+	/*}*/
+/*}*/
