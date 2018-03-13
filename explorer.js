@@ -24,6 +24,7 @@ eventBus.on('new_joint', function() {
 });
 
 io.on('connection', function(socket) {
+	socket.on('staticdata', ws.staticdata);
 	socket.on('start', ws.start);
 	socket.on('next', ws.next);
 	socket.on('prev', ws.prev);

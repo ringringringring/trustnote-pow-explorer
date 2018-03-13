@@ -4,6 +4,7 @@
 var db = require('trustnote-common/db.js');
 var units = require('./units');
 var address = require('./address');
+var staticslib = require('./statics');
 
 function start(data) {
 	var ws = this;
@@ -168,7 +169,12 @@ function nextPageTransactions(data) {
 		});
 	});
 }
-
+function staticdata(){
+	console.log("server-staticdata")
+	var ws = this;
+	var data =  staticslib.getStatistics();
+	ws.emit('staticdata',data);
+}
 exports.start = start;
 exports.next = next;
 exports.prev = prev;
@@ -176,3 +182,4 @@ exports.newUnits = newUnits;
 exports.info = info;
 exports.highlightNode = highlightNode;
 exports.nextPageTransactions = nextPageTransactions;
+exports.staticdata = staticdata;
