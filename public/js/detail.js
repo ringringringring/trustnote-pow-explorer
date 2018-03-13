@@ -72,9 +72,9 @@ function createCy() {
 					'text-halign': 'center',
 					'font-size': '13px',
 					'text-margin-y': '5px',
-					'background-color': '#E0F8F5',
-					'border-width': 1,
-					'border-color': '#209285',
+					'background-color': '#fff',
+					'border-width': 2,
+					'border-color': '#72CBC1',
 					'shape': 'circle',
 					// 'border-color': '#333',
 					//	'border-style': 'dotted',
@@ -83,28 +83,87 @@ function createCy() {
 				}
 			},
 			{
-				selector: 'node.hover',//node hover 显示地址的样式
+				selector: 'node.hover',//node hover
 				style: {
 					'content': 'data(id)',
 					'text-opacity': 1,
 					'font-weight': 'bold',
 					'font-size': '14px',
-					//'text-background-color': '#72CBC1',
 					'text-background-color': '#fff',
 					'text-background-opacity': 1,
 					'text-background-shape': 'rectangle',
 					'text-border-opacity': 1,
 					'text-border-width': 1,
-					//'text-border-color': '#209285',
 					'text-border-color': '#fff',
 					'z-index': 9999,
-					'opacity':0.7,
+					// 'opacity': 0.7,
+					'background-color': '#9EEAE1',
+					'border-color': '#9EEAE1',
 				}
 			},
 			{
-				selector: 'edge',//箭头
+				selector: 'node.press',//node hover
 				style: {
-					'width': 2,
+					'background-color': '#30A598',
+					'border-color': '#30A598',
+				}
+			},
+			{
+				selector: 'node.active',
+				style: {
+					'border-color': '#046B5F',
+					'background-color': '#72CBC1',
+					'border-width': '2px'
+				}
+			},
+			{
+				selector: '.is_on_main_chain',//在主链上
+				style: {
+					'border-width': 4,
+					//	'border-style': 'solid',
+					//	'border-color': '#2980b9'
+					'border-color': '#30A598',
+					'background-color': '#fff',
+				}
+			},
+			{
+				selector: '.is_on_main_chain.hover',
+				style: {
+					'content': 'data(id)',
+					'text-opacity': 1,
+					'font-weight': 'bold',
+					'font-size': '14px',
+					'text-background-color': '#fff',
+					'text-background-opacity': 1,
+					'text-background-shape': 'rectangle',
+					'text-border-opacity': 1,
+					'text-border-width': 1,
+					'text-border-color': '#fff',
+					'z-index': 9999,
+					// 'opacity': 0.7,
+					'background-color': '#9EEAE1',
+					'border-color': '#30A598',
+				}
+			},
+			{
+				selector: '.is_on_main_chain.press',//node hover
+				style: {
+					'background-color': '#30A598',
+					'border-color': '#30A598',
+				}
+			},
+			{
+				selector: '.is_on_main_chain.active',
+				style: {
+					'border-color': '#046B5F',
+					'background-color': '#72CBC1',
+					'border-width': '4px'
+				}
+			},
+			{
+				selector: 'edge', //箭头
+				style: {
+					'width': 1,
 					'target-arrow-shape': 'triangle',
 					'line-color': '#72CBC1',
 					'target-arrow-color': '#72CBC1',
@@ -112,7 +171,7 @@ function createCy() {
 				}
 			},
 			{
-				selector: '.best_parent_unit',//指向最优父节点
+				selector: '.best_parent_unit',	//指向最优父节点箭头
 				style: {
 					'width': 4,
 					'target-arrow-shape': 'triangle',
@@ -122,44 +181,26 @@ function createCy() {
 				}
 			},
 			{
-				selector: '.is_on_main_chain',//在主链上
-				style: {
-					//	'border-width': 4,
-					//	'border-style': 'solid',
-					//	'border-color': '#2980b9'
-					// 	'border-color': '#333'
-					'background-color': '#72CBC1',
-				}
-			},
-			{
 				selector: '.is_stable',
 				style: {
-					//	'background-color': '#2980b9'
-					'border-width': 4,
-					'border-style': 'solid',
-					'border-color': '#209285',
-					//	'background-color': '#9cc0da'
-				}
-			},
-			{
-				selector: '.active',
-				style: {
-					'background-color': '#54A69D',
-					'border-color': '#17675E',
-					'border-width': '4',
+					// 'border-width': 4,
+					// 'border-style': 'solid',
+					// 'border-color': '#209285',
+					'background-color': '#72CBC1'
 				}
 			},
 			{
 				selector: '.finalBad',
 				style: {
-					'background-color': 'F6A665',
+					'background-color': '#FD955E',
+					'border-color': '#FD955E',
 				}
 			},
 			{
-				selector: '.tempBad',
+				selector: '.tempBad',	//交易失败
 				style: {
-					'background-color': '#F6A665',
-					'border-color': '#B67046',
+					'background-color': '#FD955E',
+					'border-color': '#FD955E',
 				}
 			}
 		],
@@ -169,20 +210,46 @@ function createCy() {
 		}
 	});
 
-	_cy.on('mouseover', 'node', function() {
+	_cy.on('mouseover', 'node', function () {
 		this.addClass('hover');
 	});
-
-	_cy.on('mouseout', 'node', function() {
+	_cy.on('mouseout', 'node', function () {
 		this.removeClass('hover');
 	});
-
-	_cy.on('click', 'node', function(evt) {
-		location.hash = '#' + evt.cyTarget.id();
+	_cy.on('mousedown', 'node', function () {
+		this.addClass('press');
+	});
+	_cy.on('mouseup', 'node', function () {
+		this.removeClass('press');
 	});
 
-	_cy.on('tap', 'node', function(evt) {
+	_cy.on('mouseover', '.is_on_main_chain', function () {
+		this.addClass('hover');
+	});
+	_cy.on('mousedown', '.is_on_main_chain', function () {
+		this.addClass('press');
+	});
+	_cy.on('mouseout', '.is_on_main_chain', function () {
+		this.removeClass('hover');
+	});
+	_cy.on('mouseup', '.is_on_main_chain', function () {
+		this.removeClass('press');
+	});
+
+	_cy.on('click', 'node', function (evt) {
 		location.hash = '#' + evt.cyTarget.id();
+		this.addClass('active');
+	});
+	_cy.on('click', '.is_on_main_chain', function (evt) {
+		this.addClass('active');
+	});
+
+	_cy.on('tap', 'node', function (evt) {
+		location.hash = '#' + evt.cyTarget.id();
+		this.addClass('active');
+	});
+	_cy.on('tap', '.is_on_main_chain', function (evt) {
+		this.addClass('active');
 	});
 
 	_cy.on('pan', function() {

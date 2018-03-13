@@ -28,15 +28,15 @@
 	<div class="dataList">
 		<div class="first">
 			<h3>All-time Summary</h3>
-			<p>Total users addresses:  <span>5000</span></p>
-			<p>Total users active addresses:  <span>5000</span></p>
-			<p>Total levels:  <span>79669</span></p>
+			<p>Total users addresses:  <span id="allAddress">&nbsp;</span></p>
+			<p>Total users active addresses:  <span id="activeAddress">&nbsp;</span></p>
+			<p>Total levels:  <span id="level">&nbsp;</span></p>
 		</div>
 		<div class="second">
 			<h3>Current 24 hours Snapshot</h3>
-			<p>Total units posted:  <span>2846</span></p>
-			<p>Total users units:  <span>1035</span></p>
-			<p>Total fees:  <span>0.01</span> MN</p>
+			<p>Total units posted:  <span id="totalUnits">&nbsp;</span></p>
+			<p>Total users units:  <span id="totalUserUnits">&nbsp;</span></p>
+			<p>Total fees:  <span id="totalFees">&nbsp;</span> MN</p>
 		</div>
 		<div class="third">
 			<div class="scroll">
@@ -57,10 +57,8 @@
 			<div id="goToTop" onclick="goToTop()">
 				<div id="titleGoToTop">Go to top</div>
 			</div>
-			<!--<div id="scroll">-->
-				<!--<div id="scrollBody">&nbsp;</div>-->
-			<!--</div>-->
 		</div>
+		<img src="/img/statusGroup.png" alt="">
 	</div>
 </div>
 
@@ -71,13 +69,5 @@
 <script src="/js/dagre.js"></script>
 <script src="/js/cytoscape-dagre.js"></script>
 <script src="/js/main.js?v12"></script>
-<script>
-	$(function () {
-		// console.log($('canvas'));
-		setTimeout(function () {
-
-		},100)
-	})
-</script>
 </body>
 </html>

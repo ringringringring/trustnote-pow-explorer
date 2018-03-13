@@ -61,7 +61,7 @@ body {
 }
 
 #menuLeftImg > img {
-	width: 54px;
+	width: 40px;
 	vertical-align: middle;
 }
 
@@ -140,7 +140,7 @@ body {
 	overflow-y: scroll;
 }
 #message_2{
-	padding-bottom: 50px;
+	/*padding-bottom: 50px;*/
 }
 
 /*
@@ -184,16 +184,16 @@ body {
 }
 
 .cover {
-	height: 60px;
+	height: 86px;
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	margin-right: 9px;
-	background: -webkit-linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1)); /* Safari 5.1 - 6.0 */
-	background: -o-linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1)); /* Opera 11.1 - 12.0 */
-	background: -moz-linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1)); /* Firefox 3.6 - 15 */
-	background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1)); /* 标准的语法 */
+	background: -webkit-linear-gradient(bottom,rgba(255, 255, 255, 1),rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* Safari 5.1 - 6.0 */
+	background: -o-linear-gradient(bottom,rgba(255, 255, 255, 1),rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* Opera 11.1 - 12.0 */
+	background: -moz-linear-gradient(bottom,rgba(255, 255, 255, 1),rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* Firefox 3.6 - 15 */
+	background: linear-gradient(bottom,rgba(255, 255, 255, 1),rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* 标准的语法 */
 }
 
 .cover a {
@@ -239,27 +239,20 @@ body {
 	background-color: #FFFFFF;
 }
 
+.canvasBox img{
+	position: absolute;
+	top: 25px;
+	left: 50px;
+}
+
 #middleware {
-	/*width: 370px;*/
 	width: 100%;
-	/*height: 1920px;*/
 	height: 370px;
 	position: absolute;
-	/*top: 0;*/
-	/*bottom: 0;*/
-	/*left: 0;*/
 	right: 0;
-	/*transform: rotate(90deg);*/
-	/*transform-origin: center center;*/
-	/*transform-origin: 185px 185px;*/
-	/*-webkit-transform: rotate(90deg);*/
-	/*-webkit-transform-origin: center center;*/
-	/*-webkit-transform-origin: 185px 185px;*/
 }
 
 #cy {
-	/*width: 370px;*/
-	/*height: 1920px;*/
 	width: 100%;
 	height: 370px;
 }
@@ -372,7 +365,7 @@ body {
 }
 
 .messagesInfo {
-	/*padding-left: 5px;*/
+	padding-bottom: 80px;
 	margin-bottom: 10px;
 }
 
@@ -534,23 +527,23 @@ pre {
 }
 
 #goToTop {
-	width: 48px;
-	height: 48px;
+	width: 40px;
+	height: 40px;
 	position: absolute;
 	z-index: 999;
 	cursor: pointer;
-	background: url(/img/ToTop.svg) center no-repeat;
-	background-size: 28px;
+	background: url(/img/ToTop.png) center no-repeat;
+	background-size: 40px;
 	top: 25px;
 	right: 25px;
-	border: 1px solid #5e5e5e;
+	/*border: 1px solid #5e5e5e;*/
 	border-radius: 100%;
 }
 
 #goToTop:hover {
-	background: url(/img/ToTop_hover.svg) center no-repeat;
-	background-size: 28px;
-	border: 1px solid #000;
+	background: url(/img/ToTop_hover.png) center no-repeat;
+	background-size: 40px;
+	/*border: 1px solid #000;*/
 }
 
 #goToTop:hover > #titleGoToTop {
@@ -559,7 +552,7 @@ pre {
 
 #titleGoToTop {
 	position: absolute;
-	top: 52px;
+	top: 42px;
 	text-align: center;
 	width: 68px;
 	left: -11px;
@@ -574,76 +567,3 @@ pre {
 	width: 100%;
 	border-collapse: collapse;
 }
-
-/* adaptive */
-
-/*@media all and (max-width: 1200px) {*/
-	/*#cy, #scroll {*/
-		/*right: 0;*/
-	/*}*/
-
-	/*#goToTop {*/
-		/*right: 39px;*/
-	/*}*/
-
-	/*#cy.showInfoBlock, #scroll.showInfoBlock, #goToTop.showInfoBlock {*/
-		/*display: none;*/
-	/*}*/
-
-	/*#info {*/
-		/*width: 100%;*/
-		/*left: 0;*/
-		/*border: 0;*/
-	/*}*/
-
-	/*#info.hideInfoBlock {*/
-		/*display: none;*/
-	/*}*/
-
-	/*#infoClose {*/
-		/*display: block;*/
-	/*}*/
-
-	/*#listUnits td {*/
-		/*display: block;*/
-		/*width: 100%;*/
-	/*}*/
-
-	/*#listUnits > tr > td:nth-child(2) {*/
-		/*padding: 5px 7px 8px;*/
-	/*}*/
-/*}*/
-
-/*@media all and (max-width: 580px) {*/
-	/*#menu {*/
-		/*height: 85px;*/
-	/*}*/
-
-	/*#cy, #scroll, #info {*/
-		/*top: 85px;*/
-	/*}*/
-
-	/*#goToTop {*/
-		/*top: 109px;*/
-		/*right: 22px;*/
-	/*}*/
-
-	/*#addressInfo {*/
-		/*top: 86px;*/
-	/*}*/
-
-	/*#menuRight {*/
-		/*position: absolute;*/
-		/*top: 52px;*/
-		/*right: 5px;*/
-	/*}*/
-
-	/*#menuInput, #menuInput > form {*/
-		/*!*width: 98%;	*!*/
-		/*margin-right: -15px;*/
-	/*}*/
-
-	/*#menuInput input[type=text] {*/
-		/*width: 65%;*/
-	/*}*/
-/*}*/
