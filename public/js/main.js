@@ -703,11 +703,11 @@ window.addEventListener('hashchange', function () {
 
 window.addEventListener('keydown', function (e) {
 	if (page == 'dag') {
-		if (e.keyCode == 38) {
+		if (e.keyCode == 37) {
 			e.preventDefault();
 			scrollUp();
 		}
-		else if (e.keyCode == 40) {
+		else if (e.keyCode == 39) {
 			e.preventDefault();
 			_cy.panBy({x: -25, y: 0});
 		}
