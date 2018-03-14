@@ -76,29 +76,9 @@ function createCy() {
 					'border-width': 2,
 					'border-color': '#72CBC1',
 					'shape': 'circle',
-					// 'border-color': '#333',
 					//	'border-style': 'dotted',
 					'width': 30,
 					// 'height': 25
-				}
-			},
-			{
-				selector: 'node.hover',//node hover
-				style: {
-					'content': 'data(id)',
-					'text-opacity': 1,
-					'font-weight': 'bold',
-					'font-size': '14px',
-					'text-background-color': '#fff',
-					'text-background-opacity': 1,
-					'text-background-shape': 'rectangle',
-					'text-border-opacity': 1,
-					'text-border-width': 1,
-					'text-border-color': '#fff',
-					'z-index': 9999,
-					// 'opacity': 0.7,
-					'background-color': '#9EEAE1',
-					'border-color': '#9EEAE1',
 				}
 			},
 			{
@@ -121,28 +101,8 @@ function createCy() {
 				style: {
 					'border-width': 4,
 					//	'border-style': 'solid',
-					//	'border-color': '#2980b9'
 					'border-color': '#30A598',
 					'background-color': '#fff',
-				}
-			},
-			{
-				selector: '.is_on_main_chain.hover',
-				style: {
-					'content': 'data(id)',
-					'text-opacity': 1,
-					'font-weight': 'bold',
-					'font-size': '14px',
-					'text-background-color': '#fff',
-					'text-background-opacity': 1,
-					'text-background-shape': 'rectangle',
-					'text-border-opacity': 1,
-					'text-border-width': 1,
-					'text-border-color': '#fff',
-					'z-index': 9999,
-					// 'opacity': 0.7,
-					'background-color': '#9EEAE1',
-					'border-color': '#30A598',
 				}
 			},
 			{
@@ -187,6 +147,20 @@ function createCy() {
 					// 'border-style': 'solid',
 					// 'border-color': '#209285',
 					'background-color': '#72CBC1'
+				}
+			},
+			{
+				selector: 'node.hover',//node hover
+				style: {
+					'background-color': '#9EEAE1',
+					'border-color': '#9EEAE1',
+				}
+			},
+			{
+				selector: '.is_on_main_chain.hover',
+				style: {
+					'background-color': '#9EEAE1',
+					'border-color': '#30A598',
 				}
 			},
 			{
