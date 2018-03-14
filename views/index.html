@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>TrustNote Explorer</title>
-	<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=0, maximum-scale=1">
+	<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=0, maximum-scale=2">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
 	<link rel="stylesheet" href="/styles/app.css?v7">
 	<link rel="icon" href="/img/icon.png">
@@ -69,5 +69,23 @@
 <script src="/js/dagre.js"></script>
 <script src="/js/cytoscape-dagre.js"></script>
 <script src="/js/main.js?v12"></script>
+<script>
+	var phoneWidth = parseInt(window.screen.width);
+	var phoneHeight = parseInt(window.screen.height);
+	var phoneScale = phoneWidth/1680;//除以的值按手机的物理分辨率
+	var ua = navigator.userAgent;
+	if (/Android (\d+\.\d+)/.test(ua)) {
+		var version = parseFloat(RegExp.$1);
+		// andriod 2.3
+		if (version > 2.3) {	// andriod 2.3以上
+			document.write('<meta name="viewport" content="width=device-width,initial-scale='+phoneScale+',minimum-scale='+phoneScale+',maximum-scale='+phoneScale+',user-scalable=yes">');
+		} else {
+			document.write('<meta name="viewport" content="width=device-width,user-scalable=yes">');
+		}
+		// 其他系统
+	} else {
+		document.write('<meta name="viewport" content="width=device-width, initial-scale='+phoneScale+',minimum-scale='+phoneScale+',maximum-scale ='+phoneScale +',user-scalable=yes,">');
+	}
+</script>
 </body>
 </html>
