@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>TrustNote Explorer</title>
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=0, maximum-scale=1">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
 	<link rel="stylesheet" href="/styles/app.css?v7">
 	<link rel="icon" href="/img/icon.png">
@@ -28,26 +28,26 @@
 	<div class="dataList">
 		<div class="first">
 			<h3>All-time Summary</h3>
-			<p>Total users addresses:  <span id="allAddress">&nbsp;</span></p>
-			<p>Total users active addresses:  <span id="activeAddress">&nbsp;</span></p>
-			<p>Total levels:  <span id="level">&nbsp;</span></p>
+			<p>Total users addresses: <span id="allAddress">&nbsp;</span></p>
+			<p>Total users active addresses: <span id="activeAddress">&nbsp;</span></p>
+			<p>Total levels: <span id="level">&nbsp;</span></p>
 		</div>
 		<div class="second">
 			<h3>Current 24 hours Snapshot</h3>
-			<p>Total units posted:  <span id="totalUnits">&nbsp;</span></p>
-			<p>Total users units:  <span id="totalUserUnits">&nbsp;</span></p>
-			<p>Total fees:  <span id="totalFees">&nbsp;</span> MN</p>
+			<p>Total units posted: <span id="totalUnits">&nbsp;</span></p>
+			<p>Total users units: <span id="totalUserUnits">&nbsp;</span></p>
+			<p>Total fees: <span id="totalFees">&nbsp;</span> MN</p>
 		</div>
 		<div class="third">
 			<div class="scroll">
 				<h3>Current Unit</h3>
 				<p class="infoTitle" id="unitParent">Unit: <span id="unit"></span></p>
-				<p class="infoTitle" >Received time: <span id="received"></span></p>
-				<p class="infoTitle" >Authors:<span id="authors"></span></p>
+				<p class="infoTitle">Received time: <span id="received"></span></p>
+				<p class="infoTitle">Authors:<span id="authors"></span></p>
 				<div id="messages"></div>
 			</div>
 			<div class="cover">
-				<a href="/detail">Dedail</a>
+				<a href="/detail">Detail</a>
 			</div>
 		</div>
 	</div>
@@ -69,5 +69,16 @@
 <script src="/js/dagre.js"></script>
 <script src="/js/cytoscape-dagre.js"></script>
 <script src="/js/main.js?v12"></script>
+<script>
+	var userAgent = navigator.userAgent;
+	if (userAgent.match(".*Android.*") || userAgent.match(".*iPhone.*")) {
+		// console.log("Android");
+		// console.log("iPhone");
+		$('#canvasBox').hide();
+
+	} else {
+		console.log("You're something else...");
+	}
+</script>
 </body>
 </html>
