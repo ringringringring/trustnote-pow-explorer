@@ -1111,7 +1111,11 @@ function closeAddress() {
 	$('#addressInfo').hide();
 	$('#blockListUnspent').hide();
 	if (!_cy || !lastActiveUnit) {
+		var userAgent = navigator.userAgent;
 		$('#cy, #scroll, #goToTop').show();
+		if (userAgent.match(".*Android.*") || userAgent.match(".*iPhone.*")) {
+			$('#goToTop').hide()
+		}
 		socket.emit('start', {type: 'last'});
 		location.hash = '';
 	}

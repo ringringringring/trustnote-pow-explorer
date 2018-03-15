@@ -560,11 +560,92 @@ pre {
 	display: none;
 }
 
-.numberFormat {
-	/*cursor: pointer;*/
-}
-
 #tableListTransactions {
 	width: 100%;
 	border-collapse: collapse;
 }
+@media all and (max-width: 580px) {
+	#menu{
+		height: 4rem;
+	}
+	#menuLeft{
+		margin-left: 1.2rem;
+	}
+	#menuLeftImg{
+		height: 4rem;
+		line-height: 4rem;
+	}
+	#menuLeftImg img{
+		width: 2rem;
+	}
+	#menuLeftTitle{
+		height: 4rem;
+	}
+	#menuLeftTitle a{
+		font-size: 1rem;
+		line-height: 4rem;
+	}
+	#menuRight {
+		float: none;
+		margin-top: 4.5rem;
+		width: 22rem;
+		position: absolute;
+		left: 50%;
+		margin-left: -11rem;
+	}
+	#menuInput{
+		width: 20rem;
+	}
+	#menuInput #inputSearch {
+		width: 20rem;
+		height: 2rem;
+		border: 1px solid #ccc;
+		outline: none;
+		padding: 0 1rem;
+		border-radius: 1.8rem;
+	}
+	#menuInput > form {
+		width: 21rem;
+		position: relative;
+	}
+	#submitSearch {
+		right: -0.8rem;
+		top: 0;
+	}
+	.main {
+		padding: 0;
+		position: relative;
+		margin-top: 3rem;
+	}
+	.main .dataList{
+		flex: none;
+		display: block;
+	}
+	.dataList .first, .dataList .second{
+		width: 100%;
+		height: 11rem;
+		padding: 1rem;
+		margin-bottom: 1rem;
+		box-sizing: border-box;
+	}
+	.dataList .third  .scroll{
+		width: 100%;
+		height: 100%;
+		padding: 1rem;
+		box-sizing: border-box;
+		overflow: visible;
+	}
+
+	.cover {
+		height: 0;
+		position: absolute;
+		top: 55px;
+		left: 0;
+		right: 0;
+		margin-right: 9px;
+	}
+	.messagesInfo{
+		padding-bottom: 1rem;
+	}
+}
+

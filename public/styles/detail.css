@@ -422,3 +422,77 @@ pre{
 	width: 100%;
 	border-collapse: collapse;
 }
+@media all and (max-width: 580px) {
+	#menu{
+		height: 4rem;
+	}
+	#menuLeft{
+		margin-left: 1.2rem;
+	}
+	#menuLeftImg{
+		height: 4rem;
+		line-height: 4rem;
+	}
+	#menuLeftImg img{
+		width: 2rem;
+	}
+	#menuLeftTitle{
+		height: 4rem;
+	}
+	#menuLeftTitle a{
+		font-size: 1rem;
+		line-height: 4rem;
+	}
+	#menuRight {
+		float: none;
+		margin-top: 4.5rem;
+		width: 22rem;
+		position: absolute;
+		left: 50%;
+		margin-left: -11rem;
+	}
+	#menuInput{
+		width: 20rem;
+	}
+	#menuInput #inputSearch {
+		width: 20rem;
+		height: 2rem;
+		border: 1px solid #ccc;
+		outline: none;
+		padding: 0 1rem;
+		border-radius: 1.8rem;
+		background-color: #f2f2f2;
+	}
+	#menuInput > form {
+		width: 21rem;
+		position: relative;
+	}
+	#submitSearch {
+		right: -0.8rem;
+		top: 0;
+	}
+
+	#cy, #scroll, #info {
+		top: 115px;
+	}
+	#info{
+		width: 100%;
+	}
+	#goToTop {
+		display: none;
+	}
+
+	#addressInfo {
+		top: 65px;
+	}
+
+	#infoMessage{
+		top: 115px;
+	}
+	#listUnspent a{
+		font-size: 12px;
+	}
+	#tableListTransactions {
+		font-size: 12px;
+	}
+}
