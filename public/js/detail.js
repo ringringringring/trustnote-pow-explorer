@@ -106,13 +106,6 @@ function createCy() {
 				}
 			},
 			{
-				selector: '.is_on_main_chain.press',//node hover
-				style: {
-					'background-color': '#30A598',
-					'border-color': '#30A598',
-				}
-			},
-			{
 				selector: '.is_on_main_chain.active',
 				style: {
 					'border-color': '#046B5F',
@@ -160,6 +153,13 @@ function createCy() {
 				selector: '.is_on_main_chain.hover',
 				style: {
 					'background-color': '#9EEAE1',
+					'border-color': '#30A598',
+				}
+			},
+			{
+				selector: '.is_on_main_chain.press',//node hover
+				style: {
+					'background-color': '#30A598',
 					'border-color': '#30A598',
 				}
 			},
