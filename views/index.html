@@ -71,7 +71,7 @@
 		</div>
 	</div>
 </div>
-<div class="canvasBox" id="canvasBox">
+<div class="canvasBox" id="canvasBox" onselectstart="return false">
 	<div id="middleware">
 		<div id="cy"></div>
 		<div id="goToTop" onclick="goToTop()">
@@ -103,6 +103,7 @@
 	$('#canvasBox').on('mouseup',function (e) {
 		_cy.resize()
 	})
+
 </script>
 </body>
 </html>
