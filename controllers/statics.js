@@ -87,5 +87,5 @@ function getStatistics(){
 
 exports.getStatistics = getStatistics;
 setTimeout(updateStatistics,1000*5);
-setInterval(updateStatistics,30*60*1000);
+setInterval(updateStatistics,10*60*1000);
 
