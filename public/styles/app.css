@@ -270,7 +270,7 @@ body {
 }
 .canvasBox img {
 	margin-left: 50px;
-	margin-top: 20px;
+	margin-top: 24px;
 }
 
 #middleware {
@@ -563,7 +563,7 @@ pre {
 	cursor: pointer;
 	background: url(/img/ToTop.png) center no-repeat;
 	background-size: 40px;
-	top: 10px;
+	top: 24px;
 	right: 25px;
 	border-radius: 100%;
 }
