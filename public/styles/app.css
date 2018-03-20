@@ -248,12 +248,13 @@ body {
 }
 
 .canvasBox {
+	/*height: 350px;*/
 	width: 90%;
 	overflow: hidden;
 	position: absolute;
 	left: 50%;
 	top: 343px;
-	bottom: 50px;
+	bottom: 24px;
 	margin-left: -45%;
 	background-color: #FFFFFF;
 	box-sizing: border-box;

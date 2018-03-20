@@ -103,10 +103,9 @@ var Resize = new Class({
 	},
 	down: function (e) {
 		e.clientY > this.original[3] ? Css(this.obj, {
-			top: this.original[3] + 'px',
+			top: this.original[3]  + 'px',
 			height: e.clientY - this.original[3] + 'px'
 		}) : this.turnUp(e);
-		// $('.cover').css('bottom','103px');
 		if(parseInt($('#canvasBox').css('top'))<=79){
 			$('#canvasBox').css('margin-top','103px');
 			$('#canvasBox').css('top','-24px');
