@@ -11,7 +11,7 @@
 			position: absolute;
 			background: #FFFFFF;
 			height: 25px;
-			z-index: 5;
+			z-index: 200;
 			font-size: 0;
 			cursor: n-resize;
 			left: 0;
@@ -75,13 +75,15 @@
 	</div>
 </div>
 <div class="canvasBox" id="canvasBox" onselectstart="return false">
+	<div class="imgBox">
+		<img src="/img/statusGroup.png" alt="">
+	</div>
 	<div id="middleware">
 		<div id="cy"></div>
 	</div>
 	<div id="goToTop" onclick="goToTop()">
 		<div id="titleGoToTop">Go to top</div>
 	</div>
-	<img src="/img/statusGroup.png" alt="">
 	<div id="rUp"></div>
 	<!--<div id="rDown"></div>-->
 </div>
