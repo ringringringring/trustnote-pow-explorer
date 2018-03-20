@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="/styles/app.css?v7">
 	<link rel="icon" href="/img/icon.png">
 	<style type="text/css">
-		#rUp, #rDown {
+		#rUp {
 			position: absolute;
 			background: #FFFFFF;
 			height: 25px;
@@ -24,9 +24,7 @@
 		#rUp:hover{
 			background: url("/img/tobar-hover.png") center center no-repeat;
 		}
-		#rDown{
-			bottom: 0;
-		}
+		
 	</style>
 </head>
 <body>
@@ -109,7 +107,8 @@
 		_cy.resize()
 	})
 	var canvasBoxHeight = $('#canvasBox').height();
-	var dataListMaxHeight = canvasBoxHeight + 234;
+	var dataListMaxHeight = canvasBoxHeight + 239;
+	var dataListInitHeight = $('#dataList').height();
 
 </script>
 </body>
