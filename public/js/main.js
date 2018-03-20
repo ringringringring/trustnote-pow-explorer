@@ -29,7 +29,7 @@ function init(_nodes, _edges) {
 	oldOffset = _cy.getElementById(nodes[0].data.unit).position().x + 66;
 	_cy.viewport({zoom: 1.01});
 	_cy.center(_cy.nodes()[0]);
-	_cy.pan({x: 300, y: 240});
+	_cy.pan({x: 300, y: 450});
 	page = 'dag';
 
 	if (location.hash && location.hash.length == 45) {

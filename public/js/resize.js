@@ -106,6 +106,23 @@ var Resize = new Class({
 			top: this.original[3] + 'px',
 			height: e.clientY - this.original[3] + 'px'
 		}) : this.turnUp(e);
+		$('.cover').css('bottom','103px');
+		if(parseInt($('#canvasBox').css('top'))<=103){
+			$('#canvasBox').css('margin-top','103px');
+			$('#canvasBox').css('top','-24px');
+			$('#canvasBox').css('height',(canvasBoxHeight+288)+'px');
+			$('#dataList').css('top','0');
+			$('#dataList').css('height','0');
+		}else{
+			$('#canvasBox').css('margin-top','0');
+		}
+		if($('#dataList').height()>=dataListMaxHeight){
+			$('#dataList').css('height',(canvasBoxHeight+234)+'px');
+			$('#canvasBox').css('height','48px');
+			$('#canvasBox').css('margin-top','0');
+			$('#canvasBox').css('top',(dataListMaxHeight+103)+'px');
+			$('.cover').css('bottom','0px');
+		}
 	},
 	turnDown: function (e) {
 		Css(this.obj, {top: this.height + 'px', height: e.clientY - this.height + 'px'});
@@ -116,4 +133,5 @@ var Resize = new Class({
 });
 window.onload = function () {
 	new Resize(dom('canvasBox')).set(dom('rUp'), 'up').set(dom('rDown'), 'down');
+	new Resize(dom('dataList')).set(dom('rUp'), 'down');
 }

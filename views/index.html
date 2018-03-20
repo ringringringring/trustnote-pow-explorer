@@ -10,7 +10,7 @@
 		#rUp, #rDown {
 			position: absolute;
 			background: #FFFFFF;
-			height: 20px;
+			height: 25px;
 			z-index: 5;
 			font-size: 0;
 			cursor: n-resize;
@@ -19,9 +19,12 @@
 		}
 		#rUp {
 			top: 0;
+			background: url("/img/tobar-normal.png") center center no-repeat;
 		}
-
-		#rDown {
+		#rUp:hover{
+			background: url("/img/tobar-hover.png") center center no-repeat;
+		}
+		#rDown{
 			bottom: 0;
 		}
 	</style>
@@ -44,7 +47,7 @@
 </div>
 <!--data list-->
 <div class="main">
-	<div class="dataList">
+	<div class="dataList" id="dataList">
 		<div class="first">
 			<h3>All-time Summary</h3>
 			<p>Total users addresses: <span id="allAddress">&nbsp;</span></p>
@@ -74,13 +77,13 @@
 <div class="canvasBox" id="canvasBox" onselectstart="return false">
 	<div id="middleware">
 		<div id="cy"></div>
-		<div id="goToTop" onclick="goToTop()">
-			<div id="titleGoToTop">Go to top</div>
-		</div>
+	</div>
+	<div id="goToTop" onclick="goToTop()">
+		<div id="titleGoToTop">Go to top</div>
 	</div>
 	<img src="/img/statusGroup.png" alt="">
 	<div id="rUp"></div>
-	<div id="rDown"></div>
+	<!--<div id="rDown"></div>-->
 </div>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/moment.min.js"></script>
@@ -103,6 +106,8 @@
 	$('#canvasBox').on('mouseup',function (e) {
 		_cy.resize()
 	})
+	var canvasBoxHeight = $('#canvasBox').height();
+	var dataListMaxHeight = canvasBoxHeight + 234;
 
 </script>
 </body>

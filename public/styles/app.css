@@ -106,41 +106,53 @@ body {
 }
 
 .main {
-	padding: 24px;
+	padding-top: 24px;
 	position: relative;
 }
 
 .dataList {
-	display: flex;
-	display: -webkit-flex;
-	justify-content: space-around;
+	width: 30%;
+	min-height: 240px;
+	margin: 0 auto;
+	position: relative;
 }
 
-.dataList .first, .dataList .second {
-	width: 420px;
-	height: 300px;
+.dataList .first, .dataList .second, .dataList .third {
+	width: 100%;
+	height: 100%;
 	padding: 24px;
 	background-color: #FFFFFF;
+	box-sizing: border-box;
 }
 
+.dataList .second {
+	position: absolute;
+	border-left: solid 24px #f2f2f2;
+	border-right: solid 24px #f2f2f2;
+}
+
+.dataList .first {
+	position: absolute;
+	left: -100%;
+	top: 0;
+}
+.dataList .third{
+	position: absolute;
+	right: -100%;
+	top: 0;
+}
 .dataList h3 {
 	margin: 0;
 	padding-bottom: 10px;
 	border-bottom: solid 1px #EEEEEE;
 }
-
-.third {
-	position: relative;
-}
-
 .third .scroll {
-	width: 420px;
-	height: 300px;
-	padding: 24px;
+	height: 100%;
 	background-color: #FFFFFF;
 	overflow-y: scroll;
 }
-#message_2{
+
+#message_2 {
 	/*padding-bottom: 50px;*/
 }
 
@@ -153,9 +165,11 @@ body {
 	height: 9px;
 	box-sizing: border-box;
 }
+
 .scroll::-webkit-scrollbar-track {
 	background-color: #FFFFFF;
 }
+
 /*滚动条中能上下移动的小块*/
 .scroll::-webkit-scrollbar-thumb {
 	height: 50px;
@@ -171,6 +185,7 @@ body {
 	background-color: #F6F6F6;
 	border: 1px solid rgba(0, 0, 0, 0.21);
 }
+
 /*
 滚动条空白处的样式
 */
@@ -185,16 +200,16 @@ body {
 }
 
 .cover {
+	width: 100%;
 	height: 86px;
 	position: absolute;
 	bottom: 0;
-	left: 0;
 	right: 0;
-	margin-right: 9px;
-	background: -webkit-linear-gradient(bottom,rgba(255, 255, 255, 1),rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* Safari 5.1 - 6.0 */
-	background: -o-linear-gradient(bottom,rgba(255, 255, 255, 1),rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* Opera 11.1 - 12.0 */
-	background: -moz-linear-gradient(bottom,rgba(255, 255, 255, 1),rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* Firefox 3.6 - 15 */
-	background: linear-gradient(bottom,rgba(255, 255, 255, 1),rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* 标准的语法 */
+	left: 0;
+	background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* Safari 5.1 - 6.0 */
+	background: -o-linear-gradient(bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* Opera 11.1 - 12.0 */
+	background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* Firefox 3.6 - 15 */
+	background: linear-gradient(bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.4)); /* 标准的语法 */
 }
 
 .cover a {
@@ -203,7 +218,7 @@ body {
 	height: 28px;
 	border: solid 1px #000000;
 	position: absolute;
-	right: 6px;
+	right: 15px;
 	bottom: 15px;
 	text-align: center;
 	line-height: 30px;
@@ -232,18 +247,20 @@ body {
 }
 
 .canvasBox {
-	/*width: 100%;*/
-	height: 370px;
+	width: 90%;
+	/*height: 370px;*/
 	overflow: hidden;
-	/*position: relative;*/
 	position: absolute;
-	left: 24px;
-	right: 24px;
-	margin-top: 15px;
+	left: 50%;
+	top: 343px;
+	bottom: 50px;
+	margin-left: -45%;
 	background-color: #FFFFFF;
+	box-sizing: border-box;
+	border-top: solid #f2f2f2 24px;
 }
 
-.canvasBox img{
+.canvasBox img {
 	position: absolute;
 	top: 25px;
 	left: 50px;
@@ -251,14 +268,14 @@ body {
 
 #middleware {
 	width: 100%;
-	height: 370px;
 	position: absolute;
 	right: 0;
+	top: 50%;
+	margin-top: -400px;
 }
 
 #cy {
 	width: 100%;
-	/*height: 370px;*/
 	height: 800px;
 }
 
@@ -568,27 +585,34 @@ pre {
 	width: 100%;
 	border-collapse: collapse;
 }
+
 @media all and (max-width: 580px) {
-	#menu{
+	#menu {
 		height: 4rem;
 	}
-	#menuLeft{
+
+	#menuLeft {
 		margin-left: 1.2rem;
 	}
-	#menuLeftImg{
+
+	#menuLeftImg {
 		height: 4rem;
 		line-height: 4rem;
 	}
-	#menuLeftImg img{
+
+	#menuLeftImg img {
 		width: 2rem;
 	}
-	#menuLeftTitle{
+
+	#menuLeftTitle {
 		height: 4rem;
 	}
-	#menuLeftTitle a{
+
+	#menuLeftTitle a {
 		font-size: 1rem;
 		line-height: 4rem;
 	}
+
 	#menuRight {
 		float: none;
 		margin-top: 4.5rem;
@@ -597,9 +621,11 @@ pre {
 		left: 50%;
 		margin-left: -11rem;
 	}
-	#menuInput{
+
+	#menuInput {
 		width: 20rem;
 	}
+
 	#menuInput #inputSearch {
 		width: 20rem;
 		height: 2rem;
@@ -608,43 +634,60 @@ pre {
 		padding: 0 1rem;
 		border-radius: 1.8rem;
 	}
+
 	#menuInput > form {
 		width: 21rem;
 		position: relative;
 	}
+
 	#submitSearch {
 		right: -0.8rem;
 		top: 0;
 	}
+
 	.main {
 		padding: 0;
 		position: relative;
 		margin-top: 3rem;
 	}
-	.main .dataList{
-		flex: none;
-		display: block;
+
+	.main .dataList {
+		width: 100%;
 	}
-	.dataList .first, .dataList .second{
+	.dataList .first, .dataList .second,.dataList .third{
+		position: relative;
+		left: 0;
+		right: 0;
+	}
+	.dataList .second{
+		border: none;
+	}
+	.dataList .first, .dataList .second {
 		width: 100%;
 		height: 11rem;
 		padding: 1rem;
 		margin-bottom: 1rem;
 		box-sizing: border-box;
 	}
-	.dataList .third  .scroll{
+	.dataList .third{
+		padding: 0;
+	}
+	.dataList .third .scroll {
 		width: 100%;
 		height: 100%;
 		padding: 1rem;
 		box-sizing: border-box;
 		overflow: visible;
 	}
-	.dataList .third  .scroll span{
+
+	.dataList .third .scroll span {
 		font-size: 12px;
 	}
-	.dataList .third  .scroll a{
+
+	.dataList .third .scroll a {
 		font-size: 12px;
 	}
+
 	.cover {
 		height: 0;
 		position: absolute;
@@ -653,8 +696,8 @@ pre {
 		right: 0;
 		margin-right: 9px;
 	}
-	.messagesInfo{
+
+	.messagesInfo {
 		padding-bottom: 1rem;
 	}
 }
-
