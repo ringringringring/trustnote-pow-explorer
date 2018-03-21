@@ -6,26 +6,6 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
 	<link rel="stylesheet" href="/styles/app.css?v7">
 	<link rel="icon" href="/img/icon.png">
-	<style type="text/css">
-		#rUp {
-			position: absolute;
-			background: #FFFFFF;
-			height: 25px;
-			z-index: 200;
-			font-size: 0;
-			cursor: n-resize;
-			left: 0;
-			right: 0;
-		}
-		#rUp {
-			top: 0;
-			background: url("/img/tobar-normal.png") center center no-repeat;
-		}
-		#rUp:hover{
-			background: url("/img/tobar-hover.png") center center no-repeat;
-		}
-
-	</style>
 </head>
 <body>
 <!--top bar-->
@@ -82,8 +62,6 @@
 	<div id="goToTop" onclick="goToTop()">
 		<div id="titleGoToTop">Go to top</div>
 	</div>
-	<div id="rUp"></div>
-	<!--<div id="rDown"></div>-->
 </div>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/moment.min.js"></script>
@@ -92,23 +70,15 @@
 <script src="/js/dagre.js"></script>
 <script src="/js/cytoscape-dagre.js"></script>
 <script src="/js/main.js?v12"></script>
-<script src="/js/resize.js"></script>
 <script>
 	var userAgent = navigator.userAgent;
 	if (userAgent.match(".*Android.*") || userAgent.match(".*iPhone.*")) {
 		// console.log("Android");
 		// console.log("iPhone");
 		$('#canvasBox').hide();
-
 	} else {
 		console.log("You're something else...");
 	}
-	$('#canvasBox').on('mouseup',function (e) {
-		_cy.resize()
-	})
-	var canvasBoxHeight = $('#canvasBox').height();
-	var dataListMaxHeight = canvasBoxHeight + 239;
-	var dataListInitHeight = $('#dataList').height();
 </script>
 </body>
 </html>

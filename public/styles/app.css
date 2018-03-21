@@ -10,7 +10,6 @@ body {
 	height: 20px;
 	border: none;
 	margin-left: -3px;
-	/*border-bottom: 1px solid #BBB;*/
 	background-color: #eee;
 }
 
@@ -19,11 +18,6 @@ body {
 	border-bottom: 1px solid #ccc;
 	background-color: #1C0E22;
 }
-
-/*#menuInput {
-	float: left;
-	margin-left: 15px;
-}*/
 
 #menu #inputSearch {
 	width: 378px;
@@ -112,9 +106,10 @@ body {
 
 .dataList {
 	width: 30%;
-	height: 240px;
+	height: 300px;
 	margin: 0 auto;
 	position: relative;
+	padding-bottom: 24px;
 }
 
 .dataList .first, .dataList .second, .dataList .third {
@@ -123,6 +118,7 @@ body {
 	padding: 24px;
 	background-color: #FFFFFF;
 	box-sizing: border-box;
+	border-bottom: #f2f2f2 solid 24px;
 }
 
 .dataList .second {
@@ -248,23 +244,22 @@ body {
 }
 
 .canvasBox {
-	/*height: 350px;*/
+	height: 400px;
 	width: 90%;
 	overflow: hidden;
 	position: absolute;
 	left: 50%;
-	top: 343px;
-	bottom: 24px;
+	top: 427px;
 	margin-left: -45%;
 	background-color: #FFFFFF;
 	box-sizing: border-box;
-	border-top: solid #f2f2f2 24px;
+	margin-bottom: 24px;
 }
 .imgBox{
 	background-color: #FFFFFF;
 	width: 100%;
 	height: 60px;
-	position: absolute;
+	/*position: absolute;*/
 	top: 0;
 	left: 0;
 	z-index: 100;
@@ -295,10 +290,6 @@ body {
 	width: 450px;
 	border-left: 1px solid #ccc;
 	overflow: scroll;
-}
-
-#unitParent {
-	/*padding-left: 5px;*/
 }
 
 #unit {
@@ -409,10 +400,6 @@ body {
 .message_inputs .infoTitle, .message_outputs .infoTitle {
 	padding: 0;
 	margin-bottom: 5px;
-}
-
-.inputsInfo, .inputInfo, .inputsInf {
-	/*margin-bottom: 10px;*/
 }
 
 .messagesInfo > div {
@@ -544,7 +531,6 @@ pre {
 #scroll {
 	position: absolute;
 	right: 0;
-	/*top: 45px;*/
 	top: 0;
 	bottom: 0;
 	width: 20px;
@@ -664,6 +650,9 @@ pre {
 		left: 0;
 		right: 0;
 	}
+	.dataList .first{
+		border-bottom: none;
+	}
 	.dataList .second{
 		border: none;
 	}
@@ -676,6 +665,8 @@ pre {
 	}
 	.dataList .third{
 		padding: 0;
+		height: auto;
+		border-bottom: none;
 	}
 	.dataList .third .scroll {
 		width: 100%;
