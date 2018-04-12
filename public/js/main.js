@@ -874,11 +874,13 @@ socket.on('info', function (data) {
 		data.authors.forEach(function (author) {
 			//authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
 			authorsOut += '<a href="detail#' + author.address + '">' + author.address + '</a>';
+			/*
 			if (author.definition) {
 				authorsOut += '<span class="infoTitle hideTitle" class="definitionTitle" onclick="showHideBlock(event, \'definition' + incAuthors + '\')">Definition<div class="infoTitleImg"></div></span>' +
 					'<div id="definition' + (incAuthors++) + '" style="display: none"><pre>' + JSON.stringify(JSON.parse(author.definition), null, '   ') + '</pre></div>';
 
 			}
+			*/
 			//authorsOut += '</div>';
 			authorsOut += '';
 		});
