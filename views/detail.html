@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>TrustNote Explorer</title>
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=0, maximum-scale=1">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
 	<link rel="stylesheet" href="/styles/detail.css">
 	<link rel="icon" href="/img/icon.png">
@@ -14,8 +14,8 @@
 		<!-- <a id="menuSocialSlack" href="#"><img src="/img/Slack_Mark.svg"></a> -->
 	</div>
 	<div id="menuLeft">
-		<a href="http://explorer.trustnote.org" id="menuLeftImg"><img src="/img/logo.png"></a>
-		<div id="menuLeftTitle"><a href="http://explorer.trustnote.org">TrustNote</a></div>
+		<a href="http://explorer.trustnote.org" id="menuLeftImg"><img src="/img/TrustNote_logo.png"></a>
+		<!--<div id="menuLeftTitle"><a href="http://explorer.trustnote.org">TrustNote</a></div>-->
 	</div>
 	<div id="menuRight">
 		<div id="menuInput">
@@ -133,23 +133,5 @@
 <script src="/js/cytoscape.min.js"></script>
 <script src="/js/dagre.min.js"></script>
 <script src="/js/detail.js"></script>
-<script>
-	var phoneWidth = parseInt(window.screen.width);
-	var phoneHeight = parseInt(window.screen.height);
-	var phoneScale = phoneWidth/1680;//除以的值按手机的物理分辨率
-	var ua = navigator.userAgent;
-	if (/Android (\d+\.\d+)/.test(ua)) {
-		var version = parseFloat(RegExp.$1);
-		// andriod 2.3
-		if (version > 2.3) {	// andriod 2.3以上
-			document.write('<meta name="viewport" content="width=device-width,initial-scale='+phoneScale+',minimum-scale='+phoneScale+',maximum-scale='+phoneScale+',user-scalable=yes">');
-		} else {
-			document.write('<meta name="viewport" content="width=device-width,user-scalable=yes">');
-		}
-		// 其他系统
-	} else {
-		document.write('<meta name="viewport" content="width=device-width, initial-scale='+phoneScale+',minimum-scale='+phoneScale+',maximum-scale ='+phoneScale +',user-scalable=yes,">');
-	}
-</script>
 </body>
 </html>
