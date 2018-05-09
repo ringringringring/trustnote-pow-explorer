@@ -98,13 +98,12 @@ function getStatistics(){
 	data['activeAddress'] = activeAddress;
 	data['allAddress'] = allAddress;
 	data['level'] = level;
-	data['totalUsersUnits'] = "????";
 	data['totalUnits'] = totalUnits;
 	data['totalUserUnits'] = totalUserUnits;
 	data['totalFees'] = (totalFees/1000000.0);
 	data['date'] = date;
 	data['allUnits'] = allUnits;
-	data['allUserUnits'] = allUserUnits;
+	data['totalUsersUnits'] = allUserUnits;
 
 	
 
