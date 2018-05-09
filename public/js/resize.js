@@ -103,9 +103,38 @@ var Resize = new Class({
 	},
 	down: function (e) {
 		e.clientY > this.original[3] ? Css(this.obj, {
-			top: this.original[3] + 'px',
+			top: this.original[3]  + 'px',
 			height: e.clientY - this.original[3] + 'px'
 		}) : this.turnUp(e);
+		if(parseInt($('#canvasBox').css('top'))<=79){
+			$('#canvasBox').css('margin-top','103px');
+			$('#canvasBox').css('top','-24px');
+			$('#canvasBox').css('height',(canvasBoxHeight+288)+'px');
+			$('#dataList').css('top','0');
+			$('#dataList').css('height','0');
+		}else{
+			$('#canvasBox').css('margin-top','0');
+		}
+		var imgBoxHeight = $('#canvasBox').height();
+		if($('#canvasBox').height()<=60 && $('#canvasBox').height() >=48){
+			$('.imgBox').css('height',imgBoxHeight+'px')
+		}
+		var dataListHeight = $('#dataList').height();
+		if($('#canvasBox').height() < canvasBoxHeight ){
+			$('#dataList').css('height',dataListHeight - 103 +'px');
+		}
+		if($('#dataList').height() <  240 || $('#canvasBox').height() > canvasBoxHeight ){
+			$('#dataList').css('height',(dataListHeight - 103) +'px');
+		}
+		if($('#dataList').height() <= 86){
+			$('.cover').css('height',dataListHeight - 103 + 'px')
+		}
+		if(imgBoxHeight<=24 || dataListHeight >= (dataListMaxHeight + 79)){
+			$('#canvasBox').css('height','49px');
+			$('#dataList').css('height',dataListMaxHeight - 24 + 'px');
+			$('#canvasBox').css('margin-top','0');
+			$('#canvasBox').css('top',(dataListMaxHeight+79)+'px');
+		}
 	},
 	turnDown: function (e) {
 		Css(this.obj, {top: this.height + 'px', height: e.clientY - this.height + 'px'});
@@ -116,4 +145,5 @@ var Resize = new Class({
 });
 window.onload = function () {
 	new Resize(dom('canvasBox')).set(dom('rUp'), 'up').set(dom('rDown'), 'down');
+	new Resize(dom('dataList')).set(dom('rUp'), 'down');
 }

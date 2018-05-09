@@ -29,7 +29,7 @@ function init(_nodes, _edges) {
 	oldOffset = _cy.getElementById(nodes[0].data.unit).position().x + 66;
 	_cy.viewport({zoom: 1.01});
 	_cy.center(_cy.nodes()[0]);
-	_cy.pan({x: 300, y: 240});
+	_cy.panBy({x: -300, y: 0});
 	page = 'dag';
 
 	if (location.hash && location.hash.length == 45) {
@@ -874,11 +874,13 @@ socket.on('info', function (data) {
 		data.authors.forEach(function (author) {
 			//authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
 			authorsOut += '<a href="detail#' + author.address + '">' + author.address + '</a>';
+			/*
 			if (author.definition) {
 				authorsOut += '<span class="infoTitle hideTitle" class="definitionTitle" onclick="showHideBlock(event, \'definition' + incAuthors + '\')">Definition<div class="infoTitleImg"></div></span>' +
 					'<div id="definition' + (incAuthors++) + '" style="display: none"><pre>' + JSON.stringify(JSON.parse(author.definition), null, '   ') + '</pre></div>';
 
 			}
+			*/
 			//authorsOut += '</div>';
 			authorsOut += '';
 		});
@@ -1069,6 +1071,7 @@ socket.on('staticdata', function (data) {
 	$('#allAddress').text(data.allAddress);
 	$('#activeAddress').text(data.activeAddress);
 	$('#level').text(data.level);
+	$('#totalUsersUnits').text(data.totalUsersUnits);
 	$('#totalUnits').text(data.totalUnits);
 	$('#totalUserUnits').text(data.totalUserUnits);
 	$('#totalFees').text(data.totalFees);

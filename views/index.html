@@ -6,32 +6,13 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
 	<link rel="stylesheet" href="/styles/app.css?v7">
 	<link rel="icon" href="/img/icon.png">
-	<style type="text/css">
-		#rUp, #rDown {
-			position: absolute;
-			background: #FFFFFF;
-			height: 20px;
-			z-index: 5;
-			font-size: 0;
-			cursor: n-resize;
-			left: 0;
-			right: 0;
-		}
-		#rUp {
-			top: 0;
-		}
-
-		#rDown {
-			bottom: 0;
-		}
-	</style>
 </head>
 <body>
 <!--top bar-->
 <div id="menu" class="rowFull">
 	<div id="menuLeft">
-		<a href="http://explorer.trustnote.org" id="menuLeftImg"><img src="/img/logo.png"></a>
-		<div id="menuLeftTitle"><a href="http://explorer.trustnote.org">TrustNote</a></div>
+		<a href="http://explorer.trustnote.org" id="menuLeftImg"><img src="/img/Trustnote_logo.png"></a>
+		<!--<div id="menuLeftTitle"><a href="http://explorer.trustnote.org">TrustNote</a></div>-->
 	</div>
 	<div id="menuRight">
 		<div id="menuInput">
@@ -44,12 +25,13 @@
 </div>
 <!--data list-->
 <div class="main">
-	<div class="dataList">
+	<div class="dataList" id="dataList">
 		<div class="first">
 			<h3>All-time Summary</h3>
 			<p>Total users addresses: <span id="allAddress">&nbsp;</span></p>
 			<p>Total users active addresses: <span id="activeAddress">&nbsp;</span></p>
-			<p>Total levels: <span id="level">&nbsp;</span></p>
+			<p>Total units: <span id="level">&nbsp;</span></p>
+			<p>Total users units: <span id="totalUsersUnits">&nbsp;</span></p>
 		</div>
 		<div class="second">
 			<h3>Current 24 hours Snapshot</h3>
@@ -66,21 +48,21 @@
 				<div id="messages"></div>
 			</div>
 			<div class="cover">
-				<a href="/detail">Detail</a>
+				<a href="javascript:void(0)" id="detailLink">Detail</a>
 			</div>
 		</div>
 	</div>
 </div>
 <div class="canvasBox" id="canvasBox" onselectstart="return false">
+	<div class="imgBox">
+		<img src="/img/statusGroup.png" alt="">
+	</div>
 	<div id="middleware">
 		<div id="cy"></div>
-		<div id="goToTop" onclick="goToTop()">
-			<div id="titleGoToTop">Go to top</div>
-		</div>
 	</div>
-	<img src="/img/statusGroup.png" alt="">
-	<div id="rUp"></div>
-	<div id="rDown"></div>
+	<div id="goToTop" onclick="goToTop()">
+		<div id="titleGoToTop">Go to top</div>
+	</div>
 </div>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/moment.min.js"></script>
@@ -89,21 +71,19 @@
 <script src="/js/dagre.js"></script>
 <script src="/js/cytoscape-dagre.js"></script>
 <script src="/js/main.js?v12"></script>
-<script src="/js/resize.js"></script>
 <script>
 	var userAgent = navigator.userAgent;
 	if (userAgent.match(".*Android.*") || userAgent.match(".*iPhone.*")) {
 		// console.log("Android");
 		// console.log("iPhone");
 		$('#canvasBox').hide();
-
 	} else {
 		console.log("You're something else...");
 	}
-	$('#canvasBox').on('mouseup',function (e) {
-		_cy.resize()
+	$('#detailLink').on('click',function (e) {
+		e.preventDefault()
+		window.location.href = '/detail' + window.location.hash;
 	})
-
 </script>
 </body>
 </html>
