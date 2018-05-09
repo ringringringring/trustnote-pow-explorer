@@ -1070,7 +1070,7 @@ socket.on('staticdata', function (data) {
 	//console.log(data);
 	$('#allAddress').text(data.allAddress);
 	$('#activeAddress').text(data.activeAddress);
-	$('#level').text(data.level);
+	$('#allUnits').text(data.allUnits);
 	$('#totalUsersUnits').text(data.totalUsersUnits);
 	$('#totalUnits').text(data.totalUnits);
 	$('#totalUserUnits').text(data.totalUserUnits);
