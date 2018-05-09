@@ -100,7 +100,7 @@ function getStatistics(){
 	data['level'] = level;
 	data['totalUnits'] = totalUnits;
 	data['totalUserUnits'] = totalUserUnits;
-	data['totalFees'] = (totalFees/1000000.0);
+	data['totalFees'] = totalFees;
 	data['date'] = date;
 	data['allUnits'] = allUnits;
 	data['totalUsersUnits'] = allUserUnits;
