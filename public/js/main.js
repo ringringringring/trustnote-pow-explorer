@@ -1071,6 +1071,7 @@ socket.on('staticdata', function (data) {
 	$('#allAddress').text(data.allAddress);
 	$('#activeAddress').text(data.activeAddress);
 	$('#level').text(data.level);
+	$('#totalUsersUnits').text(data.totalUsersUnits);
 	$('#totalUnits').text(data.totalUnits);
 	$('#totalUserUnits').text(data.totalUserUnits);
 	$('#totalFees').text(data.totalFees);
