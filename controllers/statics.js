@@ -10,6 +10,8 @@ var staticdata = {};
 var activeAddress;
 var allAddress;
 var level;
+var allUnits;
+var allUserUnits;
 
 // recent 24 hours
 var totalUnits;
@@ -59,11 +61,31 @@ function updateStatistics(){
 
 	});
 
-	// all fees
-	db.query("SELECT SUM(headers_commission+payload_commission) as fee from units", function(rows) {
+	// recent  fees
+	db.query("SELECT SUM(headers_commission+payload_commission) as fee from units LEFT JOIN unit_authors ON units.unit = unit_authors.unit WHERE \n\
+	unit_authors.address NOT IN ( '2SATGZDFDXNNJRVZ52O4J6VYTTMO2EZR', '33RVJX3WBNZXJOSFCU6KK7O7TVEXLXGR', 'FYQXBPQWBPXWMJGCHWJ52AK2QMEOICR5', 'J3XIKRBU4BV2PX2BP4PSGIXDVND2XRIF', 'K5JWBZBADITKZAZDTHAPCU5FLYVSM752', 'KM5FZPIP264YRRWRQPXF7F7Y6ETDEW5Y', 'NBEFJ3LKG2SBSBK7D7GCFREOAFMS7QTQ', 'RIHZR7AHPVKZWTTDWI6UTKC7L73BJJQW', 'TIPXQ4CAO7G4C4P2P4PEN2KQK4MY73WD', 'X27CW2UWU5SGE647LK5SBTIPOOIQ7GJT', 'X6DWZUEW4IBFR77I46CAKTJVK4DBPOHE', 'XIM76DRNUNFWPXPI5AGOCYNMA3IOXL7V' ) \n\
+		AND units.creation_date>"+db.addTime("-24 HOUR"), function(rows) {
 		// console.log(rows);
 		totalFees = rows[0].fee;
 	});
+
+
+	// all units
+	db.query("SELECT COUNT( * ) as count FROM units", function(rows) {
+		//console.log(rows);
+		allUnits = rows[0].count;
+
+	});
+
+	// all user units
+	db.query("SELECT COUNT( * ) as count FROM units LEFT JOIN unit_authors ON units.unit = unit_authors.unit  WHERE \n\
+        unit_authors.address NOT IN ( '2SATGZDFDXNNJRVZ52O4J6VYTTMO2EZR', '33RVJX3WBNZXJOSFCU6KK7O7TVEXLXGR', 'FYQXBPQWBPXWMJGCHWJ52AK2QMEOICR5', 'J3XIKRBU4BV2PX2BP4PSGIXDVND2XRIF', 'K5JWBZBADITKZAZDTHAPCU5FLYVSM752', 'KM5FZPIP264YRRWRQPXF7F7Y6ETDEW5Y', 'NBEFJ3LKG2SBSBK7D7GCFREOAFMS7QTQ', 'RIHZR7AHPVKZWTTDWI6UTKC7L73BJJQW', 'TIPXQ4CAO7G4C4P2P4PEN2KQK4MY73WD', 'X27CW2UWU5SGE647LK5SBTIPOOIQ7GJT', 'X6DWZUEW4IBFR77I46CAKTJVK4DBPOHE', 'XIM76DRNUNFWPXPI5AGOCYNMA3IOXL7V' ) ", function(rows) {
+		//console.log(rows);
+		allUserUnits = rows[0].count;
+
+	});
+
+
 
 	date = moment(Date.now()).format();
 }
@@ -78,8 +100,12 @@ function getStatistics(){
 	data['level'] = level;
 	data['totalUnits'] = totalUnits;
 	data['totalUserUnits'] = totalUserUnits;
-	data['totalFees'] = (totalFees/1000000);
+	data['totalFees'] = (totalFees/1000000.0);
 	data['date'] = date;
+	data['allUnits'] = allUnits;
+	data['allUserUnits'] = allUserUnits;
+
+	
 
 	return data;
 }
@@ -88,4 +114,6 @@ function getStatistics(){
 exports.getStatistics = getStatistics;
 setTimeout(updateStatistics,1000*5);
 setInterval(updateStatistics,10*60*1000);
+
+
 
