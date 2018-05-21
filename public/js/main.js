@@ -1075,6 +1075,7 @@ socket.on('staticdata', function (data) {
 	$('#totalUnits').text(data.totalUnits);
 	$('#totalUserUnits').text(data.totalUserUnits);
 	$('#totalFees').text(data.totalFees);
+	formatAllNumbers()
 })
 
 function getNew() {
