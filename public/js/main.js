@@ -1067,15 +1067,13 @@ socket.on('nextPageTransactions', function (data) {
 });
 
 socket.on('staticdata', function (data) {
-	//console.log(data);
-	$('#allAddress').text(data.allAddress);
-	$('#activeAddress').text(data.activeAddress);
-	$('#allUnits').text(data.allUnits);
-	$('#totalUsersUnits').text(data.totalUsersUnits);
-	$('#totalUnits').text(data.totalUnits);
-	$('#totalUserUnits').text(data.totalUserUnits);
-	$('#totalFees').text(data.totalFees);
-	formatAllNumbers()
+	$('#allAddress').text(numberFormat(data.allAddress));
+	$('#activeAddress').text(numberFormat(data.activeAddress));
+	$('#allUnits').text(numberFormat(data.allUnits));
+	$('#totalUsersUnits').text(numberFormat(data.totalUsersUnits));
+	$('#totalUnits').text(numberFormat(data.totalUnits));
+	$('#totalUserUnits').text(numberFormat(data.totalUserUnits));
+	$('#totalFees').text(numberFormat(data.totalFees));
 })
 
 function getNew() {
