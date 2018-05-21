@@ -986,12 +986,12 @@ socket.on('addressInfo', function(data) {
 		lastOutputsROWID = data.newLastOutputsROWID;
 		nextPageTransactionsEnd = data.end;
 		for (var k in data.objBalance) {
-			// 	if (k === 'notes') {
-			balance += '<div><span class="numberFormat">' + data.objBalance[k] + '</span> notes</div>';
-			// }
-			// else {
-			// 	balance += '<div><span class="numberFormat">' + data.objBalance[k] + '</span> of ' + k + '</div>';
-			// }
+			if (k === 'bytes') {
+				balance += '<div><span class="numberFormat">' + data.objBalance[k] + '</span> notes</div>';
+			}
+			else {
+				balance += '<div><span class="numberFormat">' + data.objBalance[k] + '</span> of ' + k + '</div>';
+			}
 		}
 		if(data.unspent) {
 			data.unspent.forEach(function(row) {
