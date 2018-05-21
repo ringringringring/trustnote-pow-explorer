@@ -1069,7 +1069,7 @@ socket.on('nextPageTransactions', function (data) {
 socket.on('staticdata', function (data) {
 	$('#allAddress').text(numberFormat(data.allAddress.toString()));
 	$('#activeAddress').text(numberFormat(data.activeAddress.toString()));
-	$('#allUnits').text(numberFormat(data.allUnits..toString()));
+	$('#allUnits').text(numberFormat(data.allUnits.toString()));
 	$('#totalUsersUnits').text(numberFormat(data.totalUsersUnits.toString()));
 	$('#totalUnits').text(numberFormat(data.totalUnits.toString()));
 	$('#totalUserUnits').text(numberFormat(data.totalUserUnits.toString()));
