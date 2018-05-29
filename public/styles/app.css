@@ -35,7 +35,7 @@ body {
 	width: 32px;
 	height: 32px;
 	border: 0;
-	background: url(../img/search.png) center no-repeat transparent;
+	background: url(/public/img/search.png) center no-repeat transparent;
 	background-size: 20px;
 	cursor: pointer;
 	outline: none;
@@ -358,7 +358,7 @@ body {
 
 .infoTitle > .infoTitleImg {
 	display: inline-block;
-	background-image: url(/img/arrow_down.png);
+	background-image: url(/public/img/arrow_down.png);
 	background-size: cover;
 	width: 12px;
 	height: 12px;
@@ -367,7 +367,7 @@ body {
 }
 
 .infoTitle.hideTitle > .infoTitleImg {
-	background-image: url(/img/gray_right.png);
+	background-image: url(/public/img/gray_right.png);
 }
 
 .infoTitle.hideTitle:hover {
@@ -565,7 +565,7 @@ pre {
 	position: absolute;
 	z-index: 999;
 	cursor: pointer;
-	background: url(../img/111.png) center no-repeat;
+	background: url(/public/img/111.png) center no-repeat;
 	background-size: 40px;
 	top: 25px;
 	right: 40px;
@@ -573,7 +573,7 @@ pre {
 }
 
 #goToTop:hover {
-	background: url(../img/111.png) center no-repeat;
+	background: url(/public/img/111.png) center no-repeat;
 	background-size: 40px;
 }
 
