@@ -20,25 +20,28 @@ body {
 }
 
 #menu #inputSearch {
-	width: 378px;
-	height: 30px;
+	width: 410px;
+	height: 42px;
 	border: 1px solid #ccc;
 	outline: none;
-	padding: 0 15px;
-	border-radius: 50px;
+	padding-left: 10px;
+	box-sizing: border-box;
+	border-radius: 2px;
+	font-size: 16px;
+
 }
 
 #submitSearch {
 	width: 32px;
 	height: 32px;
 	border: 0;
-	background: url(/img/search.png) center no-repeat transparent;
+	background: url(/public/img/search.png) center no-repeat transparent;
 	background-size: 20px;
 	cursor: pointer;
 	outline: none;
 	position: absolute;
 	right: 5px;
-	top: 0;
+	top: 23px;
 	vertical-align: middle;
 }
 
@@ -72,12 +75,26 @@ body {
 	line-height: 78px;
 }
 
+#menuCenter {
+	float: right;
+	height: 100%;
+	margin-right: 60px;;
+}
+#menuCenter a{
+	font-size: 20px;
+	color: #fff;
+	line-height: 78px;
+}
+#menuCenter a:hover{
+	text-decoration: underline;
+}
+
 #menuRight {
 	float: right;
-	margin-top: 18px;
 	margin-right: 24px;
 	width: 410px;
-	height: 42px;
+	height: 78px;
+	line-height: 78px;
 	position: relative;
 }
 
@@ -341,7 +358,7 @@ body {
 
 .infoTitle > .infoTitleImg {
 	display: inline-block;
-	background-image: url(/img/arrow_down.png);
+	background-image: url(/public/img/arrow_down.png);
 	background-size: cover;
 	width: 12px;
 	height: 12px;
@@ -350,7 +367,7 @@ body {
 }
 
 .infoTitle.hideTitle > .infoTitleImg {
-	background-image: url(/img/gray_right.png);
+	background-image: url(/public/img/gray_right.png);
 }
 
 .infoTitle.hideTitle:hover {
@@ -548,15 +565,15 @@ pre {
 	position: absolute;
 	z-index: 999;
 	cursor: pointer;
-	background: url(/img/ToTop.png) center no-repeat;
+	background: url(/public/img/111.png) center no-repeat;
 	background-size: 40px;
 	top: 25px;
-	right: 25px;
+	right: 40px;
 	border-radius: 100%;
 }
 
 #goToTop:hover {
-	background: url(/img/ToTop_hover.png) center no-repeat;
+	background: url(/public/img/111.png) center no-repeat;
 	background-size: 40px;
 }
 
@@ -566,11 +583,13 @@ pre {
 
 #titleGoToTop {
 	position: absolute;
-	top: 42px;
+	top: 50px;
 	text-align: center;
 	width: 68px;
-	left: -11px;
+	left: -15px;
 	display: none;
+	background: #F5F5F5;
+	border: 1px solid #000000;
 }
 
 #tableListTransactions {
