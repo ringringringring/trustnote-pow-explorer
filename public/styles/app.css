@@ -78,7 +78,8 @@ body {
 #menuCenter {
 	float: right;
 	height: 100%;
-	margin-right: 60px;;
+	margin-right: 60px;
+	display: none;
 }
 #menuCenter a{
 	font-size: 20px;
@@ -612,7 +613,8 @@ pre {
 	}
 
 	#menuLeftImg img {
-		width: 2rem;
+		
+		max-width: 100%;
 	}
 
 	#menuLeftTitle {
@@ -635,6 +637,7 @@ pre {
 
 	#menuInput {
 		width: 20rem;
+		line-height: auto;
 	}
 
 	#menuInput #inputSearch {
