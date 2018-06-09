@@ -19,6 +19,10 @@ app.get('/detail', function(req, res) {
 	res.sendFile(__dirname + '/views/detail.html');
 });
 
+app.get('/addressMap', function(req, res) {
+	res.sendFile(__dirname + '/views/addressMap.html');
+});
+
 eventBus.on('new_joint', function() {
 	io.sockets.emit('update');
 });
