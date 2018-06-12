@@ -80,7 +80,6 @@ body {
 	float: right;
 	height: 100%;
 	margin-right: 60px;
-	display:none;
 }
 #menuCenter a{
 	font-size: 20px;
@@ -647,7 +646,7 @@ pre {
 		height: 2rem;
 		border: 1px solid #ccc;
 		outline: none;
-		padding: 0 1rem;
+		padding: 0 1.5rem 0 1rem;
 		border-radius: 1.8rem;
 	}
 
@@ -658,7 +657,7 @@ pre {
 	}
 
 	#submitSearch {
-		right: -0.8rem;
+		right: 1rem;
 		top: 0;
 	}
 
@@ -729,6 +728,10 @@ pre {
 		right: 1rem;
 		top: 0;
 	}
+	#menuCenter {
+		display: none;
+	}
+	
 }
 @media (device-height:568px) and (-webkit-min-device-pixel-ratio:2){
 	#menuInput #inputSearch,#menuInput{width:18rem;}
@@ -736,5 +739,8 @@ pre {
 	#submitSearch {
 		right: 1rem;
 		top: 0;
+	}
+	#menuCenter {
+		display: none;
 	}
 }
