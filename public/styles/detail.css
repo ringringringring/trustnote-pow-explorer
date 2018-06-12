@@ -254,6 +254,7 @@ body {
 
 .inputsInfo > div, .inputInfo > div {
 	margin-bottom: 5px;
+	word-break: break-all;
 }
 
 a {
@@ -434,7 +435,7 @@ pre{
 		line-height: 4rem;
 	}
 	#menuLeftImg img{
-		width: 2rem;
+		width: auto;
 	}
 	#menuLeftTitle{
 		height: 4rem;
@@ -495,4 +496,28 @@ pre{
 	#tableListTransactions {
 		font-size: 12px;
 	}
+}
+@media (device-height:568px) and (-webkit-min-device-pixel-ratio:2){
+	#menuInput,#menuInput > form{width:18rem;}
+	#menuInput #inputSearch{width:16rem;}
+	#menuInput{margin-left: 1rem;}
+	#submitSearch {
+		right: 0;
+		top: 0;
+	}
+	#info{overflow-y:auto;}
+	#menuCenter {
+		display: none;
+	}
+	#unit {
+    color: #808080;
+    word-break: break-all;
+}
+#menuRight {
+     left: auto; 
+     margin-left: 0; 
+     width:18rem;
+}
+#info #authors > div, #info #children > div, #info #parents > div, #info #witnesses > div{word-break: break-all;}
+
 }

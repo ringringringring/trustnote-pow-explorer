@@ -606,6 +606,7 @@ pre {
 
 	#menuLeft {
 		margin-left: 1.2rem;
+		overflow: hidden;
 	}
 
 	#menuLeftImg {
@@ -628,17 +629,19 @@ pre {
 	}
 
 	#menuRight {
-		float: none;
-		margin-top: 4.5rem;
-		width: 22rem;
-		position: absolute;
-		left: 50%;
-		margin-left: -11rem;
+    float: none;
+    /* margin-top: 4.5rem; */
+    width: 22rem;
+    /* position: absolute; */
+    /* left: 50%; */
+    /* margin-left: -11rem; */
 	}
 
 	#menuInput {
-		width: 20rem;
-		line-height: auto;
+    width: 20rem;
+    line-height: auto;
+    margin: 0 auto;
+    margin-top: 0.5rem;
 	}
 
 	#menuInput #inputSearch {
