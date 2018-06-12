@@ -173,7 +173,7 @@
 				crossDomain: true,
 				xhrFields: {withCredentials: true},
 				success: function (data) {
-					var html = 'Congratulations! You are the #'+data.entity.ranking+' richest with a value of '+data.entity.amount/100000+' MN. Please click <a href='+"https://explorer.trustnote.org/detail#"+addRess+'>here</a>.'
+					var html = 'Congratulations! You are the #'+data.entity.ranking+' richest with a value of '+data.entity.amount/1000000+' MN. Please click <a href='+"https://explorer.trustnote.org/detail#"+addRess+'>here</a>.'
 					$(".hint").html(html)
 					$(".hint").show()
 				},
