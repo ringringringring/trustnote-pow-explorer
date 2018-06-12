@@ -720,6 +720,9 @@ pre {
 	.messagesInfo {
 		padding-bottom: 1rem;
 	}
+	#menuCenter {
+		display: none;
+	}
 }
 @media (device-height:480px) and (-webkit-min-device-pixel-ratio:2){
 	#menuInput #inputSearch,#menuInput{width:18rem;}
