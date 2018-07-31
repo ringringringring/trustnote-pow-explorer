@@ -1,2 +1,3 @@
-# trustnote-explorer
-View the DAG and all public transactions
+# trustnote-pow-explorer
+View the DAG, the pow Unit, the round number and all public transactions
+
