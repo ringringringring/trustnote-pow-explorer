@@ -1,7 +1,7 @@
 /*jslint node: true */
 "use strict";
-var conf = require('trustnote-common/conf.js');
-var myWitnesses = require('trustnote-common/my_witnesses.js');
+var conf = require('./trustnote-common/conf.js');
+var myWitnesses = require('./trustnote-common/my_witnesses.js');
 
 
 function replaceConsoleLog () {
@@ -14,9 +14,10 @@ function replaceConsoleLog () {
 
 function start () {
 	console.log('starting');
-	var network = require('trustnote-common/network.js');
+	var network = require('./trustnote-common/network.js');
 	if (conf.initial_peers)
 		conf.initial_peers.forEach(function (url) {
+			console.log(' initial_url: ', url);
 			network.findOutboundPeerOrConnect(url);
 		});
 }

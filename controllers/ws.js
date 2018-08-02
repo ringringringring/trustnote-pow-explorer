@@ -1,7 +1,7 @@
 /*jslint node: true */
 'use strict';
 
-var db = require('trustnote-common/db.js');
+var db = require('../trustnote-common/db.js');
 var units = require('./units');
 var address = require('./address');
 var staticslib = require('./statics');
@@ -16,7 +16,7 @@ function start(data) {
 				edges: edges
 			});
 		});
-	}
+	} 
 	else if (data.type === 'unit') {
 		db.query("SELECT ROWID FROM units WHERE unit = ? LIMIT 0,1", [data.unit], function(row) {
 			if (!row.length) {

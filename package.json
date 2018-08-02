@@ -1,6 +1,6 @@
 {
-  "name": "trustnote-explorer",
-  "description": "TrustNote explorer",
+  "name": "trustnote-pow-explorer",
+  "description": "TrustNote pow explorer",
   "author": "TrustNote",
   "version": "0.1.0",
   "main": "start.js",

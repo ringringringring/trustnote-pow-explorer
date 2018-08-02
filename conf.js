@@ -6,12 +6,26 @@ exports.port = null;
 exports.bServeAsHub = false;
 exports.bLight = false;
 
-exports.webPort = 6000;
+exports.webPort = 8000;
 
 exports.storage = 'sqlite';
 
 
-exports.initial_witnesses = [
+exports.initial_witnesses = [	
+	"6LDM27ELDDAJBTNTVVQQYW7MWOK3F6WD",
+	"BP2NYKORMOB5SEUTFSVPF2CMSQSVEZOS",
+	"C6D4XKXDO4JAUT3BR27RM3UHKYGILR3X",
+	"CGCU5BBDWY2ZU3XKUXNGDTXDY7VXXJNJ",
+	"E45DPZHBPI7YX3CDG7HWTWBWRNGBV6C3",
+	"EPG47NW4DDKIBUFZBDVQU3KHYCCMXTDN",
+	"FF6X4KX3OOAAZUYWXDAHQJIJ5HDZLSXL",
+	"JVFHPXAA7FJEJU3TSTR5ETYVOXHOBR4H",
+	"MWJTSFCRBCV2CVT3SCDYZW2F2N3JKPIP",
+	"NJSDFSIRZT5I5YQONDNEMKXSFNJPSO6A",
+	"OALYXCMDI6ODRWMY6YO6WUPL6Q5ZBAO5",
+	"UABSDF77S6SU4FDAXWTYIODVODCAA22A"
+
+	/*
 	'2SATGZDFDXNNJRVZ52O4J6VYTTMO2EZR',
 	'33RVJX3WBNZXJOSFCU6KK7O7TVEXLXGR',
 	'FYQXBPQWBPXWMJGCHWJ52AK2QMEOICR5',
@@ -24,17 +38,20 @@ exports.initial_witnesses = [
 	'X27CW2UWU5SGE647LK5SBTIPOOIQ7GJT',
 	'X6DWZUEW4IBFR77I46CAKTJVK4DBPOHE',
 	'XIM76DRNUNFWPXPI5AGOCYNMA3IOXL7V'
+	*/
 ];
 
 
 /*'wss://trustnote.org/tg' */
 exports.initial_peers = [
-	'wss://victor.trustnote.org/tn',
-	'wss://eason.trustnote.org/tn',
-	'wss://lymn.trustnote.org/tn',
-	'wss://bob.trustnote.org/tn',
-	'wss://curry.trustnote.org/tn',
-	'wss://kake.trustnote.org/tn'
+	'ws://dev.trustnote.org/tn',
+
+	// 'wss://victor.trustnote.org/tn',
+	// 'wss://eason.trustnote.org/tn',
+	// 'wss://lymn.trustnote.org/tn',
+	// 'wss://bob.trustnote.org/tn',
+	// 'wss://curry.trustnote.org/tn',
+	// 'wss://kake.trustnote.org/tn'
 ];
 
 console.log('finished explorer conf');
