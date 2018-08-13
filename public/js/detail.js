@@ -106,6 +106,15 @@ function createCy() {
 				}
 			},
 			{
+				selector: '.is_witness_unit',//是公证单元
+				style: {
+					'border-width': 4,
+					//	'border-style': 'solid',
+					'border-color': '#30A598',
+					'background-color': 'red',
+				}
+			},
+			{
 				selector: '.is_on_main_chain.active',
 				style: {
 					'border-color': '#046B5F',
@@ -279,6 +288,9 @@ function generate(_nodes, _edges) {
 			classes = '';
 			if (_node.is_on_main_chain) classes += 'is_on_main_chain ';
 			if (_node.is_stable) classes += 'is_stable ';
+			if (_node.is_witness_unit) classes += 'is_witness_unit';
+			// console.log('----is_witness_unit, ', _node.is_witness_unit);
+
 			if (_node.sequence === 'final-bad') classes += 'finalBad';
 			if (_node.sequence === 'temp-bad') classes += 'tempBad';
 			if (!first) {
@@ -374,6 +386,8 @@ function setNew(_nodes, _edges, newUnits) {
 			if (_node.is_stable) classes += 'is_stable ';
 			if (_node.sequence === 'final-bad') classes += 'finalBad';
 			if (_node.sequence === 'temp-bad') classes += 'tempBad';
+			if (_node.is_witness_unit) classes += 'is_witness_unit';
+
 			if (!first) {
 				newOffset_x = -_node.x - ((right - left) / 2);
 				newOffset_y = newOffset - (max - min) + 66;
@@ -429,7 +443,8 @@ function createGraph(_nodes, _edges) {
 			height: 32,
 			is_on_main_chain: node.is_on_main_chain,
 			is_stable: node.is_stable,
-			sequence: node.sequence
+			sequence: node.sequence,
+			is_witness_unit: node.is_witness_unit
 		});
 	});
 	for (var k in _edges) {
@@ -698,6 +713,7 @@ socket.on('connect', function() {
 });
 
 socket.on('start', function(data) {
+	// console.log(data);
 	init(data.nodes, data.edges);
 	if (data.not_found) showInfoMessage("Unit not found");
 	notLastUnitDown = true;
@@ -849,6 +865,12 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 	});
 	return messagesOut;
 }
+// pow_type INT Null --  1: pow-equhash 2: trustme 3: coin base 
+const POWTYPE = {
+	'1' : 'pow-equhash',
+	'2' : 'trustme',
+	'3' : 'coin base'
+}
 
 socket.on('info', function(data) {
 	if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
@@ -875,6 +897,8 @@ socket.on('info', function(data) {
 		});
 
 		$('#unit').html(data.unit);
+		$('#round').html(data.round_index);
+		$('#pow').html(POWTYPE[data.pow_type]);
 		$('#children').html(childOut);
 		$('#parents').html(parentOut);
 		$('#authors').html(authorsOut);

@@ -141,6 +141,14 @@ body {
 	padding-left: 5px;
 }
 
+#roundIndex {
+	padding-left: 5px;
+}
+
+#powType {
+	padding-left: 5px;
+}
+
 #unit {
 	color: #808080;
 }

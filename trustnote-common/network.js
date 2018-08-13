@@ -255,7 +255,7 @@ function cancelRequestsOnClosedConnection(ws){
 function findNextPeer(ws, handleNextPeer){
 	tryFindNextPeer(ws, function(next_ws){
 		if (next_ws)
-			return handleNextPeer(next_ws);
+			return handleNextPeer(next_ws); 
 		var peer = ws ? ws.peer : '[none]';
 		console.log('findNextPeer after '+peer+' found no appropriate peer, will wait for a new connection');
 		eventBus.once('connected_to_source', function(new_ws){

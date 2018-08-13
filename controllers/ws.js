@@ -11,6 +11,8 @@ function start(data) {
 
 	if (data.type === 'last') {
 		units.getLastUnits(function(nodes, edges) {
+			// console.log('nodes:---', nodes);
+			// console.log('edges:---', edges, '\n');
 			ws.emit('start', {
 				nodes: nodes,
 				edges: edges
