@@ -1,7 +1,7 @@
 /*jslint node: true */
 "use strict";
-var conf = require('./trustnote-common/conf.js');
-var myWitnesses = require('./trustnote-common/my_witnesses.js');
+var conf = require('trustnote-pow-common/conf.js');
+var myWitnesses = require('trustnote-pow-common/my_witnesses.js');
 
 
 function replaceConsoleLog () {
