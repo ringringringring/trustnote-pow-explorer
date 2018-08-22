@@ -30,6 +30,8 @@
     "express": "^4.14.0",
     "moment": "^2.17.1",
     "socket.io": "^1.7.1",
+    "bitcore-lib": "^0.13.14",
+    "bitcore-mnemonic": "~1.0.0",
     "trustnote-pow-common": "git+https://github.com/trustnote/trustnote-pow-common.git#dev"
   },
   "devDependencies": {
