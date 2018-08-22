@@ -14,7 +14,7 @@ function replaceConsoleLog () {
 
 function start () {
 	console.log('starting');
-	var network = require('./trustnote-common/network.js');
+	var network = require('./trustnote-pow-common/network.js');
 	if (conf.initial_peers)
 		conf.initial_peers.forEach(function (url) {
 			console.log(' initial_url: ', url);
