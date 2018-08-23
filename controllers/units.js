@@ -313,16 +313,17 @@ function getInfoOnUnit(unit, cb) {
 											date: moment(objJoint.unit.timestamp * 1000).format(),
 											assocCommissions: assocCommissions
 										};
-										if (objJoint.unit.witnesses) {
-											objInfo.witnesses = objJoint.unit.witnesses;
-											cb(objInfo);
-										}
-										else {
-											storage.readWitnesses(db, unit, function(arrWitnesses) {
-												objInfo.witnesses = arrWitnesses;
-												cb(objInfo);
-											});
-										}
+										// if (objJoint.unit.witnesses) {
+										// 	objInfo.witnesses = objJoint.unit.witnesses;
+										// 	cb(objInfo);
+										// }
+										// else {
+										// 	storage.readWitnesses(db, unit, function(arrWitnesses) {
+										// 		objInfo.witnesses = arrWitnesses;
+										// 		cb(objInfo);
+										// 	});
+										// }
+										cb(objInfo);
 									});
 								});
 							});
