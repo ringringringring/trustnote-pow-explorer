@@ -884,9 +884,9 @@ socket.on('info', function (data) {
 			//authorsOut += '</div>';
 			authorsOut += '';
 		});
-		data.witnesses.forEach(function (witness) {
-			witnessesOut += '<div><a href="#' + witness + '">' + witness + '</a></div>';
-		});
+		// data.witnesses.forEach(function (witness) {
+		// 	witnessesOut += '<div><a href="#' + witness + '">' + witness + '</a></div>';
+		// });
 
 		$('#unit').html(data.unit);
 		$('#children').html(childOut);
