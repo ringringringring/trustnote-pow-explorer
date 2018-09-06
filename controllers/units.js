@@ -26,7 +26,7 @@ let ROUNDINDEX = 0
 function getLastUnits(cb) {
 	var nodes = [];
 	var edges = {};
-	var sql = "SELECT unit_authors.address, parenthoods.child_unit, parenthoods.parent_unit, units.ROWID, units.is_on_main_chain , units.is_stable, units.best_parent_unit, units.sequence \n\
+	var sql = "SELECT unit_authors.address, parenthoods.child_unit, parenthoods.parent_unit, units.ROWID, units.pow_type,units.is_on_main_chain , units.is_stable, units.best_parent_unit, units.sequence \n\
 		FROM parenthoods, units , unit_authors WHERE parenthoods.child_unit IN \n\
 		(SELECT unit FROM units ORDER BY ROWID DESC LIMIT 0, 100) and  units.unit=parenthoods.child_unit and units.unit=unit_authors.unit ORDER BY parenthoods.ROWID DESC";
 
@@ -37,6 +37,7 @@ function getLastUnits(cb) {
 				data: {unit: row.child_unit, unit_s: row.child_unit.substr(0, 7) + '...', round_index: row.round_index },
 				rowid: row.rowid,
 				is_on_main_chain: row.is_on_main_chain,
+				pow_type: row.pow_type,
 				is_stable: row.is_stable,
 				sequence: row.sequence,
 				is_witness_unit: initial_witnesses.includes(row.address)
