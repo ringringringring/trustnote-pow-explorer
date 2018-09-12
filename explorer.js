@@ -3,6 +3,7 @@
 require('./relay');
 var conf = require('trustnote-pow-common/conf.js');
 var eventBus = require('trustnote-pow-common/event_bus.js');
+var round = require('trustnote-pow-common/round.js');
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
@@ -26,6 +27,13 @@ app.get('/addressMap', function(req, res) {
 eventBus.on('new_joint', function() {
 	io.sockets.emit('update');
 });
+
+eventBus.on('round_switch', function(round_index){
+	// tell main page to update coinbase info
+	var minedTotalCoinbase = round.getSumCoinbaseByEndRoundIndex(round_index -1);
+	io.sockets.emit('coinbase_mined', {issuedCoinbase: minedTotalCoinbase});
+	console.log('=== Round Switch === : '+round_index);
+})
 
 /*
 //https://www.jianshu.com/p/4e80b931cdea
