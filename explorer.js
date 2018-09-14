@@ -4,6 +4,7 @@ require('./relay');
 var conf = require('trustnote-pow-common/conf.js');
 var eventBus = require('trustnote-pow-common/event_bus.js');
 var round = require('trustnote-pow-common/round.js');
+var db = require('./db.js');
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
@@ -31,8 +32,11 @@ eventBus.on('new_joint', function() {
 eventBus.on('round_switch', function(round_index){
 	// tell main page to update coinbase info
 	var minedTotalCoinbase = round.getSumCoinbaseByEndRoundIndex(round_index -1);
-	io.sockets.emit('coinbase_mined', {issuedCoinbase: minedTotalCoinbase});
-	console.log('=== Round Switch === : '+round_index);
+	round.getDifficultydByRoundIndex(db, round_index, function (difficultyOfRound){
+		io.sockets.emit('coinbase_mined', {issuedCoinbase: minedTotalCoinbase, difficulty:difficultyOfRound});
+		console.log('=== Round Switch === : '+round_index);
+	});
+	
 })
 
 /*
