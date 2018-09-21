@@ -1,8 +1,10 @@
 /*jslint node: true */
 "use strict";
 require('./relay');
-var conf = require('trustnote-common/conf.js');
-var eventBus = require('trustnote-common/event_bus.js');
+var conf = require('trustnote-pow-common/conf.js');
+var eventBus = require('trustnote-pow-common/event_bus.js');
+var round = require('trustnote-pow-common/round.js');
+var db = require('trustnote-pow-common/db.js');
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
@@ -27,8 +29,18 @@ eventBus.on('new_joint', function() {
 	io.sockets.emit('update');
 });
 
+eventBus.on('round_switch', function (round_index) {
+	// tell main page to update coinbase info
+	var minedTotalCoinbase = round.getSumCoinbaseByEndRoundIndex(round_index - 1);
+	round.getDifficultydByRoundIndex(db, round_index, function (difficultyOfRound){
+		io.sockets.emit('coinbase_mined', {issuedCoinbase: minedTotalCoinbase, difficulty:difficultyOfRound, round_index: round_index});
+		console.log('=== Round Switch === : '+round_index);
+	});
+});
+
 io.on('connection', function(socket) {
 	socket.on('staticdata', ws.staticdata);
+	socket.on('getRoundStatus', ws.getRoundStatus);
 	socket.on('start', ws.start);
 	socket.on('next', ws.next);
 	socket.on('prev', ws.prev);

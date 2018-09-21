@@ -1,8 +1,8 @@
 /*jslint node: true */
 'use strict';
 
-var db = require('trustnote-common/db.js');
-var storage = require('trustnote-common/storage.js');
+var db = require('trustnote-pow-common/db.js');
+var storage = require('trustnote-pow-common/storage.js');
 var moment = require('moment');
 var async = require('async');
 var staticdata = {};
@@ -110,8 +110,29 @@ function getStatistics(){
 	return data;
 }
 
+function getRoundStatus(round_index,callback){
+	var data = {};
+	db.query("SELECT unit,pow_type\n\
+		FROM units \n\
+		WHERE round_index =? and pow_type IS NOT NULL ", [round_index], function(rows) {
+			var arrPowunits = rows.filter(function (unit){
+				return unit.pow_type == 1 ;
+			});
+			var arrTrustMEunits = rows.filter(function (unit){
+				return unit.pow_type == 2 ;
+			});
+			var arrCoinbaseunits = rows.filter(function (unit){
+				return unit.pow_type == 3 ;
+			});
+			data['countofPOWUnit'] = arrPowunits.length;
+			data['countofTrustMEUnit'] = arrTrustMEunits.length;
+			data['countofCoinbaseUnit'] = arrCoinbaseunits.length;
+			callback(data);
+		});
+}
 
 exports.getStatistics = getStatistics;
+exports.getRoundStatus = getRoundStatus;
 setTimeout(updateStatistics,1000*5);
 setInterval(updateStatistics,10*60*1000);
 

@@ -9,8 +9,6 @@ var lastActiveUnit;
 var page, isInit = false;
 var queueAnimationPanUp = [], animationPlaysPanUp = false;
 
-var current_round_index = 1;
-
 function init(_nodes, _edges) {
 	nodes = _nodes;
 	edges = _edges;
@@ -74,82 +72,122 @@ function createCy() {
 			{
 				selector: 'node',
 				style: {
+					//'content': 'data(unit_s)', // 节点的 单元
 					'text-opacity': 1,
-					'min-zoomed-font-size': 12,
+					'min-zoomed-font-size': 13,
 					'text-valign': 'top',
 					'text-halign': 'center',
-					'font-size': '12px',
+					'font-size': '13px',
 					'text-margin-y': '-5px',
-					'background-color': '#BAE0FF', // 浅色   #3192F2', // 深色
+					'background-color': '#BAE0FF',
+					'border-width': 0, //2
+					'border-color': '#72CBC1',
 					'shape': 'circle',
+					//	'border-style': 'dotted',
 					'width': 36,
-					'height': 36,
+					'height': 36
+				}
+			},
+			{
+				selector: 'node.press',
+				style: {
+					'background-color': '#30A598',
+					'border-color': '#30A598',
+				}
+			},
+			{
+				selector: 'node.active',
+				style: {
+					'border-color': '#046B5F',
+					'background-color': '#72CBC1',
+					'border-width': '2px'
+				}
+			},
 
+
+
+
+			// is_pow 类型
+			{
+				selector: '.is_pow',
+				style: {
+					'background-image': '/img/units.png',
+					'background-width': '45%',
+					'background-height': '45%',
+					'background-image-opacity': 0.9
+				}
+			},
+			// is_trustme 类型
+			{
+				selector: '.is_trustme',
+				style: {
+					'background-image': '/img/units.png',
+					'background-width': '45%',
+					'background-height': '45%',
+					'background-image-opacity': 0.9
+				}
+			},
+			// is_coinbase 类型
+			{
+				selector: '.is_coinbase',
+				style: {
+					'background-image': '/img/units.png',
 					'background-width': '45%',
 					'background-height': '45%',
 					'background-image-opacity': 0.9
 				}
 			},
 
-			// 在主链上
-			{
-				selector: '.is_on_main_chain',
-				style: { 'background-image': '/img/unitsW.png' }
-			},
-			// is_pow
-			{
-				selector: '.is_pow',
-				style: { 'background-image': '/img/powW.png' }
-			},
-			// is_trustme
-			{
-				selector: '.is_trustme',
-				style: { 'background-image': '/img/trustmeW.png' }
-			},
-			// is_coinbase
-			{
-				selector: '.is_coinbase',
-				style: { 'background-image': '/img/coinbaseW.png' }
-			},
 
 
-			// 稳定
-			{
-				selector: '.is_stable',
-				style: {	}
-			},
-			// 全部节点 深色
-			{
-				selector: '.all_nodes_change_to_dark',
-				style: {
-					'background-color': '#3192F2'
-				}
-			},
-			// 全部节点 浅色
+			// 全部节点 变成浅色
 			{
 				selector: '.all_nodes_change_to_light',
 				style: {
 					'background-color': '#BAE0FF'
 				}
 			},
-			// 失败
+			// 全部节点 变成深色
 			{
-				selector: '.finalBad',
+				selector: '.all_nodes_change_to_dark',
 				style: {
-					'background-color': '#FD955E',
+					'background-color': '#3192F2'
 				}
 			},
-			// 失败
+			// 节点 在主链上
 			{
-				selector: '.tempBad',
+				selector: '.is_on_main_chain',
 				style: {
-					'background-color': '#FD955E'
+					'border': 'none',
+					'background-color': '#3192F2',
+					'background-image': '/img/units.png', // 有背景图
+					'background-width': '45%',
+					'background-height': '45%',
+					'background-image-opacity': 0.9
 				}
 			},
-
-			// 箭头
+			// 节点 在主链上 (onblur)
 			{
-				selector: 'edge',
+				selector: '.is_on_main_chain.onblur',
+				style: {
+					'border': 'none',
+					'background-color': '#BAE0FF',
+					'background-image': '/img/units.png',
+					'background-width': '45%',
+					'background-height': '45%',
+					'background-image-opacity': 0.9
+				}
+			},
+			{
+				selector: '.is_on_main_chain.active',
+				style: {
+					'border-color': '#046B5F',
+					'background-color': '#72CBC1',
+					'border-width': '4px'
+				}
+			},
+			{
+				selector: 'edge', // 箭头
 				style: {
 					'width': 1,
 					'target-arrow-shape': 'triangle',
@@ -158,9 +196,8 @@ function createCy() {
 					'curve-style': 'bezier',
 				}
 			},
-			// 指向最优父节点箭头
 			{
-				selector: '.best_parent_unit',
+				selector: '.best_parent_unit', // 指向最优父节点箭头
 				style: {
 					'width': 4,
 					'target-arrow-shape': 'triangle',
@@ -169,63 +206,50 @@ function createCy() {
 					'curve-style': 'bezier',
 				}
 			},
-
-			// {
-			// 	selector: 'node.press',
-			// 	style: {
-			// 		'background-color': '#30A598',
-			// 		'border-color': '#30A598',
-			// 	}
-			// },
-			// {
-			// 	selector: 'node.active',
-			// 	style: {
-			// 		'border-color': '#046B5F',
-			// 		'background-color': '#72CBC1',
-			// 		'border-width': '2px'
-			// 	}
-			// },
-			// 节点 在主链上 (onblur)
-			// {
-			// 	selector: '.is_on_main_chain.onblur',
-			// 	style: {
-			// 		'border': 'none',
-			// 		'background-color': '#BAE0FF',
-			// 		'background-image': '/img/units.png',
-			// 		'background-width': '45%',
-			// 		'background-height': '45%',
-			// 		'background-image-opacity': 0.9
-			// 	}
-			// },
-			// {
-			// 	selector: '.is_on_main_chain.active',
-			// 	style: {
-			// 		'border-color': '#046B5F',
-			// 		'background-color': '#72CBC1',
-			// 		'border-width': '4px'
-			// 	}
-			// },
+			{
+				selector: '.is_stable', // 稳定
+				style: {
+					// 'border-width': 4,
+					// 'border-style': 'solid',
+					// 'border-color': '#209285',
+					'background-color': '#3192F2'
+				}
+			},
 			{
 				selector: 'node.hover',//node hover
 				style: {
-					//'content': 'data(unit_s)',
-					//'content': '&lt; h1 &gt; 你好  &lt; / h1 &gt;',
+					'content': 'data(unit_s)',
+					//'content': '这是详细信息' + '\n' + 'data(unit_s)',
 					'background-color': '#9EEAE1',
 					'border-color': '#9EEAE1',
 				}
 			},
-			// {
-			// 	selector: '.is_on_main_chain.hover',
-			// 	style: {
-			// 		'background-color': '#9EEAE1',
-			// 		'border-color': '#30A598',
-			// 	}
-			// },
+			{
+				selector: '.is_on_main_chain.hover',
+				style: {
+					'background-color': '#9EEAE1',
+					'border-color': '#30A598',
+				}
+			},
 			{
 				selector: '.is_on_main_chain.press',//node hover
 				style: {
 					'background-color': '#30A598',
 					'border-color': '#30A598',
+				}
+			},
+			{
+				selector: '.finalBad',
+				style: {
+					'background-color': '#FD955E',
+					'border-color': '#FD955E',
+				}
+			},
+			{
+				selector: '.tempBad',	//交易失败
+				style: {
+					'background-color': '#FD955E',
+					'border-color': '#FD955E',
 				}
 			}
 		],
@@ -235,123 +259,46 @@ function createCy() {
 		}
 	});
 
-	// 选择类型
+
+	// 选择：主链 非主链
 	_cy.on('choosenIfOnMainChian', function (evt,v) {
-		// 非主链
+		//console.log(_cy.nodes().length)
+		//var arrr = [];
 		if (v == 'notMainChain') {
 			_cy.nodes().forEach(function (node) {
+				//console.log(node);
+				node.removeClass('all_nodes_change_to_light');
 				node.addClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_on_main_chain_empty')) {
-					node.removeClass('all_nodes_change_to_dark');
+				if (node.hasClass('is_on_main_chain')) {
+					node.addClass('onblur');
+					//arrr.push(node)
 				}
 			});
+			//console.log(arrr.length)
 		}
-		// 主链
+
 		if (v == 'MainChain') {
 			_cy.nodes().forEach(function (node) {
 				node.removeClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_on_main_chain_empty')) {
-					node.addClass('all_nodes_change_to_dark');
-				}
-			});
-		}
-		// 稳定
-		if (v == 'is_static') {
-			_cy.nodes().forEach(function (node) {
-				node.removeClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_stable')) {
-					node.addClass('all_nodes_change_to_dark');
-				}
-			});
-		}
-
-		// is_pow
-		if (v == 'is_pow') {
-			_cy.nodes().forEach(function (node) {
-				node.removeClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_pow')) {
-					node.addClass('all_nodes_change_to_dark');
-				}
-			});
-		}
-		// is_trustme
-		if (v == 'is_trustme') {
-			_cy.nodes().forEach(function (node) {
-				node.removeClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_trustme')) {
-					node.addClass('all_nodes_change_to_dark');
-				}
-			});
-		}
-		// is_coinbase
-		if (v == 'is_coinbase') {
-			_cy.nodes().forEach(function (node) {
-				node.removeClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_coinbase')) {
-					node.addClass('all_nodes_change_to_dark');
+				node.addClass('all_nodes_change_to_light');
+				if (node.hasClass('is_on_main_chain')) {
+					node.removeClass('onblur');
 				}
 			});
 		}
 	});
+
+
 
 
 	_cy.on('mouseover', 'node', function () {
 		this.addClass('hover');
-		 console.log(this);
-		 console.log(this._private.classes);
-		var _this = this;
-		
-		function getMousePos(event) {
-			var e = event || window.event;
-			//console.log(e.clientX+'******'+e.clientY+scrollY);
-			$("#nodeDetails").css('display','block').css('top', Math.abs(e.clientY+scrollY)).css('left', Math.abs(e.clientX)+20);
-			if(_this._private.classes.is_pow){
-				$("#statusIsPow").css('display','block');
-				$("#statusIsTrustme").css('display','none');
-				$("#statusIsCoinbase").css('display','none');
-			}
-			if(_this._private.classes.is_trustme){
-				$("#statusIsTrustme").css('display','block');
-				$("#statusIsPow").css('display','none');
-				$("#statusIsCoinbase").css('display','none');
-			}
-			if(_this._private.classes.is_coinbase){
-				$("#statusIsCoinbase").css('display','block');
-				$("#statusIsPow").css('display','none');
-				$("#statusIsTrustme").css('display','none');
-			}
-
-			if(_this._private.classes.is_stable){
-				$("#statusIsStable").css('display','block');
-			}
-			if(_this._private.classes.is_on_main_chain_empty){
-				$("#statusIsMainChain").css('display','block');
-			}
-
-			if(_this._private.classes.is_pow || _this._private.classes.is_trustme || _this._private.classes.is_coinbase){
-				$("#statusIsIssued").css('display','block');
-				$("#statusIsIssuedTxT").text(_this._private.data.round_index);
-			}
-		};
-		getMousePos();
-		
 	});
 	_cy.on('mouseout', 'node', function () {
 		this.removeClass('hover');
-		$("#nodeDetails").css('display','none');
-		$("#statusIsCoinbase").css('display','none');
-		$("#statusIsPow").css('display','none');
-		$("#statusIsTrustme").css('display','none');
-
-		$("#statusIsStable").css('display','none');
-		$("#statusIsMainChain").css('display','none');
-
-		$("#statusIsIssued").css('display','none');
 	});
-
 	_cy.on('mousedown', 'node', function () {
 		this.addClass('press');
-		location.href = './detail#' + this._private.data.id;
 	});
 	_cy.on('mouseup', 'node', function () {
 		this.removeClass('press');
@@ -447,15 +394,14 @@ function generate(_nodes, _edges) {
 		_node = graph.node(unit);
 		if (_node) {
 			classes = '';
-			if (_node.is_on_main_chain) classes = 'is_on_main_chain';
-			if (_node.is_stable) classes += ' is_stable';
-			if (_node.pow_type == '1') classes = 'is_pow';
-			if (_node.pow_type == '2') classes = 'is_trustme';
-			if (_node.pow_type == '3') classes = 'is_coinbase';
-			if (_node.sequence === 'final-bad') classes = 'finalBad';
-			if (_node.sequence === 'temp-bad') classes = 'tempBad';
-			if (_node.is_on_main_chain) classes += ' is_on_main_chain_empty';
-			
+			if (_node.is_on_main_chain) classes += 'is_on_main_chain';
+			if (_node.is_stable) classes += 'is_stable';
+			if (_node.pow_type == '1' ) classes += 'is_pow';
+			if (_node.pow_type == '2' ) classes += 'is_trustme';
+			if (_node.pow_type == '3' ) classes += 'is_coinbase';
+			if (_node.sequence === 'final-bad') classes += 'finalBad';
+			if (_node.sequence === 'temp-bad') classes += 'tempBad';
+
 			if (!first) {
 				newOffset_y = -_node.y - ((right - left) / 2);
 				newOffset_x = generateOffset - _node.x + 66; // var generateOffset = 0
@@ -465,7 +411,7 @@ function generate(_nodes, _edges) {
 				_cy.remove(_cy.getElementById(unit));
 				generateAdd.push({
 					group: "nodes",
-					data: {id: unit, unit_s: _node.label, round_index:_node.round_index},
+					data: {id: unit, unit_s: _node.label},
 					position: {y: phantoms[unit], x: _node.x + newOffset_x},
 					classes: classes
 				});
@@ -478,7 +424,7 @@ function generate(_nodes, _edges) {
 				}
 				generateAdd.push({
 					group: "nodes",
-					data: {id: unit, unit_s: _node.label, round_index:_node.round_index},
+					data: {id: unit, unit_s: _node.label},
 					position: {y: pos_iomc, x: _node.x + newOffset_x},
 					classes: classes
 				});
@@ -555,15 +501,13 @@ function setNew(_nodes, _edges, newUnits) {
 		_node = graph.node(unit);
 		if (_node) {
 			classes = '';
-			if (_node.is_on_main_chain) classes = 'is_on_main_chain';
-			if (_node.is_stable) classes += ' is_stable';
-			if (_node.pow_type == '1') classes = 'is_pow';
-			if (_node.pow_type == '2') classes = 'is_trustme';
-			if (_node.pow_type == '3') classes = 'is_coinbase';
-			if (_node.sequence === 'final-bad') classes = 'finalBad';
-			if (_node.sequence === 'temp-bad') classes = 'tempBad';
-			if (_node.is_on_main_chain) classes += ' is_on_main_chain_empty';
-
+			if (_node.is_on_main_chain) classes += 'is_on_main_chain';
+			if (_node.is_stable) classes += 'is_stable';
+			if (_node.pow_type == '1' ) classes += 'is_pow';
+			if (_node.pow_type == '2' ) classes += 'is_trustme';
+			if (_node.pow_type == '3' ) classes += 'is_coinbase';
+			if (_node.sequence === 'final-bad') classes += 'finalBad';
+			if (_node.sequence === 'temp-bad') classes += 'tempBad';
 			if (!first) {
 				newOffset_y = -_node.y - ((right - left) / 2);
 				newOffset_x = newOffset - (max - min) + 66;
@@ -577,7 +521,7 @@ function setNew(_nodes, _edges, newUnits) {
 				_cy.remove(_cy.getElementById(unit));
 				generateAdd.push({
 					group: "nodes",
-					data: {id: unit, unit_s: _node.label, round_index:_node.round_index},
+					data: {id: unit, unit_s: _node.label},
 					position: {y: phantomsTop[unit], x: _node.x + newOffset_x},
 					classes: classes
 				});
@@ -589,7 +533,7 @@ function setNew(_nodes, _edges, newUnits) {
 				}
 				generateAdd.push({
 					group: "nodes",
-					data: {id: unit, unit_s: _node.label, round_index:_node.round_index},
+					data: {id: unit, unit_s: _node.label},
 					position: {y: pos_iomc, x: _node.x + newOffset_x},
 					classes: classes
 				});
@@ -1279,17 +1223,6 @@ socket.on('staticdata', function (data) {
 	$('#totalFees').text(numberFormat(data.totalFees.toString()));
 })
 
-// 已挖出 难度系数
-socket.on('coinbase_mined', function (data) {
-	console.log(data.issuedCoinbase)
-	console.log(data.difficulty)
-	current_round_index = data.round_index;
-	$('#issuedCoin').text((data.issuedCoinbase/1000000).toString());
-	$('#nonIssuedCoin').text((500000000 - (data.issuedCoinbase/1000000)).toString());
-	$('#roundSwitch').text(numberFormat(data.round_index.toString()));
-	$('#difficulty').text(numberFormat(data.difficulty.toString()));
-})
-
 function getNew() {
 	if (notLastUnitUp) return;
 
@@ -1459,29 +1392,3 @@ function htmlEscape(str) {
 		.replace(/</g, '&lt;')
 		.replace(/>/g, '&gt;');
 }
-
-// 定时器 去获取当前轮次的 状态
-setInterval(fnGetRoundStatus, 5000);
-function fnGetRoundStatus(){
-	socket.emit('getRoundStatus', {round_index: current_round_index});
-}
-
-// 每一轮 详细状态
-//var currentNumPow = 8;
-socket.on('getRoundStatus', function (roundStatus) {
-	//console.log('#################'+JSON.stringify(roundStatus));
-	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
-	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
-	$('#numPow').text(roundStatus.countofPOWUnit);
-
-	$('#roundSwitchNext').text(numberFormat((current_round_index + 1).toString()));
-	$('#roundSwitchStillPow').text(8 - roundStatus.countofPOWUnit);
-
-	$("#0").circleChart({
-		value: (8 - roundStatus.countofPOWUnit)/8 * 100,
-		onDraw: function (el, circle) {
-			circle.text(8 - roundStatus.countofPOWUnit + 'PoW');
-		}
-	});
-	
-})
