@@ -68,6 +68,7 @@ Socket.IO支持如下方式的通信方式，根据浏览器的支持程度，�
 */
 io.on('connection', function(socket) {
 	socket.on('staticdata', ws.staticdata);
+	socket.on('getRoundStatus', ws.getRoundStatus);
 	socket.on('start', ws.start);
 	socket.on('next', ws.next);
 	socket.on('prev', ws.prev);

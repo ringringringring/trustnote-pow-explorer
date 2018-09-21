@@ -177,6 +177,15 @@ function staticdata(){
 	var data =  staticslib.getStatistics();
 	ws.emit('staticdata',data);
 }
+
+function getRoundStatus(data){
+	console.log("get round -staticdata")
+	var ws = this;
+	staticslib.getRoundStatus(data.round_index, function(roundStatus){
+		ws.emit('getRoundStatus', roundStatus);
+	});
+}
+
 exports.start = start;
 exports.next = next;
 exports.prev = prev;
@@ -185,3 +194,4 @@ exports.info = info;
 exports.highlightNode = highlightNode;
 exports.nextPageTransactions = nextPageTransactions;
 exports.staticdata = staticdata;
+exports.getRoundStatus = getRoundStatus;

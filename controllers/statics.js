@@ -110,8 +110,32 @@ function getStatistics(){
 	return data;
 }
 
+function getRoundStatus(round_index,callback){
+	var data = {};
+	db.query("SELECT \n\
+		FROM units \n\
+		WHERE round_index =? and pow_type IS NOT NULL ", [round_index], function(rows) {
+			var arrPowunits = rows.filter(function (unit){
+				return unit.pow_type == 1 ;
+			});
+			var arrTrustMEunits = rows.filter(function (unit){
+				return unit.pow_type == 2 ;
+			});
+			var arrCoinbaseunits = rows.filter(function (unit){
+				return unit.pow_type == 3 ;
+			});
+
+			data['countofPOWUnit'] = arrPowunits.length;
+			data['countofTrustMEUnit'] = arrTrustMEunits.length;
+			data['countofCoinbaseUnit'] = arrCoinbaseunits.length;
+			callback(data);
+		});
+
+}
+
 
 exports.getStatistics = getStatistics;
+exports.getRoundStatus = getRoundStatus;
 setTimeout(updateStatistics,1000*5);
 setInterval(updateStatistics,10*60*1000);
 
