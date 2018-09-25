@@ -105,56 +105,56 @@
 		<div class="top3">
 			<div class="box">
 				<div class="personBox">
-					<img src="img/personB.png" alt="">
+					<img class="personBoxImg" src="img/personB.png" alt="">
 				</div>
 				<p> #1 </p>
 			</div>
 
 			<div class="box">
 				<div class="personBox">
-					<img src="img/personB.png" alt="">
+					<img class="personBoxImg" src="img/personB.png" alt="">
 				</div>
 				<p> #2 </p>
 			</div>
 
 			<div class="box">
 				<div class="personBox">
-					<img src="img/personB.png" alt="">
+					<img class="personBoxImg" src="img/personB.png" alt="">
 				</div>
 				<p> #3 </p>
 			</div>
 
 			<div class="box">
 				<div class="personBox">
-					<img src="img/personB.png" alt="">
+					<img class="personBoxImg" src="img/personB.png" alt="">
 				</div>
 				<p> #4 </p>
 			</div>
 
 			<div class="box">
 				<div class="personBox">
-					<img src="img/personB.png" alt="">
+					<img class="personBoxImg" src="img/personB.png" alt="">
 				</div>
 				<p> #5 </p>
 			</div>
 
 			<div class="box">
 				<div class="personBox">
-					<img src="img/personB.png" alt="">
+					<img class="personBoxImg" src="img/personB.png" alt="">
 				</div>
 				<p> #6 </p>
 			</div>
 
 			<div class="box">
 				<div class="personBox">
-					<img src="img/personB.png" alt="">
+					<img class="personBoxImg" src="img/personB.png" alt="">
 				</div>
 				<p> #7 </p>
 			</div>
 
 			<div class="box noMargin">
 				<div class="personBox">
-					<img src="img/personB.png" alt="">
+					<img class="personBoxImg" src="img/personB.png" alt="">
 				</div>
 				<p> #8 </p>
 			</div>
@@ -168,7 +168,6 @@
 
 <!-- 主链 -->
 <div class="canvasBox" id="canvasBox" onselectstart="return false">
-	<a href="#" name="dagbox" id="dagbox"></a>
 	<div class="typeChoosen">
 		<div class="unitPosition">
 			<p>单元位置</p>
@@ -196,7 +195,7 @@
 		<div id="cy"></div>
 	</div>
 
-	<a id="goToTop" onclick="goToTop()" href="#dagbox">
+	<a id="goToTop" onclick="goToTop()">
 		<div id="titleGoToTop">Go to top</div>
 	</a>
 
@@ -260,10 +259,14 @@
 		background: true,
 		speed: 2000,
 		size: 120,
+		textSize: 24,
+		textWeight: 'bold',
 		widthRatio:0.2,
 		startAngle: 75,
 		value: 100,
-		// text: 100,
+		onDraw: function (el, circle) {
+			circle.text(8 + ' PoW');
+		},
 		redraw: false
 	});
 	// 倒计时 效果 结束
@@ -271,9 +274,6 @@
 </body>
 </html>
 <!-- <div id="menu" class="rowFull">
-	<div id="menuLeft">
-		<a href="http://explorer.trustnote.org" id="menuLeftImg"><img src="/img/Trustnote_logo.png"></a>
-	</div>
 	<div id="menuRight">
 		<div id="menuInput">
 			<form action="javascript:searchForm($('#inputSearch').val())" method="post">

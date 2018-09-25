@@ -19,22 +19,6 @@ body {
 	background-color: #3192F2;
 }
 
-#menuLeft {
-	/*padding: 7px;*/
-	margin-left: 32px;
-}
-
-#menuLeftImg {
-	float: left;
-	margin-right: 5px;
-	height: 78px;
-	line-height: 78px;
-}
-
-#menuLeftImg > img {
-	/*width: 40px;*/
-	vertical-align: middle;
-}
 
 #menuLeftTitle {
 	float: left;
@@ -519,21 +503,6 @@ pre {
 		height: 4rem;
 	}
 
-	#menuLeft {
-		margin-left: 1.2rem;
-		overflow: hidden;
-	}
-
-	#menuLeftImg {
-		height: 4rem;
-		line-height: 4rem;
-	}
-
-	#menuLeftImg img {
-		
-		max-width: 100%;
-	}
-
 	#menuLeftTitle {
 		height: 4rem;
 	}
@@ -846,7 +815,8 @@ div.top2 {
 }
 div.top2 div {
 	float: left;
-	width: 25%;
+	width: 33%;
+	text-align: center;
 }
 div.top2 div span {
 	margin-left: 15px;

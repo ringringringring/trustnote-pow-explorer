@@ -111,8 +111,6 @@ function createCy() {
 				selector: '.is_coinbase',
 				style: { 'background-image': '/img/coinbaseW.png' }
 			},
-
-
 			// 稳定
 			{
 				selector: '.is_stable',
@@ -123,13 +121,6 @@ function createCy() {
 				selector: '.all_nodes_change_to_dark',
 				style: {
 					'background-color': '#3192F2'
-				}
-			},
-			// 全部节点 浅色
-			{
-				selector: '.all_nodes_change_to_light',
-				style: {
-					'background-color': '#BAE0FF'
 				}
 			},
 			// 失败
@@ -146,6 +137,7 @@ function createCy() {
 					'background-color': '#FD955E'
 				}
 			},
+
 
 			// 箭头
 			{
@@ -169,63 +161,13 @@ function createCy() {
 					'curve-style': 'bezier',
 				}
 			},
-
-			// {
-			// 	selector: 'node.press',
-			// 	style: {
-			// 		'background-color': '#30A598',
-			// 		'border-color': '#30A598',
-			// 	}
-			// },
-			// {
-			// 	selector: 'node.active',
-			// 	style: {
-			// 		'border-color': '#046B5F',
-			// 		'background-color': '#72CBC1',
-			// 		'border-width': '2px'
-			// 	}
-			// },
-			// 节点 在主链上 (onblur)
-			// {
-			// 	selector: '.is_on_main_chain.onblur',
-			// 	style: {
-			// 		'border': 'none',
-			// 		'background-color': '#BAE0FF',
-			// 		'background-image': '/img/units.png',
-			// 		'background-width': '45%',
-			// 		'background-height': '45%',
-			// 		'background-image-opacity': 0.9
-			// 	}
-			// },
-			// {
-			// 	selector: '.is_on_main_chain.active',
-			// 	style: {
-			// 		'border-color': '#046B5F',
-			// 		'background-color': '#72CBC1',
-			// 		'border-width': '4px'
-			// 	}
-			// },
+			// hover 样式
 			{
-				selector: 'node.hover',//node hover
+				selector: 'node.hover',
 				style: {
 					//'content': 'data(unit_s)',
-					//'content': '&lt; h1 &gt; 你好  &lt; / h1 &gt;',
 					'background-color': '#9EEAE1',
 					'border-color': '#9EEAE1',
-				}
-			},
-			// {
-			// 	selector: '.is_on_main_chain.hover',
-			// 	style: {
-			// 		'background-color': '#9EEAE1',
-			// 		'border-color': '#30A598',
-			// 	}
-			// },
-			{
-				selector: '.is_on_main_chain.press',//node hover
-				style: {
-					'background-color': '#30A598',
-					'border-color': '#30A598',
 				}
 			}
 		],
@@ -295,10 +237,11 @@ function createCy() {
 	});
 
 
+	// node hover 时显示浮窗
 	_cy.on('mouseover', 'node', function () {
 		this.addClass('hover');
-		 console.log(this);
-		 console.log(this._private.classes);
+		//console.log(this);
+		//console.log(this._private.classes);
 		var _this = this;
 		
 		function getMousePos(event) {
@@ -349,42 +292,15 @@ function createCy() {
 		$("#statusIsIssued").css('display','none');
 	});
 
-	_cy.on('mousedown', 'node', function () {
+	// 点击 node 跳转到 详细页面
+	_cy.on('mousedown', 'node', function (evt) {
 		this.addClass('press');
-		location.href = './detail#' + this._private.data.id;
+		location.href = './detail#' +  evt.cyTarget.id();
 	});
 	_cy.on('mouseup', 'node', function () {
 		this.removeClass('press');
 	});
 
-	_cy.on('mouseover', '.is_on_main_chain', function () {
-		this.addClass('hover');
-	});
-	_cy.on('mouseout', '.is_on_main_chain', function () {
-		this.removeClass('hover');
-	});
-	_cy.on('mousedown', '.is_on_main_chain', function () {
-		this.addClass('press');
-	});
-	_cy.on('mouseup', '.is_on_main_chain', function () {
-		this.removeClass('press');
-	});
-
-	_cy.on('click', 'node', function (evt) {
-		location.hash = '#' + evt.cyTarget.id();
-		this.addClass('active');
-	});
-	_cy.on('click', '.is_on_main_chain', function (evt) {
-		this.addClass('active');
-	});
-
-	_cy.on('tap', 'node', function (evt) {
-		location.hash = '#' + evt.cyTarget.id();
-		this.addClass('active');
-	});
-	_cy.on('tap', '.is_on_main_chain', function (evt) {
-		this.addClass('active');
-	});
 
 	_cy.on('pan', function () {
 		var ext = _cy.extent();
@@ -898,7 +814,7 @@ socket.on('connect', function () {
 socket.on('start', function (data) {
 	init(data.nodes, data.edges);
 
-	console.log('---------------'+JSON.stringify(data.nodes[0]))
+	//console.log('---------------'+JSON.stringify(data.nodes[0]))
 	// {
 	// 	"data": {
 	// 		"unit": "InbbVcdQkkCkC6Qapl+g8WNwruinJoSART9o/UrBZN0=",
@@ -966,161 +882,6 @@ socket.on('prev', function (data) {
 	setChangesStableUnits(data.arrStableUnits);
 });
 
-function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissions) {
-	var messagesOut = '', blockId = 0, key, asset, shownHiddenPayments = false;
-	messages.forEach(function (message) {
-		if (message.payload) {
-			asset = message.payload.asset || 'null';
-			messagesOut +=
-				'<div class="message">' //+
-			//'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
-			if (message.app == 'payment') {
-				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1) + ' in ' + (asset == 'null' ? 'notes' : asset);
-			}
-			else if (message.app == 'asset') {
-				//messagesOut += 'Definition of new asset';
-			}
-			else {
-				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1);
-			}
-			messagesOut += //'</div>' +
-				'<div class="messagesInfo" id="message_' + (blockId++) + '">';
-
-			switch (message.app) {
-				case 'payment':
-					if (message.payload) {
-						messagesOut += '<div class="message_inputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Inputs<div class="infoTitleImg"></div></div>' +
-							'<div class="inputsInfo" id="message_' + (blockId++) + '">';
-
-						message.payload.inputs.forEach(function (input) {
-							if (input.type && input.type == 'issue') {
-								messagesOut +=
-									'<div class="infoTitleInput" onclick="showHideBlock(event, \'message_' + blockId + '\')">Issue</div>' +
-									'<div class="inputInfo" id="message_' + (blockId++) + '">' +
-									'<div>Serial number: ' + input.serial_number + '</div>' +
-									'<div>Amount: <span class="numberFormat">' + input.amount + '</span></div>' +
-									'</div>';
-							}
-							else if (input.output_index !== undefined) {
-								key = input.unit + '_' + input.output_index + '_' + (asset);
-								messagesOut += '<div><span class="numberFormat">' + transfersInfo[key].amount + '</span> from ' +
-									'<a href="#' + transfersInfo[key].unit + '">' + transfersInfo[key].unit + '</a></div>';
-							} else if (input.type === 'headers_commission' || input.type === 'witnessing') {
-								key = input.from_main_chain_index + '_' + input.to_main_chain_index;
-								var objName = (input.type === 'headers_commission' ? 'headers' : (input.type === 'witnessing' ? 'witnessing' : false));
-								if (objName) {
-									messagesOut += '<div><span class="numberFormat">' + assocCommissions[objName][key].sum + '</span> notes of ' + objName + ' commissions on <a href="#' + assocCommissions[objName][key].address + '">' + assocCommissions[objName][key].address + '</a>' +
-										' from mci ' + assocCommissions[objName][key].from_mci + ' to mci ' + assocCommissions[objName][key].to_mci + '</div>';
-								}
-							}
-						});
-
-						messagesOut += '</div></div>' +
-							'<div class="message_outputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Outputs<div class="infoTitleImg"></div></div>' +
-							'<div class="inputsInf" id="message_' + (blockId++) + '">';
-
-						outputsUnit[asset].forEach(function (output) {
-							messagesOut += '<div class="outputs_div">';
-							if (output.is_spent) {
-								messagesOut += '<div><span class="numberFormat">' + output.amount + '</span> to <a href="detail#' + output.address + '">' + output.address + '</a><br> ' +
-									'(spent in <a href="#' + output.spent + '">' + output.spent + '</a>)</div>';
-							}
-							else {
-								messagesOut += '<div><span class="numberFormat">' + output.amount + '</span> to <a href="detail#' + output.address + '">' + output.address + '</a><br> (not spent)</div>';
-							}
-							messagesOut += '</div>';
-						});
-
-						messagesOut += '</div></div>';
-					}
-					break;
-				case 'text':
-					messagesOut += '<div>Text: ' + htmlEscape(message.payload) + '</div>';
-					break;
-				default:
-					for (var key_payload in message.payload) {
-						if (message.app == 'asset' && key_payload == 'denominations') {
-							messagesOut += '<div>denominations:</div><div>';
-							messagesOut += JSON.stringify(message.payload[key_payload]);
-							messagesOut += '</div>';
-						}
-						else if (typeof message.payload[key_payload] === "object") {
-							messagesOut += '<div>' + htmlEscape(key_payload) + ':</div><div>';
-							messagesOut += htmlEscape(JSON.stringify(message.payload[key_payload]));
-							messagesOut += '</div>';
-						} else {
-							messagesOut += '<div>' + htmlEscape(key_payload + ': ' + message.payload[key_payload]) + '</div>';
-						}
-					}
-					break;
-			}
-			messagesOut += '</div></div>';
-		} else if (message.app == 'payment' && message.payload_location == 'none' && !shownHiddenPayments) {
-			messagesOut += '<div class="message childNotSpoiler">Hidden payments</div>';
-			shownHiddenPayments = true;
-		}
-	});
-	return messagesOut;
-}
-
-socket.on('info', function (data) {
-	if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
-	if (data) {
-		var childOut = '', parentOut = '', authorsOut = '', witnessesOut = '';
-		data.child.forEach(function (unit) {
-			childOut += '<div><a href="#' + unit + '">' + unit + '</a></div>';
-		});
-		data.parents.forEach(function (unit) {
-			parentOut += '<div><a href="#' + unit + '">' + unit + '</a></div>';
-		});
-		var incAuthors = 0;
-		data.authors.forEach(function (author) {
-			//authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
-			authorsOut += '<a href="detail#' + author.address + '">' + author.address + '</a>';
-			/*
-			if (author.definition) {
-				authorsOut += '<span class="infoTitle hideTitle" class="definitionTitle" onclick="showHideBlock(event, \'definition' + incAuthors + '\')">Definition<div class="infoTitleImg"></div></span>' +
-					'<div id="definition' + (incAuthors++) + '" style="display: none"><pre>' + JSON.stringify(JSON.parse(author.definition), null, '   ') + '</pre></div>';
-
-			}
-			*/
-			//authorsOut += '</div>';
-			authorsOut += '';
-		});
-		// data.witnesses.forEach(function (witness) {
-		// 	witnessesOut += '<div><a href="#' + witness + '">' + witness + '</a></div>';
-		// });
-
-		$('#unit').html(data.unit);
-		$('#children').html(childOut);
-		$('#parents').html(parentOut);
-		$('#authors').html(authorsOut);
-		$('#received').html(moment(data.date).format('DD.MM.YYYY HH:mm:ss'));
-		$('#fees').html('<span class="numberFormat">' + (parseInt(data.headers_commission) + parseInt(data.payload_commission)) + '</span> (<span class="numberFormat">' + data.headers_commission + '</span> headers, <span class="numberFormat">' + data.payload_commission + '</span> payload)');
-		$('#last_ball_unit').html('<a href="#' + data.last_ball_unit + '">' + data.last_ball_unit + '</a>');
-		$('#level').html(data.level);
-		$('#witnessed_level').html(data.witnessed_level);
-		$('#main_chain_index').html(data.main_chain_index);
-		$('#latest_included_mc_index').html(data.latest_included_mc_index);
-		$('#is_stable').html(data.is_stable);
-		$('#witnesses').html(witnessesOut);
-		$('#messages').html(data.sequence === 'final-bad' ? '' : generateMessageInfo(data.messages, data.transfersInfo, data.outputsUnit, data.assocCommissions));
-		if ($('#listInfo').css('display') === 'none') {
-			$('#defaultInfo').hide();
-			$('#listInfo').show();
-		}
-		if (data.sequence === 'final-bad') {
-			$('#divTitleMessage,#divFees').hide();
-		} else {
-			$('#divTitleMessage,#divFees').show();
-		}
-		adaptiveShowInfo();
-		formatAllNumbers();
-	}
-	else {
-		showInfoMessage("Unit not found");
-	}
-});
 
 socket.on('update', getNew);
 
@@ -1281,8 +1042,8 @@ socket.on('staticdata', function (data) {
 
 // 已挖出 难度系数
 socket.on('coinbase_mined', function (data) {
-	console.log(data.issuedCoinbase)
-	console.log(data.difficulty)
+	//console.log(data.issuedCoinbase)
+	//console.log(data.difficulty)
 	current_round_index = data.round_index;
 	$('#issuedCoin').text((data.issuedCoinbase/1000000).toString());
 	$('#nonIssuedCoin').text((500000000 - (data.issuedCoinbase/1000000)).toString());
@@ -1477,10 +1238,17 @@ socket.on('getRoundStatus', function (roundStatus) {
 	$('#roundSwitchNext').text(numberFormat((current_round_index + 1).toString()));
 	$('#roundSwitchStillPow').text(8 - roundStatus.countofPOWUnit);
 
+	$('.personBox').css('background','#E9EFF7');
+	$('.personBoxImg').attr('src','img/personB.png');
+	for(var i = 0; i < roundStatus.countofPOWUnit; i++){
+		$('.personBox').eq(i).css('background','#3192F2');
+		$('.personBoxImg').eq(i).attr('src','img/personW.png');
+	}
+
 	$("#0").circleChart({
 		value: (8 - roundStatus.countofPOWUnit)/8 * 100,
 		onDraw: function (el, circle) {
-			circle.text(8 - roundStatus.countofPOWUnit + 'PoW');
+			circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
 		}
 	});
 	
