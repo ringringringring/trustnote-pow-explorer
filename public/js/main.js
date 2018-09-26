@@ -9,7 +9,7 @@ var lastActiveUnit;
 var page, isInit = false;
 var queueAnimationPanUp = [], animationPlaysPanUp = false;
 
-var current_round_index = 1;
+var current_round_index = -1;
 
 function init(_nodes, _edges) {
 	nodes = _nodes;
@@ -40,7 +40,7 @@ function init(_nodes, _edges) {
 
 	if (location.hash && location.hash.length == 45) {
 		notLastUnitUp = true;
-		highlightNode(location.hash.substr(1));
+		//highlightNode(location.hash.substr(1));
 	}
 	isInit = true;
 }
@@ -673,38 +673,38 @@ function cloneObj(obj) {
 	return out;
 }
 
-function highlightNode(unit) {
-	if (!_cy) createCy();
-	if (activeNode) _cy.getElementById(activeNode).removeClass('active');
-	var el = _cy.getElementById(unit);
-	if (el.length && phantoms[unit] === undefined && phantomsTop[unit] === undefined) {
-		var extent = _cy.extent();
-		// var elPositionY = el.position().y;
-		var elPositionX = el.position().x;
-		lastActiveUnit = location.hash.substr(1);
-		el.addClass('active');
-		activeNode = el.id();
-		socket.emit('info', {unit: activeNode});
-		if (elPositionX < extent.x1 || elPositionX > extent.x2) {
-			bWaitingForPrev = true;
-			_cy.stop();
-			_cy.animate({
-				pan: {y: _cy.pan('y'), x: _cy.getCenterPan(el).x},
-				complete: function () {
-					bWaitingForPrev = false;
-				}
-			}, {
-				duration: 250
-			});
-		}
-		page = 'dag';
-	}
-	else {
-		waitGo = unit;
-		getHighlightNode(waitGo);
-	}
-	return false;
-}
+// function highlightNode(unit) {
+// 	if (!_cy) createCy();
+// 	if (activeNode) _cy.getElementById(activeNode).removeClass('active');
+// 	var el = _cy.getElementById(unit);
+// 	if (el.length && phantoms[unit] === undefined && phantomsTop[unit] === undefined) {
+// 		var extent = _cy.extent();
+// 		// var elPositionY = el.position().y;
+// 		var elPositionX = el.position().x;
+// 		lastActiveUnit = location.hash.substr(1);
+// 		el.addClass('active');
+// 		activeNode = el.id();
+// 		socket.emit('info', {unit: activeNode});
+// 		if (elPositionX < extent.x1 || elPositionX > extent.x2) {
+// 			bWaitingForPrev = true;
+// 			_cy.stop();
+// 			_cy.animate({
+// 				pan: {y: _cy.pan('y'), x: _cy.getCenterPan(el).x},
+// 				complete: function () {
+// 					bWaitingForPrev = false;
+// 				}
+// 			}, {
+// 				duration: 250
+// 			});
+// 		}
+// 		page = 'dag';
+// 	}
+// 	else {
+// 		waitGo = unit;
+// 		getHighlightNode(waitGo);
+// 	}
+// 	return false;
+// }
 
 function scrollUp() {
 	var ext = _cy.extent();
@@ -769,7 +769,7 @@ function goToTop() {
 // 哈希 值变化
 window.addEventListener('hashchange', function () {
 	if (location.hash.length == 45) {
-		highlightNode(location.hash.substr(1));
+		//highlightNode(location.hash.substr(1));
 		if ($('#addressInfo').css('display') == 'block') {
 			$('#addressInfo').hide();
 		}
@@ -831,7 +831,7 @@ socket.on('start', function (data) {
 	notLastUnitDown = true;
 	if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
 	if (!notLastUnitUp && (location.hash.length != 33)) {
-		highlightNode(data.nodes[0].data.unit);
+		//highlightNode(data.nodes[0].data.unit);
 	}
 	socket.emit('staticdata');
 });
@@ -849,7 +849,7 @@ socket.on('next', function (data) {
 		generate(data.nodes, data.edges);
 		bWaitingForNext = false;
 		if (waitGo) {
-			highlightNode(waitGo);
+			//highlightNode(waitGo);
 			waitGo = false;
 		}
 		if (data.nodes.length === 0) {
@@ -876,7 +876,7 @@ socket.on('prev', function (data) {
 		notLastUnitUp = false;
 	}
 	if (waitGo) {
-		highlightNode(waitGo);
+		//highlightNode(waitGo);
 		waitGo = false;
 	}
 	setChangesStableUnits(data.arrStableUnits);
@@ -907,114 +907,6 @@ socket.on('new', function (data) {
 	setChangesStableUnits(data.arrStableUnits);
 });
 
-function generateTransactionsList(objTransactions, address) {
-	var transaction, addressOut, _addressTo, listTransactions = '';
-	for (var k in objTransactions) {
-		transaction = objTransactions[k];
-
-		listTransactions += '<tr>' +
-			'<th class="transactionUnit" colspan="2" align="left">' +
-			'<div>Unit <a href="#' + transaction.unit + '">' + transaction.unit + '</a></div>' +
-			'</th><th class="transactionUnit" colspan="1" align="right"><div style="font-weight: normal">' + moment(transaction.date).format('DD.MM.YYYY HH:mm:ss') + '</div></th>' +
-			'</tr>' +
-			'<tr><th colspan="3"><div style="margin: 5px"></div></th></tr>' +
-			'<tr><td>';
-		transaction.from.forEach(function (objFrom) {
-			if (objFrom.issue) {
-				listTransactions += '<div class="transactionUnitListAddress">' +
-					'<div>' + addressOut + '</div>' +
-					'<div>Issue <span class="numberFormat">' + objFrom.amount + '</span> ' + transaction.asset + '</div>' +
-					'<div>serial number: ' + objFrom.serial_number + '</div></div>';
-			} else if (objFrom.commissionType && (objFrom.commissionType === 'headers' || objFrom.commissionType === 'witnessing')) {
-				var commissionName = (objFrom.commissionType === 'headers' ? 'headers' : (objFrom.commissionType === 'witnessing' ? 'witnessing' : false));
-				if (commissionName) {
-					addressOut = objFrom.address == address ? '<span class="thisAddress">' + objFrom.address + '</span>' : '<a href="#' + objFrom.address + '">' + objFrom.address + '</a>';
-					listTransactions += '<div class="transactionUnitListAddress">' +
-						'<div>' + addressOut + ' ' + commissionName + ' commissions from mci ' + objFrom.from_mci +
-						' to mci ' + objFrom.to_mci + '.' +
-						' Sum: <span class="numberFormat">' + objFrom.sum + '</span> notes</div>' +
-						'</div>';
-				}
-			}
-			else {
-				addressOut = objFrom.address == address ? '<span class="thisAddress">' + objFrom.address + '</span>' : '<a href="#' + objFrom.address + '">' + objFrom.address + '</a>';
-				listTransactions += '<div class="transactionUnitListAddress"><div>' + addressOut + '</div>' +
-					'<div>(<span class="numberFormat">' + objFrom.amount + '</span> ' + (transaction.asset == null ? 'notes' : transaction.asset) + ')</div></div>';
-			}
-		});
-		listTransactions += '</td><td><img width="32" src="' + (transaction.spent ? '/img/red_right2.png' : '/img/green_right2.png') + '"></td><td>';
-		for (var k in transaction.to) {
-			_addressTo = transaction.to[k];
-			addressOut = _addressTo.address == address ? '<span class="thisAddress">' + _addressTo.address + '</span>' : '<a href="#' + _addressTo.address + '">' + _addressTo.address + '</a>';
-
-			listTransactions += '<div class="transactionUnitListAddress"><div>' + addressOut + '</div>' +
-				'<div>(<span class="numberFormat">' + _addressTo.amount + '</span> ' + (transaction.asset == null ? 'notes' : transaction.asset) + ', ' +
-				(_addressTo.spent === 0 ? 'not spent' : 'spent in ' + '<a href="#' + _addressTo.spent + '">' + _addressTo.spent + '</a>') +
-				')</div></div>';
-		}
-		listTransactions += '</td></tr><tr><th colspan="3"><div style="margin: 10px"></div></th></tr>';
-	}
-	return listTransactions;
-}
-
-socket.on('addressInfo', function (data) {
-	if (data) {
-		var listUnspent = '', balance = '';
-		lastInputsROWID = data.newLastInputsROWID;
-		lastOutputsROWID = data.newLastOutputsROWID;
-		nextPageTransactionsEnd = data.end;
-		for (var k in data.objBalance) {
-			if (k === 'bytes') {
-				balance += '<div><span class="numberFormat">' + data.objBalance[k] + '</span> notes</div>';
-			}
-			else {
-				balance += '<div><span class="numberFormat">' + data.objBalance[k] + '</span> of ' + k + '</div>';
-			}
-		}
-		if (data.unspent) {
-			data.unspent.forEach(function (row) {
-				listUnspent += '<div><a href="#' + row.unit + '">' + row.unit + '</a> (<span class="numberFormat">' + row.amount + '</span> ' + (row.asset == null ? 'notes' : row.asset) + ')</div>';
-			});
-		}
-		$('#address').html(data.address);
-		$('#balance').html(balance);
-		$('#listUnspent').html(listUnspent);
-		var transactionsList = generateTransactionsList(data.objTransactions, data.address);
-		if (transactionsList) {
-			$('#listUnits').html(transactionsList);
-			$('#titleListTransactions').show();
-		} else {
-			$('#listUnits').html('');
-			$('#titleListTransactions').hide();
-		}
-		if (listUnspent !== '') {
-			$('#blockListUnspent').show();
-		}
-		else {
-			$('#blockListUnspent').hide();
-		}
-		if ($('#addressInfo').css('display') == 'none') {
-			$('#addressInfo').show();
-		}
-		if (data.definition) {
-			$('#definitionTitleInAddress').show();
-			$('#definition').html('<pre>' + JSON.stringify(JSON.parse(data.definition), null, '   ') + '</pre>');
-		} else {
-			$('#definition').hide();
-			if (!$('#definitionTitleInAddress').hasClass('hideTitle')) {
-				$('#definitionTitleInAddress').addClass('hideTitle');
-			}
-			$('#definitionTitleInAddress').hide();
-		}
-		page = 'address';
-		formatAllNumbers()
-	}
-	else {
-		showInfoMessage("Address not found");
-	}
-	bWaitingForNextPageTransactions = false;
-	if (!nextPageTransactionsEnd && $('#tableListTransactions').height() < $(window).height()) getNextPageTransactions();
-});
 
 socket.on('nextPageTransactions', function (data) {
 	if (data) {
@@ -1023,33 +915,12 @@ socket.on('nextPageTransactions', function (data) {
 			lastOutputsROWID = data.newLastOutputsROWID;
 		}
 		nextPageTransactionsEnd = data.end;
-		$('#listUnits').append(generateTransactionsList(data.objTransactions, data.address));
+		//$('#listUnits').append(generateTransactionsList(data.objTransactions, data.address));
 		formatAllNumbers();
 	}
 	bWaitingForNextPageTransactions = false;
 	if (!nextPageTransactionsEnd && $('#tableListTransactions').height() < $(window).height()) getNextPageTransactions();
 });
-
-socket.on('staticdata', function (data) {
-	$('#allAddress').text(numberFormat(data.allAddress.toString()));
-	$('#activeAddress').text(numberFormat(data.activeAddress.toString()));
-	$('#allUnits').text(numberFormat(data.allUnits.toString()));
-	$('#totalUsersUnits').text(numberFormat(data.totalUsersUnits.toString()));
-	$('#totalUnits').text(numberFormat(data.totalUnits.toString()));
-	$('#totalUserUnits').text(numberFormat(data.totalUserUnits.toString()));
-	$('#totalFees').text(numberFormat(data.totalFees.toString()));
-})
-
-// 已挖出 难度系数
-socket.on('coinbase_mined', function (data) {
-	//console.log(data.issuedCoinbase)
-	//console.log(data.difficulty)
-	current_round_index = data.round_index;
-	$('#issuedCoin').text((data.issuedCoinbase/1000000).toString());
-	$('#nonIssuedCoin').text((500000000 - (data.issuedCoinbase/1000000)).toString());
-	$('#roundSwitch').text(numberFormat(data.round_index.toString()));
-	$('#difficulty').text(numberFormat(data.difficulty.toString()));
-})
 
 function getNew() {
 	if (notLastUnitUp) return;
@@ -1077,12 +948,12 @@ function getPrev() {
 	}
 }
 
-function getHighlightNode(unit) {
-	if (!bWaitingForHighlightNode) {
-		socket.emit('highlightNode', {first: firstUnit, last: lastUnit, unit: unit});
-		bWaitingForHighlightNode = true;
-	}
-}
+// function getHighlightNode(unit) {
+// 	if (!bWaitingForHighlightNode) {
+// 		socket.emit('highlightNode', {first: firstUnit, last: lastUnit, unit: unit});
+// 		bWaitingForHighlightNode = true;
+// 	}
+// }
 
 function getNextPageTransactions() {
 	if (!bWaitingForNextPageTransactions && location.hash.length == 33) {
@@ -1221,22 +1092,37 @@ function htmlEscape(str) {
 		.replace(/>/g, '&gt;');
 }
 
+socket.on('staticdata', function (data) {
+	$('#allAddress').text(numberFormat(data.allAddress.toString())); // 地址
+	$('#allUnits').text(numberFormat(data.allUnits.toString())); // 交易
+})
+
+// 已挖出 x 枚TTT  难度系数
+socket.on('coinbase_mined', function (data) {
+	$('#issuedCoin').text(data.issuedCoinbase/1000000); // 已经挖出
+	$('#nonIssuedCoin').text(500000000 - (data.issuedCoinbase/1000000)); // 还剩下
+	$('#roundSwitch').text(data.round_index); // 当前轮次
+	current_round_index = data.round_index;
+	$('#difficulty').text(data.difficulty); // 难度系数
+})
+
 // 定时器 去获取当前轮次的 状态
-setInterval(fnGetRoundStatus, 5000);
+setInterval(fnGetRoundStatus, 4000);
 function fnGetRoundStatus(){
 	socket.emit('getRoundStatus', {round_index: current_round_index});
 }
 
 // 每一轮 详细状态
-//var currentNumPow = 8;
 socket.on('getRoundStatus', function (roundStatus) {
 	//console.log('#################'+JSON.stringify(roundStatus));
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
 	$('#numPow').text(roundStatus.countofPOWUnit);
 
-	$('#roundSwitchNext').text(numberFormat((current_round_index + 1).toString()));
-	$('#roundSwitchStillPow').text(8 - roundStatus.countofPOWUnit);
+	if(current_round_index + 1 != 0){
+		$('#roundSwitchNext').text(current_round_index + 1); // 距离 下一轮
+		$('#roundSwitchStillPow').text(8 - roundStatus.countofPOWUnit); // 还剩 x 个PoW
+	}
 
 	$('.personBox').css('background','#E9EFF7');
 	$('.personBoxImg').attr('src','img/personB.png');
@@ -1245,11 +1131,32 @@ socket.on('getRoundStatus', function (roundStatus) {
 		$('.personBoxImg').eq(i).attr('src','img/personW.png');
 	}
 
-	$("#0").circleChart({
-		value: (8 - roundStatus.countofPOWUnit)/8 * 100,
-		onDraw: function (el, circle) {
-			circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
-		}
-	});
-	
+	if (roundStatus.countofPOWUnit == 0) {
+		$("#0").circleChart({
+			redraw: true,
+			animate: false,
+			value: (8 - roundStatus.countofPOWUnit) / 8 * 100,
+			onDraw: function (el, circle) {
+				circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
+			}
+		});
+	}else if(roundStatus.countofPOWUnit == 8){
+		$("#0").circleChart({
+			redraw: false,
+			animate: true,
+			value: 0.001,
+			onDraw: function (el, circle) {
+				circle.text('0 PoW');
+			}
+		});
+	}else {
+		$("#0").circleChart({
+			redraw: false,
+			animate: true,
+			value: (8 - roundStatus.countofPOWUnit)/8 * 100,
+			onDraw: function (el, circle) {
+				circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
+			}
+		});
+	}
 })

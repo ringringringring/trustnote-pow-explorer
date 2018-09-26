@@ -850,6 +850,12 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 	return messagesOut;
 }
 
+// pow_type INT Null --  1: pow-equhash 2: trustme 3: coin base
+const POWTYPE = {
+	'1' : 'pow-equhash',
+	'2' : 'trustme',
+	'3' : 'coin base'
+}
 socket.on('info', function(data) {
 	console.log(data);
 	if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
@@ -871,11 +877,11 @@ socket.on('info', function(data) {
 			}
 			authorsOut += '</div>';
 		});
-		// data.witnesses.forEach(function(witness) {
-		// 	witnessesOut += '<div><a href="#' + witness + '">' + witness + '</a></div>';
-		// });
+
 
 		$('#unit').html(data.unit);
+		$('#round').html(data.round_index);
+		$('#pow').html(POWTYPE[data.pow_type]);
 		$('#children').html(childOut);
 		$('#parents').html(parentOut);
 		$('#authors').html(authorsOut);
@@ -887,7 +893,6 @@ socket.on('info', function(data) {
 		$('#main_chain_index').html(data.main_chain_index);
 		$('#latest_included_mc_index').html(data.latest_included_mc_index);
 		$('#is_stable').html(data.is_stable);
-		//$('#witnesses').html(witnessesOut);
 		$('#messages').html(data.sequence === 'final-bad' ? '' : generateMessageInfo(data.messages, data.transfersInfo, data.outputsUnit, data.assocCommissions));
 		if ($('#listInfo').css('display') === 'none') {
 			$('#defaultInfo').hide();
@@ -900,8 +905,7 @@ socket.on('info', function(data) {
 		}
 		adaptiveShowInfo();
 		formatAllNumbers();
-	}
-	else {
+	}else {
 		showInfoMessage("Unit not found");
 	}
 });

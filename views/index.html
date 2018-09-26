@@ -264,10 +264,11 @@
 		widthRatio:0.2,
 		startAngle: 75,
 		value: 100,
-		onDraw: function (el, circle) {
-			circle.text(8 + ' PoW');
-		},
-		redraw: false
+		// onDraw: function (el, circle) {
+		// 	circle.text(8 + ' PoW');
+		// },
+		redraw: false,
+		animate: false,
 	});
 	// 倒计时 效果 结束
 </script>
@@ -293,16 +294,9 @@
 	<div class="dataList" id="dataList">
 		<div class="first">
 			<h3>All Time Summary</h3>
-			<p>Total user addresses: <span id="allAddress" class="numberFormat">&nbsp;</span></p>
-			<p>Total active user addresses: <span id="activeAddress" class="numberFormat">&nbsp;</span></p>
-			<p>Total units: <span id="allUnits" class="numberFormat">&nbsp;</span></p>
-			<p>Total user units: <span id="totalUsersUnits" class="numberFormat">&nbsp;</span></p>
 		</div>
 		<div class="second">
 			<h3>Latest 24-hour Snapshot</h3>
-			<p>Total units posted: <span id="totalUnits" class="numberFormat">&nbsp;</span></p>
-			<p>Total user units: <span id="totalUserUnits" class="numberFormat">&nbsp;</span></p>
-			<p>Total fees: <span id="totalFees" class="numberFormat">&nbsp;</span> Notes</p>
 		</div>
 		<div class="third">
 			<div class="scroll">
