@@ -676,6 +676,11 @@ div.statusL, div.statusR {
 	width: 450px;
 	float: left;
 }
+span.fontspace {
+	letter-spacing: 2px;
+	font-size: 24px !important;
+	font-weight: 300 !important;
+}
 div.statusL span, div.statusR span {
 	font-size: 36px;
 	font-weight: 500;
@@ -751,13 +756,14 @@ div.detailsDivL {
 	box-shadow: 0 20px 50px 0 rgba(0,82,204,0.06);
 }
 div.nextRound {
-	margin-top: 30px;
-	margin-bottom: 40px;
+	margin-top: 65px;
+	margin-bottom: 30px;
 	height: 60px;
 	line-height: 60px;
 	font-size: 20px;
 	color: #333;
 	text-align: center;
+	font-weight: 300;
 }
 div.detailsDivR {
 	float: right;
@@ -916,6 +922,7 @@ div.unitPosition p {
 	margin: 0;
 	margin-bottom: 10px;
 	color: #333;
+	font-weight: 500;
 }
 div.unitPosition label, div.unitPosition input {
 	cursor: pointer;
@@ -988,3 +995,7 @@ div.bottomR {
 	left: 0;
 }
 
+#inputSearch::-webkit-input-placeholder{
+	color: #999;
+	font-weight: 100;
+}

@@ -30,11 +30,11 @@
 	<!-- 挖矿状态 -->
 	<div class="status">
 		<div class="statusL">
-			已挖出 <span id="issuedCoin"> </span> 枚TTT
+			已挖出 <span id="issuedCoin"> </span> <span class="fontspace">枚TTT</span>
 			<div class="line"></div>
 		</div>
 		<div class="statusR">
-			剩余 <span id="nonIssuedCoin"> </span> 枚TTT
+			剩余 <span id="nonIssuedCoin"> </span> <span class="fontspace">枚TTT</span>
 		</div>
 		<div class="cb"></div>
 	</div>
@@ -52,7 +52,7 @@
 <div class="detailsDiv">
 	<div class="detailsDivL">
 		<!-- 倒计时 效果 -->
-		<div class="nextRound">距第 <span id="roundSwitchNext"> </span> 轮还差 <span id="roundSwitchStillPow"> </span> 个Pow </div>
+		<div class="nextRound">距第 <span id="roundSwitchNext"> </span> 轮还差 <span id="roundSwitchStillPow"> </span> 个PoW </div>
 		<div class="circleChart" id="0"></div>
 		<!-- 倒计时 效果 结束 -->
 
@@ -171,7 +171,7 @@
 	<div class="typeChoosen">
 		<div class="unitPosition">
 			<p>单元位置</p>
-			<input class="radioPos" type="radio" name="position" id="MainChain" value="MainChain"> <label for="MainChain" class="margin-right">主链</label>
+			<input class="radioPos firstMain" type="radio" name="position" id="MainChain" value="MainChain"> <label for="MainChain" class="margin-right">主链</label>
 			<input class="radioPos" type="radio" name="position" id="notMainChain" value="notMainChain"> <label for="notMainChain">非主链</label>
 		</div>
 
@@ -271,6 +271,14 @@
 		animate: false,
 	});
 	// 倒计时 效果 结束
+
+	if(navigator.language){
+		console.log('*****************'+navigator.language)
+	}
+	
+
+
+
 </script>
 </body>
 </html>

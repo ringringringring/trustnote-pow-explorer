@@ -14,7 +14,6 @@ function replaceConsoleLog () {
 
 function start () {
 	console.log('starting');
-	// var network = require('trustnote-pow-common/network.js');
 	var network = require('trustnote-pow-common/network.js');
 	if (conf.initial_peers)
 		conf.initial_peers.forEach(function (url) {
@@ -23,9 +22,13 @@ function start () {
 }
 
 replaceConsoleLog();
+start();
+
+/*
 myWitnesses.readMyWitnesses(function (arrWitnesses) {
 	if (arrWitnesses.length > 0)
 		return start();
 	console.log('will init witnesses', conf.initial_witnesses);
 	myWitnesses.insertWitnesses(conf.initial_witnesses, start);
 }, 'ignore');
+*/

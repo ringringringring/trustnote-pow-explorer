@@ -49,14 +49,14 @@ function start() {
 	if (!location.hash || (location.hash.length != 45 && location.hash.length != 33)) {
 		socket.emit('start', {type: 'last'});
 	}
-	else if (location.hash.length == 45) {
-		socket.emit('start', {type: 'unit', unit: location.hash.substr(1)});
-		notLastUnitUp = true;
-	}
-	else if (location.hash.length == 33) {
-		socket.emit('start', {type: 'address', address: location.hash.substr(1)});
-		$('#addressInfo').show();
-	}
+	// else if (location.hash.length == 45) {
+	// 	socket.emit('start', {type: 'unit', unit: location.hash.substr(1)});
+	// 	notLastUnitUp = true;
+	// }
+	// else if (location.hash.length == 33) {
+	// 	socket.emit('start', {type: 'address', address: location.hash.substr(1)});
+	// 	$('#addressInfo').show();
+	// }
 }
 
 function createCy() {
@@ -766,18 +766,17 @@ function goToTop() {
 	$('#listInfo').hide();
 }
 
-// 哈希 值变化
-window.addEventListener('hashchange', function () {
-	if (location.hash.length == 45) {
-		//highlightNode(location.hash.substr(1));
-		if ($('#addressInfo').css('display') == 'block') {
-			$('#addressInfo').hide();
-		}
-	}
-	else if (location.hash.length == 33) {
-		socket.emit('start', {type: 'address', address: location.hash.substr(1)});
-	}
-});
+// window.addEventListener('hashchange', function () {
+// 	if (location.hash.length == 45) {
+// 		//highlightNode(location.hash.substr(1));
+// 		if ($('#addressInfo').css('display') == 'block') {
+// 			$('#addressInfo').hide();
+// 		}
+// 	}
+// 	else if (location.hash.length == 33) {
+// 		socket.emit('start', {type: 'address', address: location.hash.substr(1)});
+// 	}
+// });
 
 window.addEventListener('keydown', function (e) {
 	if (page == 'dag') {
@@ -886,6 +885,7 @@ socket.on('prev', function (data) {
 socket.on('update', getNew);
 
 socket.on('new', function (data) {
+	console.log(data)
 	if (data.nodes.length) {
 		nodes = [].concat(data.nodes, nodes);
 		for (var k in data.edges) {
@@ -906,6 +906,15 @@ socket.on('new', function (data) {
 	bWaitingForNew = false;
 	setChangesStableUnits(data.arrStableUnits);
 });
+function getNew() {
+	if (notLastUnitUp) return;
+	if (!bWaitingForNew) {
+		socket.emit('new', {unit: firstUnit, notStable: notStable});
+		bWaitingForNew = true;
+	}else {
+		bHaveDelayedNewRequests = true;
+	}
+}
 
 
 socket.on('nextPageTransactions', function (data) {
@@ -916,23 +925,11 @@ socket.on('nextPageTransactions', function (data) {
 		}
 		nextPageTransactionsEnd = data.end;
 		//$('#listUnits').append(generateTransactionsList(data.objTransactions, data.address));
-		formatAllNumbers();
+		//formatAllNumbers();
 	}
 	bWaitingForNextPageTransactions = false;
 	if (!nextPageTransactionsEnd && $('#tableListTransactions').height() < $(window).height()) getNextPageTransactions();
 });
-
-function getNew() {
-	if (notLastUnitUp) return;
-
-	if (!bWaitingForNew) {
-		socket.emit('new', {unit: firstUnit, notStable: notStable});
-		bWaitingForNew = true;
-	}
-	else {
-		bHaveDelayedNewRequests = true;
-	}
-}
 
 function getNext() {
 	if (!bWaitingForNext && isInit) {
@@ -977,19 +974,19 @@ function closeInfo() {
 	$('#cy, #scroll, #goToTop').removeClass('showInfoBlock');
 }
 
-function closeAddress() {
-	$('#addressInfo').hide();
-	$('#blockListUnspent').hide();
-	if (!_cy || !lastActiveUnit) {
-		$('#cy, #scroll, #goToTop').show();
-		socket.emit('start', {type: 'last'});
-		location.hash = '';
-	}
-	else {
-		location.hash = lastActiveUnit;
-	}
-	page = 'dag';
-}
+// function closeAddress() {
+// 	$('#addressInfo').hide();
+// 	$('#blockListUnspent').hide();
+// 	if (!_cy || !lastActiveUnit) {
+// 		$('#cy, #scroll, #goToTop').show();
+// 		socket.emit('start', {type: 'last'});
+// 		location.hash = '';
+// 	}
+// 	else {
+// 		location.hash = lastActiveUnit;
+// 	}
+// 	page = 'dag';
+// }
 
 
 //infoMessage
@@ -1052,12 +1049,12 @@ function numberFormat(number) {
 	return number.replace(new RegExp("^(\\d{" + (number.length % 3 ? number.length % 3 : 0) + "})(\\d{3})", "g"), "$1 $2").replace(/(\d{3})+?/gi, "$1 ").trim().replace(/\s/gi, ",");
 }
 
-function formatAllNumbers() {
-	var numbersSpan = $('.numberFormat').not('.format');
-	$.each(numbersSpan, function (a, v) {
-		$(numbersSpan[a]).addClass('format').html(numberFormat(v.innerHTML));
-	})
-}
+// function formatAllNumbers() {
+// 	var numbersSpan = $('.numberFormat').not('.format');
+// 	$.each(numbersSpan, function (a, v) {
+// 		$(numbersSpan[a]).addClass('format').html(numberFormat(v.innerHTML));
+// 	})
+// }
 
 $(document).on('mousedown', '.numberFormat', function (e) {
 	var self = $(this);
@@ -1108,6 +1105,7 @@ socket.on('coinbase_mined', function (data) {
 
 // 定时器 去获取当前轮次的 状态
 setInterval(fnGetRoundStatus, 4000);
+
 function fnGetRoundStatus(){
 	socket.emit('getRoundStatus', {round_index: current_round_index});
 }
@@ -1117,7 +1115,11 @@ socket.on('getRoundStatus', function (roundStatus) {
 	//console.log('#################'+JSON.stringify(roundStatus));
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
-	$('#numPow').text(roundStatus.countofPOWUnit);
+	if(roundStatus.countofPOWUnit > 8){
+		$('#numPow').text(8);
+	} else{
+		$('#numPow').text(roundStatus.countofPOWUnit);
+	}
 
 	if(current_round_index + 1 != 0){
 		$('#roundSwitchNext').text(current_round_index + 1); // 距离 下一轮
@@ -1140,7 +1142,7 @@ socket.on('getRoundStatus', function (roundStatus) {
 				circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
 			}
 		});
-	}else if(roundStatus.countofPOWUnit == 8){
+	}else if(roundStatus.countofPOWUnit >= 8){
 		$("#0").circleChart({
 			redraw: false,
 			animate: true,
@@ -1160,3 +1162,10 @@ socket.on('getRoundStatus', function (roundStatus) {
 		});
 	}
 })
+
+setTimeout(() => {
+	$("input[name='position'].firstMain").attr('checked', 'checked');
+	_cy.emit('choosenIfOnMainChian', 'MainChain');
+}, 1000);
+
+
