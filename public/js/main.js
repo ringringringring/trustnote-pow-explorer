@@ -143,7 +143,7 @@ function createCy() {
 			{
 				selector: 'edge',
 				style: {
-					'width': 1,
+					'width': 2,
 					'target-arrow-shape': 'triangle',
 					'line-color': '#B8DCFF',
 					'target-arrow-color': '#B8DCFF',
@@ -1096,8 +1096,8 @@ socket.on('staticdata', function (data) {
 
 // 已挖出 x 枚TTT  难度系数
 socket.on('coinbase_mined', function (data) {
-	$('#issuedCoin').text(data.issuedCoinbase/1000000); // 已经挖出
-	$('#nonIssuedCoin').text(500000000 - (data.issuedCoinbase/1000000)); // 还剩下
+	$('.issuedCoin').text(data.issuedCoinbase/1000000); // 已经挖出
+	$('.nonIssuedCoin').text(500000000 - (data.issuedCoinbase/1000000)); // 还剩下
 	$('#roundSwitch').text(data.round_index); // 当前轮次
 	current_round_index = data.round_index;
 	$('#difficulty').text(data.difficulty); // 难度系数
@@ -1122,8 +1122,8 @@ socket.on('getRoundStatus', function (roundStatus) {
 	}
 
 	if(current_round_index + 1 != 0){
-		$('#roundSwitchNext').text(current_round_index + 1); // 距离 下一轮
-		$('#roundSwitchStillPow').text(8 - roundStatus.countofPOWUnit); // 还剩 x 个PoW
+		$('.roundSwitchNext').text(current_round_index + 1); // 距离 下一轮
+		$('.roundSwitchStillPow').text(8 - roundStatus.countofPOWUnit); // 还剩 x 个PoW
 	}
 
 	$('.personBox').css('background','#E9EFF7');
@@ -1162,10 +1162,4 @@ socket.on('getRoundStatus', function (roundStatus) {
 		});
 	}
 })
-
-setTimeout(() => {
-	$("input[name='position'].firstMain").attr('checked', 'checked');
-	_cy.emit('choosenIfOnMainChian', 'MainChain');
-}, 1000);
-
 
