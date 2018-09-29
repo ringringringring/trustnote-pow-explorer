@@ -1114,8 +1114,8 @@ function fnGetRoundStatus(){
 
 // 每一轮 详细状态
 socket.on('getRoundStatus', function (roundStatus) {
-	//console.log('#################'+JSON.stringify(roundStatus));
-	//console.log('#################');
+	console.log('#################'+JSON.stringify(roundStatus));
+	console.log('#################');
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
 	if(roundStatus.countofPOWUnit > 8){
