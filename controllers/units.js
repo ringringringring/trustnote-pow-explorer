@@ -99,14 +99,15 @@ function getUnitsAfterRowid(rowid, limit, cb) {
 	var edges = {};
 	var units = [];
 
-	db.query("SELECT ROWID, unit, is_on_main_chain, is_stable, sequence FROM units WHERE ROWID > ? ORDER BY ROWID ASC LIMIT 0, ?", [rowid, limit], function(rowsUnits) {
+	db.query("SELECT ROWID, unit, is_on_main_chain, is_stable, pow_type, sequence FROM units WHERE ROWID > ? ORDER BY ROWID ASC LIMIT 0, ?", [rowid, limit], function(rowsUnits) {
 		rowsUnits.forEach(function(row) {
 			nodes.push({
 				data: {unit: row.unit, unit_s: row.unit.substr(0, 7) + '...'},
 				rowid: row.rowid,
 				is_on_main_chain: row.is_on_main_chain,
 				is_stable: row.is_stable,
-				sequence: row.sequence
+				sequence: row.sequence,
+				pow_type : row.pow_type
 			});
 			units.push(row.unit);
 		});

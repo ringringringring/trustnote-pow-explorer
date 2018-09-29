@@ -511,6 +511,7 @@ function setNew(_nodes, _edges, newUnits) {
 				});
 			}
 		}
+		//console.log(_node)
 	});
 	generateAdd = fixConflicts(generateAdd);
 	_cy.add(generateAdd);
@@ -812,6 +813,7 @@ socket.on('connect', function () {
 
 socket.on('start', function (data) {
 	init(data.nodes, data.edges);
+	//console.log('*********************'+JSON.stringify(data.nodes[0]))
 
 	//console.log('---------------'+JSON.stringify(data.nodes[0]))
 	// {
@@ -885,7 +887,7 @@ socket.on('prev', function (data) {
 socket.on('update', getNew);
 
 socket.on('new', function (data) {
-	console.log(data)
+	//console.log(data)
 	if (data.nodes.length) {
 		nodes = [].concat(data.nodes, nodes);
 		for (var k in data.edges) {
@@ -1113,6 +1115,7 @@ function fnGetRoundStatus(){
 // 每一轮 详细状态
 socket.on('getRoundStatus', function (roundStatus) {
 	//console.log('#################'+JSON.stringify(roundStatus));
+	//console.log('#################');
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
 	if(roundStatus.countofPOWUnit > 8){
