@@ -881,8 +881,16 @@ socket.on('info', function(data) {
 
 
 		$('#unit').html(data.unit);
-		$('#round').html(data.round_index);
-		$('#pow').html(POWTYPE[data.pow_type]);
+
+		$('#roundIndex').css('display','none');
+		$('#powType').css('display','none');
+		if(data.round_index){
+			$('#roundIndex').css('display','block');
+			$('#powType').css('display','block');
+			$('#round').html(data.round_index);
+			$('#pow').html(POWTYPE[data.pow_type]);
+		}
+		
 		$('#children').html(childOut);
 		$('#parents').html(parentOut);
 		$('#authors').html(authorsOut);

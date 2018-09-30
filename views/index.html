@@ -25,7 +25,8 @@
 <div class="topNav">
 	<!-- logo -->
 	<div class="logo">
-		<a href="http://explorer.trustnote.org"></a>
+		<!-- <a href="http://explorer.trustnote.org"></a> -->
+		<a href="http://explorer2-alpha.trustnote.org:8000"></a>
 	</div>
 	<!-- 挖矿状态 -->
 	<div style="display: none;" class="status chineseWeb">
@@ -305,8 +306,10 @@
 	};
 
 	// 默认 显示 主链位置
+	var CurChoosenType;
 	setTimeout(() => {
 		$("input[name='position'].firstMain").attr('checked', 'checked');
+		CurChoosenType = 'MainChain';
 		_cy.emit('choosenIfOnMainChian', 'MainChain');
 	}, 2000);
 </script>

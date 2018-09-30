@@ -178,64 +178,7 @@ function createCy() {
 	});
 
 	// 选择类型
-	_cy.on('choosenIfOnMainChian', function (evt,v) {
-		// 非主链
-		if (v == 'notMainChain') {
-			_cy.nodes().forEach(function (node) {
-				node.addClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_on_main_chain_empty')) {
-					node.removeClass('all_nodes_change_to_dark');
-				}
-			});
-		}
-		// 主链
-		if (v == 'MainChain') {
-			_cy.nodes().forEach(function (node) {
-				node.removeClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_on_main_chain_empty')) {
-					node.addClass('all_nodes_change_to_dark');
-				}
-			});
-		}
-		// 稳定
-		if (v == 'is_static') {
-			_cy.nodes().forEach(function (node) {
-				node.removeClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_stable')) {
-					node.addClass('all_nodes_change_to_dark');
-				}
-			});
-		}
-
-		// is_pow
-		if (v == 'is_pow') {
-			_cy.nodes().forEach(function (node) {
-				node.removeClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_pow')) {
-					node.addClass('all_nodes_change_to_dark');
-				}
-			});
-		}
-		// is_trustme
-		if (v == 'is_trustme') {
-			_cy.nodes().forEach(function (node) {
-				node.removeClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_trustme')) {
-					node.addClass('all_nodes_change_to_dark');
-				}
-			});
-		}
-		// is_coinbase
-		if (v == 'is_coinbase') {
-			_cy.nodes().forEach(function (node) {
-				node.removeClass('all_nodes_change_to_dark');
-				if (node.hasClass('is_coinbase')) {
-					node.addClass('all_nodes_change_to_dark');
-				}
-			});
-		}
-	});
-
+	_cy.on('choosenIfOnMainChian', clickToChoosen);
 
 	// node hover 时显示浮窗
 	_cy.on('mouseover', 'node', function () {
@@ -302,6 +245,7 @@ function createCy() {
 	});
 
 
+	// 页面 扩展（ 向后面拖拽 ）
 	_cy.on('pan', function () {
 		var ext = _cy.extent();
 		if (nextPositionUpdates < ext.x2) {
@@ -313,19 +257,78 @@ function createCy() {
 		scroll.scrollTop(convertPosPanToPosScroll());
 	});
 
-	$(_cy.container()).on('wheel mousewheel', function (e) {
-		var deltaY = e.originalEvent.wheelDeltaY || -e.originalEvent.deltaY;
-		if (page == 'dag') {
-			e.preventDefault();
-			if (deltaY > 0) {
-				scrollUp();
+	// 鼠标滚轮
+	// $(_cy.container()).on('wheel mousewheel', function (e) {
+	// 	var deltaY = e.originalEvent.wheelDeltaY || -e.originalEvent.deltaY;
+	// 	if (page == 'dag') {
+	// 		e.preventDefault();
+	// 		if (deltaY > 0) {
+	// 			scrollUp();
+	// 		}
+	// 		else if (deltaY < 0) {
+	// 			_cy.panBy({x: -25, y: 0});
+	// 		}
+	// 		scroll.scrollTop(convertPosPanToPosScroll());
+	// 	}
+	// });
+}
+
+function clickToChoosen(evt,v) {
+	// 非主链
+	if (v == 'notMainChain') {
+		_cy.nodes().forEach(function (node) {
+			node.addClass('all_nodes_change_to_dark');
+			if (node.hasClass('is_on_main_chain_empty')) {
+				node.removeClass('all_nodes_change_to_dark');
 			}
-			else if (deltaY < 0) {
-				_cy.panBy({x: -25, y: 0});
+		});
+	}
+	// 主链
+	if (v == 'MainChain') {
+		_cy.nodes().forEach(function (node) {
+			node.removeClass('all_nodes_change_to_dark');
+			if (node.hasClass('is_on_main_chain_empty')) {
+				node.addClass('all_nodes_change_to_dark');
 			}
-			scroll.scrollTop(convertPosPanToPosScroll());
-		}
-	});
+		});
+	}
+	// 稳定
+	if (v == 'is_static') {
+		_cy.nodes().forEach(function (node) {
+			node.removeClass('all_nodes_change_to_dark');
+			if (node.hasClass('is_stable')) {
+				node.addClass('all_nodes_change_to_dark');
+			}
+		});
+	}
+
+	// is_pow
+	if (v == 'is_pow') {
+		_cy.nodes().forEach(function (node) {
+			node.removeClass('all_nodes_change_to_dark');
+			if (node.hasClass('is_pow')) {
+				node.addClass('all_nodes_change_to_dark');
+			}
+		});
+	}
+	// is_trustme
+	if (v == 'is_trustme') {
+		_cy.nodes().forEach(function (node) {
+			node.removeClass('all_nodes_change_to_dark');
+			if (node.hasClass('is_trustme')) {
+				node.addClass('all_nodes_change_to_dark');
+			}
+		});
+	}
+	// is_coinbase
+	if (v == 'is_coinbase') {
+		_cy.nodes().forEach(function (node) {
+			node.removeClass('all_nodes_change_to_dark');
+			if (node.hasClass('is_coinbase')) {
+				node.addClass('all_nodes_change_to_dark');
+			}
+		});
+	}
 }
 
 function updListNotStableUnit() {
@@ -510,6 +513,57 @@ function setNew(_nodes, _edges, newUnits) {
 					classes: classes
 				});
 			}
+
+
+
+
+			// function weChoosen(v){
+			// 	// 非主链
+			// 	if (v == 'notMainChain') {
+			// 		_node.addClass('all_nodes_change_to_dark');
+			// 		if (_node.hasClass('is_on_main_chain_empty')) {
+			// 			_node.removeClass('all_nodes_change_to_dark');
+			// 		}
+			// 	}
+			// 	// 主链
+			// 	if (v == 'MainChain') {
+			// 		_node.removeClass('all_nodes_change_to_dark');
+			// 		if (_node.hasClass('is_on_main_chain_empty')) {
+			// 			_node.addClass('all_nodes_change_to_dark');
+			// 		}
+			// 	}
+			// 	// 稳定
+			// 	if (v == 'is_static') {
+			// 		_node.removeClass('all_nodes_change_to_dark');
+			// 		if (_node.hasClass('is_stable')) {
+			// 			_node.addClass('all_nodes_change_to_dark');
+			// 		}
+			// 	}
+			// 	// is_pow
+			// 	if (v == 'is_pow') {
+			// 		_node.removeClass('all_nodes_change_to_dark');
+			// 		if (_node.hasClass('is_pow')) {
+			// 			_node.addClass('all_nodes_change_to_dark');
+			// 		}
+			// 	}
+			// 	// is_trustme
+			// 	if (v == 'is_trustme') {
+			// 		_node.removeClass('all_nodes_change_to_dark');
+			// 		if (_node.hasClass('is_trustme')) {
+			// 			_node.addClass('all_nodes_change_to_dark');
+			// 		}
+			// 	}
+			// 	// is_coinbase
+			// 	if (v == 'is_coinbase') {
+			// 		_node.removeClass('all_nodes_change_to_dark');
+			// 		if (_node.hasClass('is_coinbase')) {
+			// 			_node.addClass('all_nodes_change_to_dark');
+			// 		}
+			// 	}
+			// }
+			// weChoosen('MainChain');
+
+
 		}
 		//console.log(_node)
 	});
@@ -518,6 +572,7 @@ function setNew(_nodes, _edges, newUnits) {
 	_cy.add(createEdges());
 	updListNotStableUnit();
 	updateScrollHeigth();
+	// clickToChoosen('MainChain');
 }
 
 // 创建图表
@@ -887,7 +942,7 @@ socket.on('prev', function (data) {
 socket.on('update', getNew);
 
 socket.on('new', function (data) {
-	//console.log(data)
+	// console.log('new------#####################'+data)
 	if (data.nodes.length) {
 		nodes = [].concat(data.nodes, nodes);
 		for (var k in data.edges) {
@@ -1114,8 +1169,6 @@ function fnGetRoundStatus(){
 
 // 每一轮 详细状态
 socket.on('getRoundStatus', function (roundStatus) {
-	console.log('#################'+JSON.stringify(roundStatus));
-	console.log('#################');
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
 	if(roundStatus.countofPOWUnit > 8){
