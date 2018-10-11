@@ -852,7 +852,7 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 
 // pow_type INT Null --  1: pow-equhash 2: trustme 3: coin base
 const POWTYPE = {
-	'1' : 'pow-equhash',
+	'1' : 'pow-equihash',
 	'2' : 'trustme',
 	'3' : 'coin base'
 }
