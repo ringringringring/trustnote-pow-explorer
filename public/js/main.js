@@ -99,12 +99,12 @@ function createCy() {
 			// is_pow
 			{
 				selector: '.is_pow',
-				style: { 'background-image': '/img/powW.png' }
+				style: { 'background-image': '/img/trustmeW.png' }
 			},
 			// is_trustme
 			{
 				selector: '.is_trustme',
-				style: { 'background-image': '/img/trustmeW.png' }
+				style: { 'background-image': '/img/powW.png' }
 			},
 			// is_coinbase
 			{
