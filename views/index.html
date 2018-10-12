@@ -265,6 +265,12 @@
 		function(){
 			var val = $("input[name='position']:checked").val(); // alert(val);
 			_cy.emit('choosenIfOnMainChian', val);
+			if(val == 'MainChain'){
+				CurChoosenType = 'MainChain';
+			}else{
+				CurChoosenType = '';
+			}
+			
 		}
 	)
 	// 倒计时 效果

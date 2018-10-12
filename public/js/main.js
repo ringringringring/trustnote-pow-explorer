@@ -483,6 +483,10 @@ function setNew(_nodes, _edges, newUnits) {
 			if (_node.sequence === 'temp-bad') classes = 'tempBad';
 			if (_node.is_on_main_chain) classes += ' is_on_main_chain_empty';
 
+			
+			// console.log('*****-----*****',_node.is_on_main_chain)
+			if (_node.is_on_main_chain && CurChoosenType == 'MainChain') classes += ' all_nodes_change_to_dark';
+
 			if (!first) {
 				newOffset_y = -_node.y - ((right - left) / 2);
 				newOffset_x = newOffset - (max - min) + 66;
@@ -942,7 +946,6 @@ socket.on('prev', function (data) {
 socket.on('update', getNew);
 
 socket.on('new', function (data) {
-	// console.log('new------#####################'+data)
 	if (data.nodes.length) {
 		nodes = [].concat(data.nodes, nodes);
 		for (var k in data.edges) {
@@ -1153,6 +1156,7 @@ socket.on('staticdata', function (data) {
 
 // 已挖出 x 枚TTT  难度系数
 socket.on('coinbase_mined', function (data) {
+	// console.log('******',data)
 	$('.issuedCoin').text(data.issuedCoinbase/1000000); // 已经挖出
 	$('.nonIssuedCoin').text(500000000 - (data.issuedCoinbase/1000000)); // 还剩下
 	$('#roundSwitch').text(data.round_index); // 当前轮次
