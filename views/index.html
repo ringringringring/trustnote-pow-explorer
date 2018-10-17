@@ -318,6 +318,12 @@
 		CurChoosenType = 'MainChain';
 		_cy.emit('choosenIfOnMainChian', 'MainChain');
 	}, 2000);
+
+	// 页面 第一次加载完毕
+	function getCurStatus(){
+		socket.emit('isFirstLoad', {isFirstLoad: true});
+	};
+	getCurStatus();
 </script>
 </body>
 </html>
