@@ -1,10 +1,10 @@
 /*jslint node: true */
 "use strict";
 require('./relay');
-var conf = require('trustnote-pow-common/conf.js');
-var eventBus = require('trustnote-pow-common/event_bus.js');
-var round = require('trustnote-pow-common/round.js');
-var db = require('trustnote-pow-common/db.js');
+var conf = require('trustnote-pow-common/config/conf.js');
+var eventBus = require('trustnote-pow-common/base/event_bus.js');
+var round = require('trustnote-pow-common/pow/round.js');
+var db = require('trustnote-pow-common/db/db.js');
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);

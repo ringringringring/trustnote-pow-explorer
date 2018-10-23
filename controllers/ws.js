@@ -1,7 +1,7 @@
 /*jslint node: true */
 'use strict';
 
-var db = require('trustnote-pow-common/db.js');
+var db = require('trustnote-pow-common/db/db.js');
 var units = require('./units');
 var address = require('./address');
 var staticslib = require('./statics');
