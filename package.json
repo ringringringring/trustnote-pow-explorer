@@ -27,10 +27,10 @@
 	},
 	"dependencies": {
 		"async": "^2.1.5",
-		"trustnote-pow-common": "git+https://github.com/trustnote/trustnote-pow-common#beta1.git",
 		"express": "^4.14.0",
 		"moment": "^2.17.1",
 		"socket.io": "^1.7.1",
+		"trustnote-pow-common": "git+https://github.com/trustnote/trustnote-pow-common.git#beta1",
 		"trustnote-pow-miner": "git+https://github.com/trustnote/trustnote-pow-miner.git"
 	},
 	"devDependencies": {
