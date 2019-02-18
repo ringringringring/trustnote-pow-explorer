@@ -520,15 +520,15 @@ div.detailsDiv {
 	height: 350px;
 	/* background: red; */
 }
-div.detailsDivL {
+/* div.detailsDivL {
 	float: left;
 	width: 300px;
 	height: 350px;
 	background: #fff;
 	border-radius: 10px;
 	box-shadow: 0 20px 50px 0 rgba(0,82,204,0.06);
-}
-div.nextRound {
+} */
+/* div.nextRound {
 	margin-top: 65px;
 	margin-bottom: 30px;
 	height: 60px;
@@ -537,10 +537,10 @@ div.nextRound {
 	color: #333;
 	text-align: center;
 	font-weight: 300;
-}
+} */
 div.detailsDivR {
-	float: right;
-	width: 1100px;
+	/* float: right; */
+	width: 1430px;
 	height: 350px;
 	/* background: #2980b9; */
 	border-radius: 10px;

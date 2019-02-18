@@ -1173,6 +1173,7 @@ function fnGetRoundStatus(){
 
 // 每一轮 详细状态
 socket.on('getRoundStatus', function (roundStatus) {
+	console.log('--- 每一轮 status: ---', roundStatus);
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
 	if(roundStatus.countofPOWUnit > 8){
@@ -1193,33 +1194,33 @@ socket.on('getRoundStatus', function (roundStatus) {
 		$('.personBoxImg').eq(i).attr('src','img/personW.png');
 	}
 
-	if (roundStatus.countofPOWUnit == 0) {
-		$("#0").circleChart({
-			redraw: true,
-			animate: false,
-			value: (8 - roundStatus.countofPOWUnit) / 8 * 100,
-			onDraw: function (el, circle) {
-				circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
-			}
-		});
-	}else if(roundStatus.countofPOWUnit >= 8){
-		$("#0").circleChart({
-			redraw: false,
-			animate: true,
-			value: 0.001,
-			onDraw: function (el, circle) {
-				circle.text('0 PoW');
-			}
-		});
-	}else {
-		$("#0").circleChart({
-			redraw: false,
-			animate: true,
-			value: (8 - roundStatus.countofPOWUnit)/8 * 100,
-			onDraw: function (el, circle) {
-				circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
-			}
-		});
-	}
+	// if (roundStatus.countofPOWUnit == 0) {
+	// 	$("#0").circleChart({
+	// 		redraw: true,
+	// 		animate: false,
+	// 		value: (8 - roundStatus.countofPOWUnit) / 8 * 100,
+	// 		onDraw: function (el, circle) {
+	// 			circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
+	// 		}
+	// 	});
+	// }else if(roundStatus.countofPOWUnit >= 8){
+	// 	$("#0").circleChart({
+	// 		redraw: false,
+	// 		animate: true,
+	// 		value: 0.001,
+	// 		onDraw: function (el, circle) {
+	// 			circle.text('0 PoW');
+	// 		}
+	// 	});
+	// }else {
+	// 	$("#0").circleChart({
+	// 		redraw: false,
+	// 		animate: true,
+	// 		value: (8 - roundStatus.countofPOWUnit)/8 * 100,
+	// 		onDraw: function (el, circle) {
+	// 			circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
+	// 		}
+	// 	});
+	// }
 })
 

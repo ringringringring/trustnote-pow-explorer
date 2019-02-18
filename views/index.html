@@ -64,23 +64,19 @@
 
 <!-- 挖矿详情 -->
 <div class="detailsDiv">
-	<div class="detailsDivL">
+	<!-- <div class="detailsDivL"> -->
 		<!-- 倒计时 效果 -->
-		<div class="nextRound chineseWeb" style="display: none">距第 <span class="roundSwitchNext"> </span> 轮还差 <span class="roundSwitchStillPow"> </span> 个PoW </div>
+		<!-- <div class="nextRound chineseWeb" style="display: none">距第 <span class="roundSwitchNext"> </span> 轮还差 <span class="roundSwitchStillPow"> </span> 个PoW </div> -->
 
-		<div class="nextRound englishWeb">
+		<!-- <div class="nextRound englishWeb">
 			<span class="roundSwitchStillPow"> </span>
 			PoW to round
 			<span class="roundSwitchNext"> </span>
 			
 		</div>
-		<div class="circleChart" id="0"></div>
+		<div class="circleChart" id="0"></div> -->
 		<!-- 倒计时 效果 结束 -->
-
-
-
-
-	</div>
+	<!-- </div> -->
 	<div class="detailsDivR">
 		<!-- 上面 第一层 -->
 		<div class="top1">
@@ -252,7 +248,7 @@
 <script src="/js/dagre.js"></script>
 <script src="/js/cytoscape-dagre.js"></script>
 <script src="/js/main.js?v12"></script>
-<script src="/js/circleChart.min.js"></script>
+<!-- <script src="/js/circleChart.min.js"></script> -->
 <script src="/js/jquery.i18n.properties-1.0.9.js"></script>
 <script>
 	// 判断 客户端 类型
@@ -274,20 +270,20 @@
 		}
 	)
 	// 倒计时 效果
-	$(".circleChart#0").circleChart({
-		color: "#3192F2",
-		backgroundColor: "#E9EFF7",
-		background: true,
-		speed: 2000,
-		size: 120,
-		textSize: 24,
-		textWeight: 'bold',
-		widthRatio:0.2,
-		startAngle: 75,
-		value: 100,
-		redraw: false,
-		animate: false,
-	});
+	// $(".circleChart#0").circleChart({
+	// 	color: "#3192F2",
+	// 	backgroundColor: "#E9EFF7",
+	// 	background: true,
+	// 	speed: 2000,
+	// 	size: 120,
+	// 	textSize: 24,
+	// 	textWeight: 'bold',
+	// 	widthRatio:0.2,
+	// 	startAngle: 75,
+	// 	value: 100,
+	// 	redraw: false,
+	// 	animate: false,
+	// });
 	// 判断 客户端 语言 zh-CN
 	if(navigator.language == 'zh-CN'){
 		$('.englishWeb').css('display','none');
