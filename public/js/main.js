@@ -1173,22 +1173,23 @@ function fnGetRoundStatus(){
 
 // 每一轮 详细状态
 socket.on('getRoundStatus', function (roundStatus) {
-	console.log('--- 每一轮 status: ---', roundStatus);
+	// console.log('--- 每一轮 status: ---', roundStatus);
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
-	if(roundStatus.countofPOWUnit > 8){
-		$('#numPow').text(8);
+	if(roundStatus.countofPOWUnit > 10){
+		$('#numPow').text(10);
 	} else{
 		$('#numPow').text(roundStatus.countofPOWUnit);
 	}
 
-	if(current_round_index + 1 != 0){
-		$('.roundSwitchNext').text(current_round_index + 1); // 距离 下一轮
-		$('.roundSwitchStillPow').text(8 - roundStatus.countofPOWUnit); // 还剩 x 个PoW
-	}
+	// if(current_round_index + 1 != 0){
+	// 	$('.roundSwitchNext').text(current_round_index + 1); // 距离 下一轮
+	// 	$('.roundSwitchStillPow').text(8 - roundStatus.countofPOWUnit); // 还剩 x 个PoW
+	// }
 
 	$('.personBox').css('background','#E9EFF7');
 	$('.personBoxImg').attr('src','img/personB.png');
+
 	for(var i = 0; i < roundStatus.countofPOWUnit; i++){
 		$('.personBox').eq(i).css('background','#3192F2');
 		$('.personBoxImg').eq(i).attr('src','img/personW.png');
