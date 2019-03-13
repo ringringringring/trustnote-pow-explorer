@@ -1,7 +1,7 @@
 /*jslint node: true */
 'use strict';
 
-var db = require('trustnote-common/db.js');
+var db = require('trustnote-pow-common/db/db.js');
 var units = require('./units');
 var address = require('./address');
 var staticslib = require('./statics');
@@ -11,12 +11,14 @@ function start(data) {
 
 	if (data.type === 'last') {
 		units.getLastUnits(function(nodes, edges) {
+			// console.log('nodes:---', nodes);
+			// console.log('edges:---', edges, '\n');
 			ws.emit('start', {
 				nodes: nodes,
 				edges: edges
 			});
 		});
-	}
+	} 
 	else if (data.type === 'unit') {
 		db.query("SELECT ROWID FROM units WHERE unit = ? LIMIT 0,1", [data.unit], function(row) {
 			if (!row.length) {
@@ -175,6 +177,15 @@ function staticdata(){
 	var data =  staticslib.getStatistics();
 	ws.emit('staticdata',data);
 }
+
+function getRoundStatus(data){
+	console.log("get round -staticdata")
+	var ws = this;
+	staticslib.getRoundStatus(data.round_index, function(roundStatus){
+		ws.emit('getRoundStatus', roundStatus);
+	});
+}
+
 exports.start = start;
 exports.next = next;
 exports.prev = prev;
@@ -183,3 +194,4 @@ exports.info = info;
 exports.highlightNode = highlightNode;
 exports.nextPageTransactions = nextPageTransactions;
 exports.staticdata = staticdata;
+exports.getRoundStatus = getRoundStatus;

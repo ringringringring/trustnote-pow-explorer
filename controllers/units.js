@@ -1,25 +1,46 @@
 /*jslint node: true */
 'use strict';
 
-var db = require('trustnote-common/db.js');
-var storage = require('trustnote-common/storage.js');
+var db = require('trustnote-pow-common/db/db.js');
+var storage = require('trustnote-pow-common/db/storage.js');
 var moment = require('moment');
 var async = require('async');
 
+var initial_witnesses = [	
+	"6LDM27ELDDAJBTNTVVQQYW7MWOK3F6WD",
+	"BP2NYKORMOB5SEUTFSVPF2CMSQSVEZOS",
+	"C6D4XKXDO4JAUT3BR27RM3UHKYGILR3X",
+	"CGCU5BBDWY2ZU3XKUXNGDTXDY7VXXJNJ",
+	"E45DPZHBPI7YX3CDG7HWTWBWRNGBV6C3",
+	"EPG47NW4DDKIBUFZBDVQU3KHYCCMXTDN",
+	"FF6X4KX3OOAAZUYWXDAHQJIJ5HDZLSXL",
+	"JVFHPXAA7FJEJU3TSTR5ETYVOXHOBR4H",
+	"MWJTSFCRBCV2CVT3SCDYZW2F2N3JKPIP",
+	"NJSDFSIRZT5I5YQONDNEMKXSFNJPSO6A",
+	"OALYXCMDI6ODRWMY6YO6WUPL6Q5ZBAO5",
+	"UABSDF77S6SU4FDAXWTYIODVODCAA22A"
+];
+
+let ROUNDINDEX = 0
+//units.round_index
 function getLastUnits(cb) {
 	var nodes = [];
 	var edges = {};
+	var sql = "SELECT unit_authors.address, parenthoods.child_unit, parenthoods.parent_unit, units.ROWID, units.pow_type,units.is_on_main_chain , units.is_stable, units.best_parent_unit, units.sequence \n\
+		FROM parenthoods, units , unit_authors WHERE parenthoods.child_unit IN \n\
+		(SELECT unit FROM units ORDER BY ROWID DESC LIMIT 0, 100) and  units.unit=parenthoods.child_unit and units.unit=unit_authors.unit ORDER BY parenthoods.ROWID DESC";
 
-	db.query("SELECT parenthoods.child_unit, parenthoods.parent_unit, units.ROWID, units.is_on_main_chain, units.is_stable, units.best_parent_unit, units.sequence \n\
-		FROM parenthoods, units WHERE parenthoods.child_unit IN \n\
-		(SELECT unit FROM units ORDER BY ROWID DESC LIMIT 0, 100) and units.unit=parenthoods.child_unit ORDER BY parenthoods.ROWID DESC", function(rows) {
+	db.query( sql , function(rows) {
 		rows.forEach(function(row) {
+			row.round_index = (ROUNDINDEX++) % 10;
 			nodes.push({
-				data: {unit: row.child_unit, unit_s: row.child_unit.substr(0, 7) + '...'},
+				data: {unit: row.child_unit, unit_s: row.child_unit.substr(0, 7) + '...', round_index: row.round_index },
 				rowid: row.rowid,
 				is_on_main_chain: row.is_on_main_chain,
+				pow_type: row.pow_type,
 				is_stable: row.is_stable,
-				sequence: row.sequence
+				sequence: row.sequence,
+				is_witness_unit: initial_witnesses.includes(row.address)
 			});
 			edges[row.child_unit + '_' + row.parent_unit] = {
 				data: {
@@ -29,6 +50,7 @@ function getLastUnits(cb) {
 				best_parent_unit: row.parent_unit == row.best_parent_unit
 			};
 		});
+		// console.log('+++++++nodes', nodes);
 		cb(nodes, edges);
 	});
 }
@@ -38,10 +60,10 @@ function getUnitsBeforeRowid(rowid, limit, cb) {
 	var edges = {};
 	var units = [];
 
-	db.query("SELECT ROWID, unit, is_on_main_chain, is_stable, sequence FROM units WHERE ROWID < ? ORDER BY ROWID DESC LIMIT 0, ?", [rowid, limit], function(rowsUnits) {
+	db.query("SELECT ROWID, unit, is_on_main_chain, is_stable,round_index, sequence FROM units WHERE ROWID < ? ORDER BY ROWID DESC LIMIT 0, ?", [rowid, limit], function(rowsUnits) {
 		rowsUnits.forEach(function(row) {
 			nodes.push({
-				data: {unit: row.unit, unit_s: row.unit.substr(0, 7) + '...'},
+				data: {unit: row.unit, unit_s: row.unit.substr(0, 7) + '...', round_index:row.round_index},
 				rowid: row.rowid,
 				is_on_main_chain: row.is_on_main_chain,
 				is_stable: row.is_stable,
@@ -77,14 +99,15 @@ function getUnitsAfterRowid(rowid, limit, cb) {
 	var edges = {};
 	var units = [];
 
-	db.query("SELECT ROWID, unit, is_on_main_chain, is_stable, sequence FROM units WHERE ROWID > ? ORDER BY ROWID ASC LIMIT 0, ?", [rowid, limit], function(rowsUnits) {
+	db.query("SELECT ROWID, unit, is_on_main_chain, is_stable, pow_type, sequence FROM units WHERE ROWID > ? ORDER BY ROWID ASC LIMIT 0, ?", [rowid, limit], function(rowsUnits) {
 		rowsUnits.forEach(function(row) {
 			nodes.push({
 				data: {unit: row.unit, unit_s: row.unit.substr(0, 7) + '...'},
 				rowid: row.rowid,
 				is_on_main_chain: row.is_on_main_chain,
 				is_stable: row.is_stable,
-				sequence: row.sequence
+				sequence: row.sequence,
+				pow_type : row.pow_type
 			});
 			units.push(row.unit);
 		});
@@ -249,9 +272,14 @@ function setDefinitionInAuthors(unit, objJoint, cb) {
 	});
 }
 
-function getUnitSequence(unit, cb) {
-	db.query('SELECT sequence FROM units WHERE unit = ?', [unit], function(rows) {
-		cb(rows[0].sequence);
+function getUnitDetail (unit, cb) {
+	// round_index BIGINT NULL,
+	// pow_type INT Null --  1: pow-equhash 2: trustme 3: coin base 
+	// let sql = 'SELECT sequence FROM units WHERE unit = ?';
+	let sql = 'SELECT sequence, round_index, pow_type FROM units WHERE unit = ?';
+	db.query( sql , [unit], function(rows) {
+		console.log('getUnitDetail:', unit, rows);
+		cb(rows[0].sequence, rows[0].round_index, rows[0].pow_type );
 	});
 }
 
@@ -264,9 +292,11 @@ function getInfoOnUnit(unit, cb) {
 						getUnitOutputs(unit, function(unitOutputs) {
 							getUnitCommissions(unit, function(assocCommissions) {
 								setDefinitionInAuthors(unit, objJoint, function(objJoint) {
-									getUnitSequence(unit, function(sequence) {
+									getUnitDetail(unit, function(sequence, round_index, pow_type) {
 										var objInfo = {
 											unit: unit,
+											round_index: round_index,
+											pow_type: pow_type,
 											sequence: sequence,
 											child: objParentsAndChildren.children,
 											parents: objParentsAndChildren.parents,
@@ -285,16 +315,17 @@ function getInfoOnUnit(unit, cb) {
 											date: moment(objJoint.unit.timestamp * 1000).format(),
 											assocCommissions: assocCommissions
 										};
-										if (objJoint.unit.witnesses) {
-											objInfo.witnesses = objJoint.unit.witnesses;
-											cb(objInfo);
-										}
-										else {
-											storage.readWitnesses(db, unit, function(arrWitnesses) {
-												objInfo.witnesses = arrWitnesses;
-												cb(objInfo);
-											});
-										}
+										// if (objJoint.unit.witnesses) {
+										// 	objInfo.witnesses = objJoint.unit.witnesses;
+										// 	cb(objInfo);
+										// }
+										// else {
+										// 	storage.readWitnesses(db, unit, function(arrWitnesses) {
+										// 		objInfo.witnesses = arrWitnesses;
+										// 		cb(objInfo);
+										// 	});
+										// }
+										cb(objInfo);
 									});
 								});
 							});

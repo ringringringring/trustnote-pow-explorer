@@ -26,9 +26,14 @@ function init(_nodes, _edges) {
 	waitGo = null;
 	createCy();
 	generate(_nodes, _edges);
-	oldOffset = _cy.getElementById(nodes[0].data.unit).position().y + 66;
-	_cy.viewport({zoom: 1.01});
+
+
+	//console.log(_cy.nodes()[0]);
+
+	oldOffset = _cy.getElementById(nodes[0].data.unit).position().x + 66;
+	_cy.viewport({zoom: 1.01}); // cy.viewport( zoom, pan )
 	_cy.center(_cy.nodes()[0]);
+	_cy.panBy({x: -300, y: 0});
 	page = 'dag';
 
 	if (location.hash && location.hash.length == 45) {
@@ -55,34 +60,36 @@ function start() {
 function createCy() {
 	_cy = cytoscape({
 		container: document.getElementById('cy'),
-		boxSelectionEnabled: false,
+		boxSelectionEnabled: true,
 		autounselectify: true,
 		hideEdgesOnViewport: false,
-		layout: {
-			name: 'preset'
-		},
+		// layout: {
+		// 	name: 'dagre',
+		// 	rankDir: 'LR',
+		// 	align: 'LR'
+		// },
 		style: [
 			{
-				selector: 'node',//不在主链上 not in main chain
+				selector: 'node',
 				style: {
-					// 'content': 'data(unit_s)',
+					//'content': 'data(unit_s)', // 节点的 单元
 					'text-opacity': 1,
 					'min-zoomed-font-size': 13,
-					'text-valign': 'bottom',
+					'text-valign': 'top',
 					'text-halign': 'center',
 					'font-size': '13px',
-					'text-margin-y': '5px',
-					'background-color': '#fff',
-					'border-width': 2,
+					'text-margin-y': '-5px',
+					'background-color': '#BAE0FF',
+					'border-width': 0, //2
 					'border-color': '#72CBC1',
 					'shape': 'circle',
 					//	'border-style': 'dotted',
-					'width': 30,
-					// 'height': 25
+					'width': 36,
+					'height': 36
 				}
 			},
 			{
-				selector: 'node.press',//node hover
+				selector: 'node.press',
 				style: {
 					'background-color': '#30A598',
 					'border-color': '#30A598',
@@ -96,13 +103,79 @@ function createCy() {
 					'border-width': '2px'
 				}
 			},
+
+
+
+
+			// is_pow 类型
 			{
-				selector: '.is_on_main_chain',//在主链上
+				selector: '.is_pow',
 				style: {
-					'border-width': 4,
-					//	'border-style': 'solid',
-					'border-color': '#30A598',
-					'background-color': '#fff',
+					'background-image': '/img/units.png',
+					'background-width': '45%',
+					'background-height': '45%',
+					'background-image-opacity': 0.9
+				}
+			},
+			// is_trustme 类型
+			{
+				selector: '.is_trustme',
+				style: {
+					'background-image': '/img/units.png',
+					'background-width': '45%',
+					'background-height': '45%',
+					'background-image-opacity': 0.9
+				}
+			},
+			// is_coinbase 类型
+			{
+				selector: '.is_coinbase',
+				style: {
+					'background-image': '/img/units.png',
+					'background-width': '45%',
+					'background-height': '45%',
+					'background-image-opacity': 0.9
+				}
+			},
+
+
+
+			// 全部节点 变成浅色
+			{
+				selector: '.all_nodes_change_to_light',
+				style: {
+					'background-color': '#BAE0FF'
+				}
+			},
+			// 全部节点 变成深色
+			{
+				selector: '.all_nodes_change_to_dark',
+				style: {
+					'background-color': '#3192F2'
+				}
+			},
+			// 节点 在主链上
+			{
+				selector: '.is_on_main_chain',
+				style: {
+					'border': 'none',
+					'background-color': '#3192F2',
+					'background-image': '/img/units.png', // 有背景图
+					'background-width': '45%',
+					'background-height': '45%',
+					'background-image-opacity': 0.9
+				}
+			},
+			// 节点 在主链上 (onblur)
+			{
+				selector: '.is_on_main_chain.onblur',
+				style: {
+					'border': 'none',
+					'background-color': '#BAE0FF',
+					'background-image': '/img/units.png',
+					'background-width': '45%',
+					'background-height': '45%',
+					'background-image-opacity': 0.9
 				}
 			},
 			{
@@ -114,37 +187,39 @@ function createCy() {
 				}
 			},
 			{
-				selector: 'edge', //箭头
+				selector: 'edge', // 箭头
 				style: {
 					'width': 1,
 					'target-arrow-shape': 'triangle',
-					'line-color': '#72CBC1',
-					'target-arrow-color': '#72CBC1',
+					'line-color': '#B8DCFF',
+					'target-arrow-color': '#B8DCFF',
 					'curve-style': 'bezier',
 				}
 			},
 			{
-				selector: '.best_parent_unit',	//指向最优父节点箭头
+				selector: '.best_parent_unit', // 指向最优父节点箭头
 				style: {
 					'width': 4,
 					'target-arrow-shape': 'triangle',
-					'line-color': '#72CBC1',
-					'target-arrow-color': '#72CBC1',
+					'line-color': '#3192F2', //B8DCFF
+					'target-arrow-color': '#3192F2',
 					'curve-style': 'bezier',
 				}
 			},
 			{
-				selector: '.is_stable',
+				selector: '.is_stable', // 稳定
 				style: {
 					// 'border-width': 4,
 					// 'border-style': 'solid',
 					// 'border-color': '#209285',
-					'background-color': '#72CBC1'
+					'background-color': '#3192F2'
 				}
 			},
 			{
 				selector: 'node.hover',//node hover
 				style: {
+					'content': 'data(unit_s)',
+					//'content': '这是详细信息' + '\n' + 'data(unit_s)',
 					'background-color': '#9EEAE1',
 					'border-color': '#9EEAE1',
 				}
@@ -184,6 +259,38 @@ function createCy() {
 		}
 	});
 
+
+	// 选择：主链 非主链
+	_cy.on('choosenIfOnMainChian', function (evt,v) {
+		//console.log(_cy.nodes().length)
+		//var arrr = [];
+		if (v == 'notMainChain') {
+			_cy.nodes().forEach(function (node) {
+				//console.log(node);
+				node.removeClass('all_nodes_change_to_light');
+				node.addClass('all_nodes_change_to_dark');
+				if (node.hasClass('is_on_main_chain')) {
+					node.addClass('onblur');
+					//arrr.push(node)
+				}
+			});
+			//console.log(arrr.length)
+		}
+
+		if (v == 'MainChain') {
+			_cy.nodes().forEach(function (node) {
+				node.removeClass('all_nodes_change_to_dark');
+				node.addClass('all_nodes_change_to_light');
+				if (node.hasClass('is_on_main_chain')) {
+					node.removeClass('onblur');
+				}
+			});
+		}
+	});
+
+
+
+
 	_cy.on('mouseover', 'node', function () {
 		this.addClass('hover');
 	});
@@ -200,11 +307,11 @@ function createCy() {
 	_cy.on('mouseover', '.is_on_main_chain', function () {
 		this.addClass('hover');
 	});
-	_cy.on('mousedown', '.is_on_main_chain', function () {
-		this.addClass('press');
-	});
 	_cy.on('mouseout', '.is_on_main_chain', function () {
 		this.removeClass('hover');
+	});
+	_cy.on('mousedown', '.is_on_main_chain', function () {
+		this.addClass('press');
 	});
 	_cy.on('mouseup', '.is_on_main_chain', function () {
 		this.removeClass('press');
@@ -226,18 +333,18 @@ function createCy() {
 		this.addClass('active');
 	});
 
-	_cy.on('pan', function() {
+	_cy.on('pan', function () {
 		var ext = _cy.extent();
-		if (nextPositionUpdates < ext.y2) {
+		if (nextPositionUpdates < ext.x2) {
 			getNext();
 		}
-		else if (notLastUnitUp === true && ext.y2 - (ext.h) < _cy.getElementById(nodes[0].data.unit).position().y) {
+		else if (notLastUnitUp === true && ext.x2 - (ext.w) < _cy.getElementById(nodes[0].data.unit).position().x) {
 			getPrev();
 		}
 		scroll.scrollTop(convertPosPanToPosScroll());
 	});
 
-	$(_cy.container()).on('wheel mousewheel', function(e) {
+	$(_cy.container()).on('wheel mousewheel', function (e) {
 		var deltaY = e.originalEvent.wheelDeltaY || -e.originalEvent.deltaY;
 		if (page == 'dag') {
 			e.preventDefault();
@@ -245,7 +352,7 @@ function createCy() {
 				scrollUp();
 			}
 			else if (deltaY < 0) {
-				_cy.panBy({x: 0, y: -25});
+				_cy.panBy({x: -25, y: 0});
 			}
 			scroll.scrollTop(convertPosPanToPosScroll());
 		}
@@ -255,7 +362,7 @@ function createCy() {
 function updListNotStableUnit() {
 	if (!_cy) return;
 	notStable = [];
-	_cy.nodes().forEach(function(node) {
+	_cy.nodes().forEach(function (node) {
 		if (!node.hasClass('is_stable')) {
 			notStable.push(node.id());
 		}
@@ -263,27 +370,41 @@ function updListNotStableUnit() {
 }
 
 function generate(_nodes, _edges) {
-	var newOffset_x, newOffset_y, left = Infinity, right = -Infinity, first = false, generateAdd = [], _node,
-		classes = '', pos_iomc;
+	var newOffset_x,
+		newOffset_y,
+		left = Infinity,
+		right = -Infinity,
+		first = false,
+		generateAdd = [],
+		_node,
+		classes = '',
+		pos_iomc;
 	var graph = createGraph(_nodes, _edges);
-	graph.nodes().forEach(function(unit) {
+
+	// 取值 left：最小值   right：最大值
+	graph.nodes().forEach(function (unit) {
 		_node = graph.node(unit);
 		if (_node) {
-			if (_node.x < left) left = _node.x;
-			if (_node.x > right) right = _node.x;
+			if (_node.y < left) left = _node.y;
+			if (_node.y > right) right = _node.y;
 		}
 	});
-	graph.nodes().forEach(function(unit) {
+
+	graph.nodes().forEach(function (unit) {
 		_node = graph.node(unit);
 		if (_node) {
 			classes = '';
-			if (_node.is_on_main_chain) classes += 'is_on_main_chain ';
-			if (_node.is_stable) classes += 'is_stable ';
+			if (_node.is_on_main_chain) classes += 'is_on_main_chain';
+			if (_node.is_stable) classes += 'is_stable';
+			if (_node.pow_type == '1' ) classes += 'is_pow';
+			if (_node.pow_type == '2' ) classes += 'is_trustme';
+			if (_node.pow_type == '3' ) classes += 'is_coinbase';
 			if (_node.sequence === 'final-bad') classes += 'finalBad';
 			if (_node.sequence === 'temp-bad') classes += 'tempBad';
+
 			if (!first) {
-				newOffset_x = -_node.x - ((right - left) / 2);
-				newOffset_y = generateOffset - _node.y + 66;
+				newOffset_y = -_node.y - ((right - left) / 2);
+				newOffset_x = generateOffset - _node.x + 66; // var generateOffset = 0
 				first = true;
 			}
 			if (phantoms[unit] !== undefined) {
@@ -291,20 +412,20 @@ function generate(_nodes, _edges) {
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {x: phantoms[unit], y: _node.y + newOffset_y},
+					position: {y: phantoms[unit], x: _node.x + newOffset_x},
 					classes: classes
 				});
 				delete phantoms[unit];
 			}
 			else {
-				pos_iomc = setMaxWidthNodes(_node.x + newOffset_x);
+				pos_iomc = setMaxWidthNodes(_node.y + newOffset_y);
 				if (pos_iomc == 0 && _node.is_on_main_chain == 0) {
 					pos_iomc += 40;
 				}
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {x: pos_iomc, y: _node.y + newOffset_y},
+					position: {y: pos_iomc, x: _node.x + newOffset_x},
 					classes: classes
 				});
 			}
@@ -312,13 +433,12 @@ function generate(_nodes, _edges) {
 	});
 	generateAdd = fixConflicts(generateAdd);
 	_cy.add(generateAdd);
-	generateOffset = _cy.nodes()[_cy.nodes().length - 1].position().y;
+	generateOffset = _cy.nodes()[_cy.nodes().length - 1].position().x;
 	nextPositionUpdates = generateOffset;
 	_cy.add(createEdges());
 	updListNotStableUnit();
 	updateScrollHeigth();
 }
-
 
 function animationPanUp(distance) {
 	if (animationPlaysPanUp) {
@@ -326,7 +446,7 @@ function animationPanUp(distance) {
 	}
 	else {
 		if (queueAnimationPanUp.length > 1) {
-			distance = queueAnimationPanUp.reduce(function(prev, current) {
+			distance = queueAnimationPanUp.reduce(function (prev, current) {
 				return prev + current;
 			});
 			queueAnimationPanUp = [];
@@ -335,13 +455,13 @@ function animationPanUp(distance) {
 		animationPlaysPanUp = true;
 		_cy.animate({
 			pan: {
-				x: _cy.pan('x'),
-				y: _cy.pan('y') + distance
+				y: _cy.pan('y'),
+				x: _cy.pan('x') + distance
 			}
 		}, {
 			duration: 250,
-			complete: function() {
-				oldOffset = _cy.getElementById(nodes[0].data.unit).position().y + 66;
+			complete: function () {
+				oldOffset = _cy.getElementById(nodes[0].data.unit).position().x + 66;
 				animationPlaysPanUp = false;
 				if (queueAnimationPanUp.length) {
 					animationPanUp(queueAnimationPanUp[0]);
@@ -353,33 +473,47 @@ function animationPanUp(distance) {
 }
 
 function setNew(_nodes, _edges, newUnits) {
-	var newOffset_x, newOffset_y, min = Infinity, max = -Infinity, left = Infinity, right = -Infinity, first = false, x,
-		y, generateAdd = [], _node, classes = '', pos_iomc;
+	var newOffset_x,
+		newOffset_y,
+		min = Infinity,
+		max = -Infinity,
+		left = Infinity,
+		right = -Infinity,
+		first = false,
+		x,
+		y,
+		generateAdd = [],
+		_node,
+		classes = '',
+		pos_iomc;
 	var graph = createGraph(_nodes, _edges);
-	graph.nodes().forEach(function(unit) {
+	graph.nodes().forEach(function (unit) {
 		_node = graph.node(unit);
 		if (_node) {
-			y = _node.y;
-			if (y < min) min = y;
-			if (y > max) max = y;
-			if (_node.x < left) left = _node.x;
-			if (_node.x > right) right = _node.x;
+			x = _node.x;
+			if (x < min) min = x;
+			if (x > max) max = x;
+			if (_node.y < left) left = _node.y;
+			if (_node.y > right) right = _node.y;
 		}
 	});
-	graph.nodes().forEach(function(unit) {
+	graph.nodes().forEach(function (unit) {
 		_node = graph.node(unit);
 		if (_node) {
 			classes = '';
-			if (_node.is_on_main_chain) classes += 'is_on_main_chain ';
-			if (_node.is_stable) classes += 'is_stable ';
+			if (_node.is_on_main_chain) classes += 'is_on_main_chain';
+			if (_node.is_stable) classes += 'is_stable';
+			if (_node.pow_type == '1' ) classes += 'is_pow';
+			if (_node.pow_type == '2' ) classes += 'is_trustme';
+			if (_node.pow_type == '3' ) classes += 'is_coinbase';
 			if (_node.sequence === 'final-bad') classes += 'finalBad';
 			if (_node.sequence === 'temp-bad') classes += 'tempBad';
 			if (!first) {
-				newOffset_x = -_node.x - ((right - left) / 2);
-				newOffset_y = newOffset - (max - min) + 66;
+				newOffset_y = -_node.y - ((right - left) / 2);
+				newOffset_x = newOffset - (max - min) + 66;
 				newOffset -= (max - min) + 66;
 				first = true;
-				if (newUnits && _cy.extent().y1 < oldOffset) {
+				if (newUnits && _cy.extent().x1 < oldOffset) {
 					animationPanUp(max + 54);
 				}
 			}
@@ -388,19 +522,19 @@ function setNew(_nodes, _edges, newUnits) {
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {x: phantomsTop[unit], y: _node.y + newOffset_y},
+					position: {y: phantomsTop[unit], x: _node.x + newOffset_x},
 					classes: classes
 				});
 				delete phantomsTop[unit];
 			} else {
-				pos_iomc = setMaxWidthNodes(_node.x + newOffset_x);
+				pos_iomc = setMaxWidthNodes(_node.y + newOffset_y);
 				if (pos_iomc == 0 && _node.is_on_main_chain == 0) {
 					pos_iomc += 40;
 				}
 				generateAdd.push({
 					group: "nodes",
 					data: {id: unit, unit_s: _node.label},
-					position: {x: pos_iomc, y: _node.y + newOffset_y},
+					position: {y: pos_iomc, x: _node.x + newOffset_x},
 					classes: classes
 				});
 			}
@@ -413,21 +547,23 @@ function setNew(_nodes, _edges, newUnits) {
 	updateScrollHeigth();
 }
 
+// 创建图表
 function createGraph(_nodes, _edges) {
 	var graph = new dagre.graphlib.Graph({
 		multigraph: true,
-		compound: true
+		compound: true,
 	});
-	graph.setGraph({});
-	graph.setDefaultEdgeLabel(function() {
+	graph.setGraph({rankdir: "LR"});
+	graph.setDefaultEdgeLabel(function () {
 		return {};
 	});
-	_nodes.forEach(function(node) {
+	_nodes.forEach(function (node) {
 		graph.setNode(node.data.unit, {
 			label: node.data.unit_s,
-			width: 32,
-			height: 32,
+			width: 36,
+			height: 36,
 			is_on_main_chain: node.is_on_main_chain,
+			pow_type: node.pow_type,
 			is_stable: node.is_stable,
 			sequence: node.sequence
 		});
@@ -491,10 +627,12 @@ function createEdges() {
 		if (_edges[k]) delete _edges[k];
 	}
 	for (k in phantoms) {
-		_cy.getElementById(k).position('y', generateOffset + 166);
+		// _cy.getElementById(k).position('y', generateOffset + 166);
+		_cy.getElementById(k).position('x', generateOffset + 166);
 	}
 	for (k in phantomsTop) {
-		_cy.getElementById(k).position('y', newOffset - 166);
+		// _cy.getElementById(k).position('y', newOffset - 166);
+		_cy.getElementById(k).position('x', newOffset - 166);
 	}
 	for (k in _edges) {
 		if (_edges.hasOwnProperty(k)) {
@@ -505,22 +643,26 @@ function createEdges() {
 			}
 			else {
 				position = _cy.getElementById(_edges[k].data.source).position();
-				phantoms[_edges[k].data.target] = position.x + offset;
+				// phantoms[_edges[k].data.target] = position.x + offset;
+				phantoms[_edges[k].data.target] = position.y + offset;
 				out.push({
 					group: "nodes",
 					data: {id: _edges[k].data.target, unit_s: _edges[k].data.target.substr(0, 7) + '...'},
-					position: {x: position.x + offset, y: generateOffset + 166}
+					//position: {x: position.x + offset, y: generateOffset + 166}
+					position: {y: position.y + offset, x: generateOffset + 166}
 				});
 				offset += 60;
 				out.push({group: "edges", data: _edges[k].data, classes: classes});
 			}
 			if (!_cy.getElementById(_edges[k].data.source).length) {
 				position = _cy.getElementById(_edges[k].data.target).position();
-				phantomsTop[_edges[k].data.source] = position.x + offsetTop;
+				// phantomsTop[_edges[k].data.source] = position.x + offsetTop;
+				phantomsTop[_edges[k].data.source] = position.y + offsetTop;
 				out.push({
 					group: "nodes",
 					data: {id: _edges[k].data.source, unit_s: _edges[k].data.source.substr(0, 7) + '...'},
-					position: {x: position.x + offsetTop, y: newOffset - 166}
+					//position: {x: position.x + offsetTop, y: newOffset - 166}
+					position: {y: position.y + offsetTop, x: newOffset - 166}
 				});
 				offsetTop += 60;
 				out.push({group: "edges", data: _edges[k].data, classes: classes});
@@ -533,7 +675,7 @@ function createEdges() {
 function setChangesStableUnits(arrStableUnits) {
 	if (!arrStableUnits) return;
 	var node;
-	arrStableUnits.forEach(function(objUnit) {
+	arrStableUnits.forEach(function (objUnit) {
 		node = _cy.getElementById(objUnit.unit);
 		if (node) {
 			if (!node.hasClass('is_stable')) node.addClass('is_stable');
@@ -565,17 +707,18 @@ function highlightNode(unit) {
 	var el = _cy.getElementById(unit);
 	if (el.length && phantoms[unit] === undefined && phantomsTop[unit] === undefined) {
 		var extent = _cy.extent();
-		var elPositionY = el.position().y;
+		// var elPositionY = el.position().y;
+		var elPositionX = el.position().x;
 		lastActiveUnit = location.hash.substr(1);
 		el.addClass('active');
 		activeNode = el.id();
 		socket.emit('info', {unit: activeNode});
-		if (elPositionY < extent.y1 || elPositionY > extent.y2) {
+		if (elPositionX < extent.x1 || elPositionX > extent.x2) {
 			bWaitingForPrev = true;
 			_cy.stop();
 			_cy.animate({
-				pan: {x: _cy.pan('x'), y: _cy.getCenterPan(el).y},
-				complete: function() {
+				pan: {y: _cy.pan('y'), x: _cy.getCenterPan(el).x},
+				complete: function () {
 					bWaitingForPrev = false;
 				}
 			}, {
@@ -593,10 +736,10 @@ function highlightNode(unit) {
 
 function scrollUp() {
 	var ext = _cy.extent();
-	if ((notLastUnitUp === false && ext.y2 - (ext.h / 2) > _cy.getElementById(nodes[0].data.unit).position().y + 20) ||
-		(notLastUnitUp === true && ext.y2 - (ext.h) > _cy.getElementById(nodes[0].data.unit).position().y)
+	if ((notLastUnitUp === false && ext.x2 - (ext.w / 2) > _cy.getElementById(nodes[0].data.unit).position().x + 20) ||
+		(notLastUnitUp === true && ext.x2 - (ext.w) > _cy.getElementById(nodes[0].data.unit).position().x)
 	) {
-		_cy.panBy({x: 0, y: 25});
+		_cy.panBy({x: 25, y: 0});
 	}
 	else if (notLastUnitUp === true) {
 		getPrev();
@@ -624,7 +767,8 @@ function showHideBlock(event, id) {
 
 function searchForm(text) {
 	if (text.length == 44 || text.length == 32) {
-		location.hash = text;
+		// location.hash = text;
+		location.href = './detail#' + text;
 	}
 	else {
 		showInfoMessage("Please enter a unit or address");
@@ -632,17 +776,14 @@ function searchForm(text) {
 	$('#inputSearch').val('');
 }
 
+// 回到顶部
 function goToTop() {
 	if (notLastUnitUp) {
 		socket.emit('start', {type: 'last'});
 	} else {
 		var el = _cy.getElementById(nodes[0].data.unit);
 		_cy.stop();
-		_cy.animate({
-			pan: {x: _cy.pan('x'), y: _cy.getCenterPan(el).y}
-		}, {
-			duration: 400
-		});
+		_cy.animate( {pan: {y: _cy.pan('y'), x: _cy.getCenterPan(el).x}}, {duration: 400} );
 	}
 	location.hash = '';
 	if (activeNode) _cy.getElementById(activeNode).removeClass('active');
@@ -653,8 +794,8 @@ function goToTop() {
 	$('#listInfo').hide();
 }
 
-//events
-window.addEventListener('hashchange', function() {
+// 哈希 值变化
+window.addEventListener('hashchange', function () {
 	if (location.hash.length == 45) {
 		highlightNode(location.hash.substr(1));
 		if ($('#addressInfo').css('display') == 'block') {
@@ -666,20 +807,20 @@ window.addEventListener('hashchange', function() {
 	}
 });
 
-window.addEventListener('keydown', function(e) {
+window.addEventListener('keydown', function (e) {
 	if (page == 'dag') {
-		if (e.keyCode == 38) {
+		if (e.keyCode == 37) {
 			e.preventDefault();
 			scrollUp();
 		}
-		else if (e.keyCode == 40) {
+		else if (e.keyCode == 39) {
 			e.preventDefault();
-			_cy.panBy({x: 0, y: -25});
+			_cy.panBy({x: -25, y: 0});
 		}
 	}
 }, true);
 
-$(window).scroll(function() {
+$(window).scroll(function () {
 	if (($(window).scrollTop() + $(window).height()) + 200 >= $(document).height()) {
 		if (!nextPageTransactionsEnd) {
 			getNextPageTransactions();
@@ -687,27 +828,43 @@ $(window).scroll(function() {
 	}
 });
 
-//websocket
+
+// websocket
 var socket = io.connect(location.href);
 var bWaitingForNext = false, bWaitingForNew = false, bHaveDelayedNewRequests = false, bWaitingForPrev = false,
 	bWaitingForHighlightNode = false, bWaitingForNextPageTransactions = false;
 var nextPageTransactionsEnd = false, lastInputsROWID = 0, lastOutputsROWID = 0;
 
-socket.on('connect', function() {
+socket.on('connect', function () {
 	start();
 });
 
-socket.on('start', function(data) {
+socket.on('start', function (data) {
 	init(data.nodes, data.edges);
+
+	console.log('---------------'+JSON.stringify(data.nodes[0]))
+	// {
+	// 	"data": {
+	// 		"unit": "InbbVcdQkkCkC6Qapl+g8WNwruinJoSART9o/UrBZN0=",
+	// 		"unit_s": "InbbVcd...",
+	// 		"round_index": 2
+	// 	},
+	// 	"rowid": 6796,
+	// 	"is_on_main_chain": 1,
+	// 	"is_stable": 0,
+	// 	"sequence": "good",
+	// 	"is_witness_unit": false
+	// }
 	if (data.not_found) showInfoMessage("Unit not found");
 	notLastUnitDown = true;
 	if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
 	if (!notLastUnitUp && (location.hash.length != 33)) {
 		highlightNode(data.nodes[0].data.unit);
 	}
+	socket.emit('staticdata');
 });
 
-socket.on('next', function(data) {
+socket.on('next', function (data) {
 	if (notLastUnitDown) {
 		if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
 		nodes = nodes.concat(data.nodes);
@@ -730,7 +887,7 @@ socket.on('next', function(data) {
 	}
 });
 
-socket.on('prev', function(data) {
+socket.on('prev', function (data) {
 	if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
 	if (data.nodes.length) {
 		nodes = [].concat(data.nodes, nodes);
@@ -755,31 +912,31 @@ socket.on('prev', function(data) {
 
 function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissions) {
 	var messagesOut = '', blockId = 0, key, asset, shownHiddenPayments = false;
-	messages.forEach(function(message) {
+	messages.forEach(function (message) {
 		if (message.payload) {
 			asset = message.payload.asset || 'null';
 			messagesOut +=
-				'<div class="message">' +
-				'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
+				'<div class="message">' //+
+			//'<div class="message_app infoTitleChild" onclick="showHideBlock(event, \'message_' + blockId + '\')">';
 			if (message.app == 'payment') {
-				messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1) + ' in ' + (asset == 'null' ? 'notes' : asset);
+				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1) + ' in ' + (asset == 'null' ? 'notes' : asset);
 			}
 			else if (message.app == 'asset') {
-				messagesOut += 'Definition of new asset';
+				//messagesOut += 'Definition of new asset';
 			}
 			else {
-				messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1);
+				//messagesOut += message.app.substr(0, 1).toUpperCase() + message.app.substr(1);
 			}
-			messagesOut += '</div>' +
+			messagesOut += //'</div>' +
 				'<div class="messagesInfo" id="message_' + (blockId++) + '">';
 
 			switch (message.app) {
 				case 'payment':
 					if (message.payload) {
-						messagesOut += '<div class="message_inputs"><div class="infoTitleInputs" onclick="showHideBlock(event, \'message_' + blockId + '\')">Inputs</div>' +
+						messagesOut += '<div class="message_inputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Inputs<div class="infoTitleImg"></div></div>' +
 							'<div class="inputsInfo" id="message_' + (blockId++) + '">';
 
-						message.payload.inputs.forEach(function(input) {
+						message.payload.inputs.forEach(function (input) {
 							if (input.type && input.type == 'issue') {
 								messagesOut +=
 									'<div class="infoTitleInput" onclick="showHideBlock(event, \'message_' + blockId + '\')">Issue</div>' +
@@ -803,17 +960,17 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 						});
 
 						messagesOut += '</div></div>' +
-							'<div class="message_outputs"><div class="infoTitleInputs" onclick="showHideBlock(event, \'message_' + blockId + '\')">Outputs</div>' +
+							'<div class="message_outputs"><div class="infoTitleInputs infoTitle" onclick="showHideBlock(event, \'message_' + blockId + '\')">Outputs<div class="infoTitleImg"></div></div>' +
 							'<div class="inputsInf" id="message_' + (blockId++) + '">';
 
-						outputsUnit[asset].forEach(function(output) {
+						outputsUnit[asset].forEach(function (output) {
 							messagesOut += '<div class="outputs_div">';
 							if (output.is_spent) {
-								messagesOut += '<div><span class="numberFormat">' + output.amount + '</span> to <a href="#' + output.address + '">' + output.address + '</a><br> ' +
+								messagesOut += '<div><span class="numberFormat">' + output.amount + '</span> to <a href="detail#' + output.address + '">' + output.address + '</a><br> ' +
 									'(spent in <a href="#' + output.spent + '">' + output.spent + '</a>)</div>';
 							}
 							else {
-								messagesOut += '<div><span class="numberFormat">' + output.amount + '</span> to <a href="#' + output.address + '">' + output.address + '</a><br> (not spent)</div>';
+								messagesOut += '<div><span class="numberFormat">' + output.amount + '</span> to <a href="detail#' + output.address + '">' + output.address + '</a><br> (not spent)</div>';
 							}
 							messagesOut += '</div>';
 						});
@@ -850,58 +1007,47 @@ function generateMessageInfo(messages, transfersInfo, outputsUnit, assocCommissi
 	return messagesOut;
 }
 
-// pow_type INT Null --  1: pow-equhash 2: trustme 3: coin base
-const POWTYPE = {
-	'1' : 'pow-equihash',
-	'2' : 'trustme',
-	'3' : 'coin base'
-}
-socket.on('info', function(data) {
-	console.log(data);//witnessed_level
-	console.log(data.witnessed_level);
+socket.on('info', function (data) {
 	if (bWaitingForHighlightNode) bWaitingForHighlightNode = false;
 	if (data) {
 		var childOut = '', parentOut = '', authorsOut = '', witnessesOut = '';
-		data.child.forEach(function(unit) {
+		data.child.forEach(function (unit) {
 			childOut += '<div><a href="#' + unit + '">' + unit + '</a></div>';
 		});
-		data.parents.forEach(function(unit) {
+		data.parents.forEach(function (unit) {
 			parentOut += '<div><a href="#' + unit + '">' + unit + '</a></div>';
 		});
 		var incAuthors = 0;
-		data.authors.forEach(function(author) {
-			authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
+		data.authors.forEach(function (author) {
+			//authorsOut += '<div><a href="#' + author.address + '">' + author.address + '</a>';
+			authorsOut += '<a href="detail#' + author.address + '">' + author.address + '</a>';
+			/*
 			if (author.definition) {
 				authorsOut += '<span class="infoTitle hideTitle" class="definitionTitle" onclick="showHideBlock(event, \'definition' + incAuthors + '\')">Definition<div class="infoTitleImg"></div></span>' +
 					'<div id="definition' + (incAuthors++) + '" style="display: none"><pre>' + JSON.stringify(JSON.parse(author.definition), null, '   ') + '</pre></div>';
 
 			}
-			authorsOut += '</div>';
+			*/
+			//authorsOut += '</div>';
+			authorsOut += '';
 		});
-
+		// data.witnesses.forEach(function (witness) {
+		// 	witnessesOut += '<div><a href="#' + witness + '">' + witness + '</a></div>';
+		// });
 
 		$('#unit').html(data.unit);
-
-		$('#roundIndex').css('display','none');
-		$('#powType').css('display','none');
-		if(data.round_index){
-			$('#roundIndex').css('display','block');
-			$('#powType').css('display','block');
-			$('#round').html(data.round_index);
-			$('#pow').html(POWTYPE[data.pow_type]);
-		}
-		
 		$('#children').html(childOut);
 		$('#parents').html(parentOut);
 		$('#authors').html(authorsOut);
 		$('#received').html(moment(data.date).format('DD.MM.YYYY HH:mm:ss'));
 		$('#fees').html('<span class="numberFormat">' + (parseInt(data.headers_commission) + parseInt(data.payload_commission)) + '</span> (<span class="numberFormat">' + data.headers_commission + '</span> headers, <span class="numberFormat">' + data.payload_commission + '</span> payload)');
-		$('#last_ball_unit').html('<a href="#'+data.last_ball_unit+'">'+data.last_ball_unit+'</a>');
+		$('#last_ball_unit').html('<a href="#' + data.last_ball_unit + '">' + data.last_ball_unit + '</a>');
 		$('#level').html(data.level);
-		$('#witnessed_level').text(data.witnessed_level);
+		$('#witnessed_level').html(data.witnessed_level);
 		$('#main_chain_index').html(data.main_chain_index);
 		$('#latest_included_mc_index').html(data.latest_included_mc_index);
 		$('#is_stable').html(data.is_stable);
+		$('#witnesses').html(witnessesOut);
 		$('#messages').html(data.sequence === 'final-bad' ? '' : generateMessageInfo(data.messages, data.transfersInfo, data.outputsUnit, data.assocCommissions));
 		if ($('#listInfo').css('display') === 'none') {
 			$('#defaultInfo').hide();
@@ -914,14 +1060,15 @@ socket.on('info', function(data) {
 		}
 		adaptiveShowInfo();
 		formatAllNumbers();
-	}else {
+	}
+	else {
 		showInfoMessage("Unit not found");
 	}
 });
 
 socket.on('update', getNew);
 
-socket.on('new', function(data) {
+socket.on('new', function (data) {
 	if (data.nodes.length) {
 		nodes = [].concat(data.nodes, nodes);
 		for (var k in data.edges) {
@@ -955,7 +1102,7 @@ function generateTransactionsList(objTransactions, address) {
 			'</tr>' +
 			'<tr><th colspan="3"><div style="margin: 5px"></div></th></tr>' +
 			'<tr><td>';
-		transaction.from.forEach(function(objFrom) {
+		transaction.from.forEach(function (objFrom) {
 			if (objFrom.issue) {
 				listTransactions += '<div class="transactionUnitListAddress">' +
 					'<div>' + addressOut + '</div>' +
@@ -993,7 +1140,7 @@ function generateTransactionsList(objTransactions, address) {
 	return listTransactions;
 }
 
-socket.on('addressInfo', function(data) {
+socket.on('addressInfo', function (data) {
 	if (data) {
 		var listUnspent = '', balance = '';
 		lastInputsROWID = data.newLastInputsROWID;
@@ -1007,8 +1154,8 @@ socket.on('addressInfo', function(data) {
 				balance += '<div><span class="numberFormat">' + data.objBalance[k] + '</span> of ' + k + '</div>';
 			}
 		}
-		if(data.unspent) {
-			data.unspent.forEach(function(row) {
+		if (data.unspent) {
+			data.unspent.forEach(function (row) {
 				listUnspent += '<div><a href="#' + row.unit + '">' + row.unit + '</a> (<span class="numberFormat">' + row.amount + '</span> ' + (row.asset == null ? 'notes' : row.asset) + ')</div>';
 			});
 		}
@@ -1016,10 +1163,10 @@ socket.on('addressInfo', function(data) {
 		$('#balance').html(balance);
 		$('#listUnspent').html(listUnspent);
 		var transactionsList = generateTransactionsList(data.objTransactions, data.address);
-		if(transactionsList) {
+		if (transactionsList) {
 			$('#listUnits').html(transactionsList);
 			$('#titleListTransactions').show();
-		}else{
+		} else {
 			$('#listUnits').html('');
 			$('#titleListTransactions').hide();
 		}
@@ -1052,7 +1199,7 @@ socket.on('addressInfo', function(data) {
 	if (!nextPageTransactionsEnd && $('#tableListTransactions').height() < $(window).height()) getNextPageTransactions();
 });
 
-socket.on('nextPageTransactions', function(data) {
+socket.on('nextPageTransactions', function (data) {
 	if (data) {
 		if (data.newLastOutputsROWID && data.newLastOutputsROWID) {
 			lastInputsROWID = data.newLastInputsROWID;
@@ -1065,6 +1212,16 @@ socket.on('nextPageTransactions', function(data) {
 	bWaitingForNextPageTransactions = false;
 	if (!nextPageTransactionsEnd && $('#tableListTransactions').height() < $(window).height()) getNextPageTransactions();
 });
+
+socket.on('staticdata', function (data) {
+	$('#allAddress').text(numberFormat(data.allAddress.toString()));
+	$('#activeAddress').text(numberFormat(data.activeAddress.toString()));
+	$('#allUnits').text(numberFormat(data.allUnits.toString()));
+	$('#totalUsersUnits').text(numberFormat(data.totalUsersUnits.toString()));
+	$('#totalUnits').text(numberFormat(data.totalUnits.toString()));
+	$('#totalUserUnits').text(numberFormat(data.totalUserUnits.toString()));
+	$('#totalFees').text(numberFormat(data.totalFees.toString()));
+})
 
 function getNew() {
 	if (notLastUnitUp) return;
@@ -1125,11 +1282,7 @@ function closeAddress() {
 	$('#addressInfo').hide();
 	$('#blockListUnspent').hide();
 	if (!_cy || !lastActiveUnit) {
-		var userAgent = navigator.userAgent;
 		$('#cy, #scroll, #goToTop').show();
-		if (userAgent.match(".*Android.*") || userAgent.match(".*iPhone.*")) {
-			$('#goToTop').hide()
-		}
 		socket.emit('start', {type: 'last'});
 		location.hash = '';
 	}
@@ -1148,7 +1301,7 @@ function showInfoMessage(text, timeMs) {
 	if (timerInfoMessage) clearTimeout(timerInfoMessage);
 
 	$('#infoMessage').html(text).show(350);
-	timerInfoMessage = setTimeout(function() {
+	timerInfoMessage = setTimeout(function () {
 		$('#infoMessage').hide(350).html('');
 	}, timeMs);
 }
@@ -1169,17 +1322,17 @@ function updateScrollHeigth() {
 	scrollTopPos = convertPosPanToPosScroll(unitTopPos, 0);
 	scrollLowPos = convertPosPanToPosScroll(unitLowPos) + (scroll.height()) + 116;
 	$('#scrollBody').height(convertPosPanToPosScroll(unitLowPos - unitTopPos, 0) + (scroll.height() / 2));
-	setTimeout(function() {
+	setTimeout(function () {
 		scroll.scrollTop(convertPosPanToPosScroll());
 	}, 1);
 }
 
-scroll.scroll(function(e) {
+scroll.scroll(function (e) {
 	e.preventDefault();
 	_cy.pan('y', convertPosScrollToPosPan());
 });
 
-$(window).resize(function() {
+$(window).resize(function () {
 	if (_cy) scroll.scrollTop(convertPosPanToPosScroll());
 });
 
@@ -1202,28 +1355,28 @@ function numberFormat(number) {
 
 function formatAllNumbers() {
 	var numbersSpan = $('.numberFormat').not('.format');
-	$.each(numbersSpan, function(a, v) {
+	$.each(numbersSpan, function (a, v) {
 		$(numbersSpan[a]).addClass('format').html(numberFormat(v.innerHTML));
 	})
 }
 
-$(document).on('mousedown', '.numberFormat', function(e) {
+$(document).on('mousedown', '.numberFormat', function (e) {
 	var self = $(this);
 	if (self.hasClass('format')) {
 		self.html(self.html().replace(/\,/g, '')).removeClass('format');
 	}
 });
-$(document).on('touchstart', '.numberFormat', function() {
+$(document).on('touchstart', '.numberFormat', function () {
 	var self = $(this);
 	if (self.hasClass('format')) {
 		self.html(self.html().replace(/\,/g, '')).removeClass('format');
 	}
 });
-$(document).on('mouseout', '.numberFormat', function() {
+$(document).on('mouseout', '.numberFormat', function () {
 	var self = $(this);
 	if (!self.hasClass('format')) {
 		self.addClass('format');
-		setTimeout(function() {
+		setTimeout(function () {
 			self.html(numberFormat(self.html()));
 		}, 250);
 	}

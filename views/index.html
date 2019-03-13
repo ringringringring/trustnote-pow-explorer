@@ -8,41 +8,337 @@
 	<link rel="icon" href="/img/icon.png">
 </head>
 <body>
-<!--top bar-->
-<div id="menu" class="rowFull">
-	<div id="menuLeft">
-		<a href="http://explorer.trustnote.org" id="menuLeftImg"><img src="/img/Trustnote_logo.png"></a>
-		<!--<div id="menuLeftTitle"><a href="http://explorer.trustnote.org">TrustNote</a></div>-->
+	<!-- 详细信息 -->
+	<!-- <div id="nodeDetailsl"> -->
+			<div id="nodeDetails">
+		<p id="statusIsPow">Pow</p>
+		<p id="statusIsTrustme">TrustMe</p>
+		<p id="statusIsCoinbase">CoinBase</p>
+		<!-- <p>Pow</p> -->
+		<p id="statusIsIssued">第 <span id="statusIsIssuedTxT"></span> 挖出</p>
+		<p id="statusIsMainChain" style="position: relative; padding-left: 10px;"> <span class="doote"></span> 主链</p>
+		<p id="statusIsStable" style="position: relative; padding-left: 10px;"> <span class="doote"></span> 稳定</p>
 	</div>
-	<div id="menuRight">
-		<div id="menuInput">
-			<form action="javascript:searchForm($('#inputSearch').val())" method="post">
-				<input type="text" id="inputSearch" placeholder="Search for unit or address">
-				<input type="submit" value="" id="submitSearch">
-			</form>
+
+	
+<!-- banner -->
+<div class="topNav">
+	<!-- logo -->
+	<div class="logo">
+		<!-- <a href="http://explorer.trustnote.org"></a> -->
+		<a href="http://explorer2-alpha.trustnote.org:8000"></a>
+	</div>
+	<!-- 挖矿状态 -->
+	<div style="display: none;" class="status chineseWeb">
+		<div class="statusL">
+			已挖出 <span class="issuedCoin"> </span> <span class="fontspace">枚TTT</span>
+			<div class="line"></div>
 		</div>
+		<div class="statusR">
+			剩余 <span class="nonIssuedCoin"> </span> <span class="fontspace">枚TTT</span>
+		</div>
+		<div class="cb"></div>
 	</div>
-	<div id="menuCenter">
-		<a href="/addressMap">Address Map</a>
-		<!--<div id="menuLeftTitle"><a href="http://explorer.trustnote.org">TrustNote</a></div>-->
+
+	<div class="status englishWeb">
+		<div class="statusL">
+			<span class="issuedCoin"> </span>
+			new TTTs are Mined
+			<div class="line"></div>
+		</div>
+		<div class="statusR">
+			<span class="nonIssuedCoin"> </span>
+			TTTs to be Mined
+		</div>
+		<div class="cb"></div>
+	</div>
+	<!-- 查询地址 -->
+	<div class="search">
+		<form action="javascript:searchForm($('#inputSearch').val())" method="post">
+			<input type="text" id="inputSearch" placeholder="Input unit address or wallet address">
+			<input type="submit" value="" id="submitSearch">
+		</form>
 	</div>
 </div>
-<!--data list-->
-<div class="main">
+<!-- banner 结束 -->
+
+<!-- 挖矿详情 -->
+<div class="detailsDiv">
+	<!-- <div class="detailsDivL"> -->
+		<!-- 倒计时 效果 -->
+		<!-- <div class="nextRound chineseWeb" style="display: none">距第 <span class="roundSwitchNext"> </span> 轮还差 <span class="roundSwitchStillPow"> </span> 个PoW </div> -->
+
+		<!-- <div class="nextRound englishWeb">
+			<span class="roundSwitchStillPow"> </span>
+			PoW to round
+			<span class="roundSwitchNext"> </span>
+			
+		</div>
+		<div class="circleChart" id="0"></div> -->
+		<!-- 倒计时 效果 结束 -->
+	<!-- </div> -->
+	<div class="detailsDivR">
+		<!-- 上面 第一层 -->
+		<div class="top1">
+			<div class="top1L">
+				<span id="CurRoundSwitch" class="toBeTranslate">current consensus round</span>
+				<span id="roundSwitch"> </span>
+				<div class="line"></div>
+			</div>
+			<div class="top1R">
+				<span id="CurRoundDifficulty" class="toBeTranslate">difficulty</span>
+				<span id="difficulty"> </span>
+			</div>
+			<div class="cb"></div>
+		</div>
+		<!-- 上面 第一层 结束 -->
+
+		<!-- 中间 第二层 -->
+		<div class="top2">
+			<div>
+				<img src="img/powG.png" alt="">
+				TrustME
+				<span id="numTrustme"> </span>
+			</div>
+
+			<div>
+				<img src="img/trustmeG.png" alt="">
+				PoW
+				<span id="numPow"> </span>
+			</div>
+
+			<div>
+				<img src="img/coinbaseG.png" alt="">
+				Coinbase
+				<span id="numCoinbase"> </span>
+			</div>
+
+			<!-- <div>
+				<img src="img/unitsG.png" alt="">
+				Units
+				<span> 22 </span>
+			</div> -->
+		</div>
+		<!-- 中间 第二层 结束 -->
+
+		<div class="top3">
+			<div class="box">
+				<div class="personBox">
+					<img class="personBoxImg" src="img/personB.png" alt="">
+				</div>
+				<p> #1 </p>
+			</div>
+
+			<div class="box">
+				<div class="personBox">
+					<img class="personBoxImg" src="img/personB.png" alt="">
+				</div>
+				<p> #2 </p>
+			</div>
+
+			<div class="box">
+				<div class="personBox">
+					<img class="personBoxImg" src="img/personB.png" alt="">
+				</div>
+				<p> #3 </p>
+			</div>
+
+			<div class="box">
+				<div class="personBox">
+					<img class="personBoxImg" src="img/personB.png" alt="">
+				</div>
+				<p> #4 </p>
+			</div>
+
+			<div class="box">
+				<div class="personBox">
+					<img class="personBoxImg" src="img/personB.png" alt="">
+				</div>
+				<p> #5 </p>
+			</div>
+
+			<div class="box">
+				<div class="personBox">
+					<img class="personBoxImg" src="img/personB.png" alt="">
+				</div>
+				<p> #6 </p>
+			</div>
+
+			<div class="box">
+				<div class="personBox">
+					<img class="personBoxImg" src="img/personB.png" alt="">
+				</div>
+				<p> #7 </p>
+			</div>
+
+			<div class="box">
+				<div class="personBox">
+					<img class="personBoxImg" src="img/personB.png" alt="">
+				</div>
+				<p> #8 </p>
+			</div>
+
+			<div class="box">
+				<div class="personBox">
+					<img class="personBoxImg" src="img/personB.png" alt="">
+				</div>
+				<p> #9 </p>
+			</div>
+
+			<div class="box noMargin">
+				<div class="personBox">
+					<img class="personBoxImg" src="img/personB.png" alt="">
+				</div>
+				<p> #10 </p>
+			</div>
+
+			<div class="cb"></div>
+		</div>
+	</div>
+	<div class="cb"></div>
+</div>
+<!-- 挖矿详情 结束 -->
+
+<!-- 主链 -->
+<div class="canvasBox" id="canvasBox" onselectstart="return false">
+	<div class="typeChoosen">
+		<div class="unitPosition">
+			<p class="toBeTranslate">main chain unit</p>
+			<input class="radioPos firstMain" type="radio" name="position" id="MainChain" value="MainChain"> <label for="MainChain" class="margin-right toBeTranslate">yes</label>
+			<input class="radioPos" type="radio" name="position" id="notMainChain" value="notMainChain"> <label for="notMainChain" class="toBeTranslate">no</label>
+		</div>
+
+		<div class="unitPosition">
+			<p class="toBeTranslate">unit status</p>
+			<input class="radioPos" type="radio" name="position" id="is_static" value="is_static"> <label for="is_static" class="margin-right toBeTranslate">stable</label>
+			<input class="radioPos" type="radio" name="position" id="not_static" value="not_static"> <label for="not_static" class="margin-right toBeTranslate">unstable</label>
+			<input class="radioPos" type="radio" name="position" id="fail_static" value="fail_static"> <label for="fail_static" class="toBeTranslate">failure</label>
+		</div>
+
+		<div class="unitPosition">
+			<p class="toBeTranslate">unit type</p>
+			<!-- <input class="radioPos" type="radio" name="position" id="is_unit" value="is_unit"> <label for="is_unit" class="margin-right">Unit</label> -->
+			<input class="radioPos" type="radio" name="position" id="is_pow" value="is_pow"> <label for="is_pow" class="margin-right" id="status-PoW">PoW</label>
+			<input class="radioPos" type="radio" name="position" id="is_trustme" value="is_trustme"> <label for="is_trustme" class="margin-right" id="status-TrustME">TrustME</label>
+			<input class="radioPos" type="radio" name="position" id="is_coinbase" value="is_coinbase"> <label for="is_coinbase" id="status-Coinbase">Coinbase</label>
+		</div>
+	</div>
+
+	<div id="middleware">
+		<div id="cy"></div>
+	</div>
+
+	<a id="goToTop" onclick="goToTop()">
+		<div id="titleGoToTop">Go to top</div>
+	</a>
+
+	
+</div>
+<!-- 主链 结束 -->
+
+<!-- 底部 -->
+<div class="bottom">
+	<div class="bottomL">
+		<span class="toBeTranslate">address</span>
+		<span id="allAddress">  </span>
+	</div>
+	<div class="bottomR">
+		<span class="toBeTranslate">transaction</span>
+		<span id="allUnits">  </span>
+	</div>
+	<div class="cb"></div>
+</div>
+<!-- 底部 结束 -->
+
+
+
+<!-- <div class="imgBox">
+		<img src="/img/statusGroup.png" alt="">
+	</div> -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/cytoscape.js"></script>
+<script src="/js/dagre.js"></script>
+<script src="/js/cytoscape-dagre.js"></script>
+<script src="/js/main.js?v12"></script>
+<!-- <script src="/js/circleChart.min.js"></script> -->
+<script src="/js/jquery.i18n.properties-1.0.9.js"></script>
+<script>
+	// 判断 客户端 类型
+	var userAgent = navigator.userAgent;
+	if (userAgent.match(".*Android.*") || userAgent.match(".*iPhone.*")) {
+		$('#canvasBox').hide();
+	}
+	// 选择类型
+	$('.radioPos').change(
+		function(){
+			var val = $("input[name='position']:checked").val(); // alert(val);
+			_cy.emit('choosenIfOnMainChian', val);
+			if(val == 'MainChain'){
+				CurChoosenType = 'MainChain';
+			}else{
+				CurChoosenType = '';
+			}
+			
+		}
+	)
+	// 倒计时 效果
+	// $(".circleChart#0").circleChart({
+	// 	color: "#3192F2",
+	// 	backgroundColor: "#E9EFF7",
+	// 	background: true,
+	// 	speed: 2000,
+	// 	size: 120,
+	// 	textSize: 24,
+	// 	textWeight: 'bold',
+	// 	widthRatio:0.2,
+	// 	startAngle: 75,
+	// 	value: 100,
+	// 	redraw: false,
+	// 	animate: false,
+	// });
+	// 判断 客户端 语言 zh-CN
+	if(navigator.language == 'zh-CN'){
+		$('.englishWeb').css('display','none');
+		$('.chineseWeb').css('display','block')
+		getCurlang();
+	}
+	function getCurlang() {
+		jQuery.i18n.properties({
+			name: 'strings',
+			path: '/i18n/',
+			mode: 'map',
+			language: 'zh',
+			callback: function () {
+				$('#inputSearch').attr('placeholder', $.i18n.prop('Input unit address or wallet address'));
+
+				$(".toBeTranslate").each(function(){
+					var tmptxt = $(this).text();
+					$(this).text($.i18n.prop(tmptxt));
+				})
+			}
+		});
+	};
+
+	// 默认 显示 主链位置
+	var CurChoosenType;
+	setTimeout(() => {
+		$("input[name='position'].firstMain").attr('checked', 'checked');
+		CurChoosenType = 'MainChain';
+		_cy.emit('choosenIfOnMainChian', 'MainChain');
+	}, 2000);
+
+	// 页面 第一次加载完毕
+	function getCurStatus(){
+		socket.emit('isFirstLoad', {isFirstLoad: true});
+	};
+	getCurStatus();
+</script>
+</body>
+</html>
+<!-- <div class="main">
 	<div class="dataList" id="dataList">
-		<div class="first">
-			<h3>All Time Summary</h3>
-			<p>Total user addresses: <span id="allAddress" class="numberFormat">&nbsp;</span></p>
-			<p>Total active user addresses: <span id="activeAddress" class="numberFormat">&nbsp;</span></p>
-			<p>Total units: <span id="allUnits" class="numberFormat">&nbsp;</span></p>
-			<p>Total user units: <span id="totalUsersUnits" class="numberFormat">&nbsp;</span></p>
-		</div>
-		<div class="second">
-			<h3>Latest 24-hour Snapshot</h3>
-			<p>Total units posted: <span id="totalUnits" class="numberFormat">&nbsp;</span></p>
-			<p>Total user units: <span id="totalUserUnits" class="numberFormat">&nbsp;</span></p>
-			<p>Total fees: <span id="totalFees" class="numberFormat">&nbsp;</span> Notes</p>
-		</div>
 		<div class="third">
 			<div class="scroll">
 				<h3>Current Unit</h3>
@@ -51,43 +347,6 @@
 				<p class="infoTitle">Authors:<span id="authors"></span></p>
 				<div id="messages"></div>
 			</div>
-			<div class="cover">
-				<a href="javascript:void(0)" id="detailLink">Detail</a>
-			</div>
 		</div>
 	</div>
-</div>
-<div class="canvasBox" id="canvasBox" onselectstart="return false">
-	<div class="imgBox">
-		<img src="/img/statusGroup.png" alt="">
-	</div>
-	<div id="middleware">
-		<div id="cy"></div>
-	</div>
-	<div id="goToTop" onclick="goToTop()">
-		<div id="titleGoToTop">Go to top</div>
-	</div>
-</div>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/moment.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/cytoscape.js"></script>
-<script src="/js/dagre.js"></script>
-<script src="/js/cytoscape-dagre.js"></script>
-<script src="/js/main.js?v12"></script>
-<script>
-	var userAgent = navigator.userAgent;
-	if (userAgent.match(".*Android.*") || userAgent.match(".*iPhone.*")) {
-		// console.log("Android");
-		// console.log("iPhone");
-		$('#canvasBox').hide();
-	} else {
-		console.log("You're something else...");
-	}
-	$('#detailLink').on('click',function (e) {
-		e.preventDefault()
-		window.location.href = '/detail' + window.location.hash;
-	})
-</script>
-</body>
-</html>
+</div>  -->
