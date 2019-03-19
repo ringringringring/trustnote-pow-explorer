@@ -1,63 +1,56 @@
 /*jslint node: true */
 "use strict";
 
-exports.port = null;
-//exports.myUrl = 'wss://mydomain.com/bb';
-exports.bServeAsHub = false;
-exports.bLight = false;
+/**
+ *	for version control
+ */
+exports.clientName		= 'trustnote-pow-supernode';
+exports.minClientVersion	= '1.1.0';
 
-exports.webPort = 8000;
+
+exports.WS_PROTOCOL = 'ws://';
+// https://console.developers.google.com
+exports.pushApiProjectNumber = 0;
+exports.pushApiKey = '';
+
+exports.port = 9193;
+exports.myUrl = 'ws://10.10.11.50:9193';
+exports.bServeAsHub = true;
+exports.bSaveJointJson = true;
+exports.bLight = false;
+exports.bServeAsRpc = true;
+exports.rpcInterface = '127.0.0.1';
+exports.rpcPort = 6553;
+exports.debug = false;
+
+// byzantine
+exports.IF_BYZANTINE = true;
+
+// this is used by wallet vendor only, to redirect bug reports to developers' email
+exports.bug_sink_email = 'admin@example.org';
+exports.bugs_from_email = 'bugs@example.org';
+
+exports.HEARTBEAT_TIMEOUT = 300*1000;
+
+exports.initial_peers = [
+    "ws://119.28.44.246:9193",
+];
 
 exports.storage = 'sqlite';
 
+exports.deviceName = 'Supernode';
+exports.permanent_pairing_secret = 'randomstring';
+exports.safe_address = null;
+exports.coinbase_address = null;
 
-// exports.initial_witnesses = [
-// 	// "JNA6YWLKFQG7PFF6F32KTXBUAHRAFSET", dev
-//     // "4T7YVRUWMVAJIBSWCP35C7OGCX33SAYO",
-//     // "A4BRUVOW2LSLH6LVQ3TWFOCAM6JPFWOK",
-//     // "BHYNQIMH6KGLVQALJ5AM6EM7RTDDGF3P",
-//     // "D55F4JL2R3S4UHX4UXVFGOWTZPZR2YXO",
-//     // "JKATXQDYSE5TGRRZG6QUJS2GVYLCAPHM",
-//     // "TLLGQTKOT7ZINCOSBJG64LKE3ZTD3EDK",
-//     // "UK7TAQI27IV63N7Q6UB7BSE6OP2B25Z2",
-// 	// "ZW35QKXIKK47A7HW3YRIV6TU3DYDTIVR"
-// 	'72FZXZMFPESCMUHUPWTZJ2F57YV32JCI',
-// 	'2G6WV4QQVF75EPKSXTVRKRTZYSXNIWLU',
-// 	'4ZJ3HQTLYK72O4PLE3GA4ZYCYXLIFHXK',
-// 	'7RR5E6BRHE55FHE76HO6RT2E4ZP3CHYA',
-// 	'CAGSFKGJDODHWFJF5LS7577TKVPLH7KG',
-// 	'FX2B6E622RF4J4MM2OUWMGSOKJP7XTXB',
-// 	'JN2N7SOMDKNSDGMVAW346BYTOSKZIIT4',
-// 	'SAHCPBJAAOXRJ6KRSM3OGATIRSWIWOQA',
-// 	'WL44BDM4QNCMAM5AS3ZB2GYTVDBWAS5Z'
-// ];
+exports.bSingleAddress = true;
+exports.THRESHOLD_DISTANCE = 6;
+exports.MIN_AVAILABLE_WITNESSINGS = 100;
+exports.bPostTimestamp = false;
 
-exports.initial_witnesses = [
-	"JNA6YWLKFQG7PFF6F32KTXBUAHRAFSET",
-    "4T7YVRUWMVAJIBSWCP35C7OGCX33SAYO",
-    "A4BRUVOW2LSLH6LVQ3TWFOCAM6JPFWOK",
-    "BHYNQIMH6KGLVQALJ5AM6EM7RTDDGF3P",
-    "D55F4JL2R3S4UHX4UXVFGOWTZPZR2YXO",
-    "JKATXQDYSE5TGRRZG6QUJS2GVYLCAPHM",
-    "TLLGQTKOT7ZINCOSBJG64LKE3ZTD3EDK",
-    "UK7TAQI27IV63N7Q6UB7BSE6OP2B25Z2",
-    "ZW35QKXIKK47A7HW3YRIV6TU3DYDTIVR",
-    "DE6I5BJFJCXZXPJEP73TESEZFERGY7LH"
-];
+exports.start_mining_round = 0;
+exports.maxWorkderCount = 0;
 
+exports.KEYS_FILENAME = 'keys.json';
 
-/*'wss://trustnote.org/tg' */
-exports.initial_peers = [
-	//'ws://dev.mainchain.pow.trustnote.org:9191',
-	//'ws://150.109.39.137:9191'
-	'ws://119.28.44.246:9193'
-
-	// 'wss://victor.trustnote.org/tn',
-	// 'wss://eason.trustnote.org/tn',
-	// 'wss://lymn.trustnote.org/tn',
-	// 'wss://bob.trustnote.org/tn',
-	// 'wss://curry.trustnote.org/tn',
-	// 'wss://kake.trustnote.org/tn'
-];
-
-console.log('finished explorer conf');
+console.log('finished witness conf');

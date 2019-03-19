@@ -1,6 +1,6 @@
 /*jslint node: true */
 "use strict";
-require('./relay');
+require('./start');
 var conf = require('trustnote-pow-common/config/conf.js');
 var eventBus = require('trustnote-pow-common/base/event_bus.js');
 var round = require('trustnote-pow-common/pow/round.js');

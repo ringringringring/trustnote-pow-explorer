@@ -30,6 +30,7 @@
 		"express": "^4.14.0",
 		"moment": "^2.17.1",
 		"socket.io": "^1.7.1",
+		"json-rpc2": "^1.0.2",
 		"trustnote-pow-common": "git+https://github.com/trustnote/trustnote-pow-common.git",
 		"trustnote-pow-miner": "git+https://github.com/trustnote/trustnote-pow-miner.git"
 	},
