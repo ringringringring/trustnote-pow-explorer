@@ -1186,8 +1186,8 @@ socket.on('getRoundStatus', function (roundStatus) {
 	$('.depositRatio').text(roundStatus.depositRatio);
 	$('.inflationRatio').text(roundStatus.inflationRatio);
 
-	$('.issuedCoin').text(roundStatus.totalMine);
-	$('.nonIssuedCoin').text(roundStatus.totalPublishCoin);
+	$('.issuedCoin').text(roundStatus.totalMine.toString().substr(0,roundStatus.totalMine.toString().length - 6));
+	$('.nonIssuedCoin').text(roundStatus.totalPublishCoin.toString().substr(0, roundStatus.totalPublishCoin.toString().length - 6));
 
 
 	$('#difficulty').text(roundStatus.difficultyOfRound);

@@ -431,7 +431,11 @@ div.logo a {
 	display: block;
 	width: 108px;
 	height: 103px;
-	background: url(../img/logoWhite.png) no-repeat;
+	/* background: url(../img/ringlogo.png) no-repeat; */
+	/* background: url(../img/logoWhite.png) no-repeat; */
+	/* background: red; */
+	background: url(../img/logo02.png) no-repeat center center;
+	/* background-size: 100%; */
 }
 
 div.status {
