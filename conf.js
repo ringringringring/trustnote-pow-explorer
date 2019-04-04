@@ -13,6 +13,8 @@ exports.WS_PROTOCOL = 'ws://';
 exports.pushApiProjectNumber = 0;
 exports.pushApiKey = '';
 
+exports.webPort = 8000;
+
 exports.port = 9193;
 exports.myUrl = 'ws://10.10.11.50:9193';
 exports.bServeAsHub = true;

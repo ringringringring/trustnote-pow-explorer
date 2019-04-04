@@ -3,6 +3,7 @@
 
 var db = require('trustnote-pow-common/db/db.js');
 var storage = require('trustnote-pow-common/db/storage.js');
+var round = require('trustnote-pow-common/pow/round.js');
 var moment = require('moment');
 var async = require('async');
 var staticdata = {};
@@ -150,6 +151,8 @@ function getRoundStatusByRoundIndex(round_index,callback){
 				data['totalPublishCoin'] = assocCachedStatistics[round_index].totalPublishCoin;
 				data['depositRatio'] = assocCachedStatistics[round_index].depositRatio;
 				data['inflationRatio'] = assocCachedStatistics[round_index].inflationRatio;
+				console.log("Statistics cache:" + JSON.stringify(assocCachedStatistics));
+				console.log("Statistics data cache:" + JSON.stringify(data));
 				return callback(data);
 			}
 			round.getDifficultydByRoundIndex(db, round_index, function (difficultyOfRound){
@@ -166,6 +169,7 @@ function getRoundStatusByRoundIndex(round_index,callback){
 														  "totalPublishCoin": totalPublishCoin,
 														  "depositRatio": depositRatio,
 														  "inflationRatio": inflationRatio};
+					console.log("Statistics data:" + JSON.stringify(data));														
 					callback(data);
 				});
 			});

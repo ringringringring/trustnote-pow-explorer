@@ -1154,15 +1154,15 @@ socket.on('staticdata', function (data) {
 	$('#allUnits').text(numberFormat(data.allUnits.toString())); // 交易
 })
 
-// 已挖出 x 枚TTT  难度系数
-socket.on('coinbase_mined', function (data) {
-	// console.log('******',data)
-	$('.issuedCoin').text(data.issuedCoinbase/1000000); // 已经挖出
-	$('.nonIssuedCoin').text(500000000 - (data.issuedCoinbase/1000000)); // 还剩下
-	$('#roundSwitch').text(data.round_index); // 当前轮次
-	current_round_index = data.round_index;
-	$('#difficulty').text(data.difficulty); // 难度系数
-})
+// // 已挖出 x 枚TTT  难度系数
+// socket.on('coinbase_mined', function (data) {
+// 	// console.log('******',data)
+// 	$('.issuedCoin').text(data.issuedCoinbase/1000000); // 已经挖出
+// 	$('.nonIssuedCoin').text(500000000 - (data.issuedCoinbase/1000000)); // 还剩下
+// 	$('#roundSwitch').text(data.round_index); // 当前轮次
+// 	current_round_index = data.round_index;
+// 	$('#difficulty').text(data.difficulty); // 难度系数
+// })
 
 // 定时器 去获取当前轮次的 状态
 setInterval(fnGetRoundStatus, 4000);

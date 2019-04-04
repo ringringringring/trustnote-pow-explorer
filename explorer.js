@@ -29,14 +29,14 @@ eventBus.on('new_joint', function() {
 	io.sockets.emit('update');
 });
 
-eventBus.on('round_switch', function (round_index) {
-	// tell main page to update coinbase info
-	var minedTotalCoinbase = round.getSumCoinbaseByEndRoundIndex(round_index - 1);
-	round.getDifficultydByRoundIndex(db, round_index, function (difficultyOfRound){
-		io.sockets.emit('coinbase_mined', {issuedCoinbase: minedTotalCoinbase, difficulty:difficultyOfRound, round_index: round_index});
-		console.log('=== Round Switch === : '+round_index);
-	});
-});
+// eventBus.on('round_switch', function (round_index) {
+// 	// tell main page to update coinbase info
+// 	var minedTotalCoinbase = round.getSumCoinbaseByEndRoundIndex(round_index - 1);
+// 	round.getDifficultydByRoundIndex(db, round_index, function (difficultyOfRound){
+// 		io.sockets.emit('coinbase_mined', {issuedCoinbase: minedTotalCoinbase, difficulty:difficultyOfRound, round_index: round_index});
+// 		console.log('=== Round Switch === : '+round_index);
+// 	});
+// });
 
 io.on('connection', function(socket) {
 	socket.on('staticdata', ws.staticdata);
