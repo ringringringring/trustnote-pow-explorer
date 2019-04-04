@@ -4,6 +4,7 @@
 var db = require('trustnote-pow-common/db/db.js');
 var storage = require('trustnote-pow-common/db/storage.js');
 var round = require('trustnote-pow-common/pow/round.js');
+var gossiper = require('trustnote-pow-common/p2p/gossiper.js');
 var moment = require('moment');
 var async = require('async');
 var staticdata = {};
@@ -129,6 +130,10 @@ function getRoundStatus(round_index,callback){
 
 function getRoundStatusByRoundIndex(round_index,callback){
 	var data = {};
+	var peerList = gossiper.getLivePeerUrls();
+	console.log("Statistics peerList live:" + JSON.stringify(peerList));
+	var peerList1 = gossiper.getAllPeerUrls();
+	console.log("Statistics peerList all:" + JSON.stringify(peerList1));
 	db.query("SELECT pow_type\n\
 		FROM units \n\
 		WHERE round_index =? and pow_type IS NOT NULL ", [round_index], function(rows) {
@@ -142,6 +147,7 @@ function getRoundStatusByRoundIndex(round_index,callback){
 				return unit.pow_type == 3 ;
 			});
 
+			data['roundIndex'] = round_index;
 			data['countofPOWUnit'] = arrPowunits.length;
 			data['countofTrustMEUnit'] = arrTrustMEunits.length;
 			data['countofCoinbaseUnit'] = arrCoinbaseunits.length;
