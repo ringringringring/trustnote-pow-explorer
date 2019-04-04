@@ -7,6 +7,8 @@ var moment = require('moment');
 var async = require('async');
 var staticdata = {};
 
+var MAX_ROUND_IN_CACHE = 10;
+
 var activeAddress;
 var allAddress;
 var level;
@@ -19,6 +21,8 @@ var totalUserUnits;
 var totalFees;
 var date;
 //
+var assocCachedStatistics = {};
+
 function updateStatistics(){
 
 
@@ -140,15 +144,28 @@ function getRoundStatusByRoundIndex(round_index,callback){
 			data['countofPOWUnit'] = arrPowunits.length;
 			data['countofTrustMEUnit'] = arrTrustMEunits.length;
 			data['countofCoinbaseUnit'] = arrCoinbaseunits.length;
+			if (assocCachedStatistics[round_index]){
+				data['difficultyOfRound'] = assocCachedStatistics[round_index].difficultyOfRound;
+				data['totalMine'] = assocCachedStatistics[round_index].totalMine;
+				data['totalPublishCoin'] = assocCachedStatistics[round_index].totalPublishCoin;
+				data['depositRatio'] = assocCachedStatistics[round_index].depositRatio;
+				data['inflationRatio'] = assocCachedStatistics[round_index].inflationRatio;
+				return callback(data);
+			}
 			round.getDifficultydByRoundIndex(db, round_index, function (difficultyOfRound){
-				data['difficultyOfRound'] = difficultyOfRound;
 				round.getStatisticsByRoundIndex(db, round_index, function (err, totalMine, totalPublishCoin, depositRatio, inflationRatio){
 					if(err)
-						return callback(data);	
+						return callback(data);
+					data['difficultyOfRound'] = difficultyOfRound;	
 					data['totalMine'] = totalMine;
 					data['totalPublishCoin'] = totalPublishCoin;
 					data['depositRatio'] = depositRatio;
 					data['inflationRatio'] = inflationRatio;
+					assocCachedStatistics[round_index] = {"difficultyOfRound": difficultyOfRound,
+														  "totalMine": totalMine,
+														  "totalPublishCoin": totalPublishCoin,
+														  "depositRatio": depositRatio,
+														  "inflationRatio": inflationRatio};
 					callback(data);
 				});
 			});
@@ -157,6 +174,34 @@ function getRoundStatusByRoundIndex(round_index,callback){
 }
 
 
+// cache begin
+function shrinkRoundCacheObj(roundIndex, arrIndex, assocCachedObj){
+    console.log("shrink Round Cache , begin roundIndex:" + roundIndex);
+    var minIndex = Math.min.apply(Math, arrIndex);
+    if(roundIndex - minIndex > 10000){
+        console.log("shrink Round Cache, remove all");
+        assocCachedObj = {};
+    }
+    else{
+        for (var offset = minIndex; offset < roundIndex - MAX_ROUND_IN_CACHE; offset++){
+            console.log("shrink Round Cache, remove roundIndex:" + offset);
+            delete assocCachedObj[offset];
+        }
+    }
+}
+function shrinkRoundCache(){
+    var arrStatistics = Object.keys(assocCachedStatistics);
+	if (arrStatistics.length < MAX_ROUND_IN_CACHE){
+        return console.log('round Statistics cache is small, will not shrink');
+    }
+	round.getCurrentRoundIndex(db, function(roundIndex){
+        shrinkRoundCacheObj(roundIndex, arrStatistics, assocCachedStatistics);          
+	});
+}
+
+setInterval(shrinkRoundCache, 1000*1000);
+
+// cache end
 
 
 exports.getStatistics = getStatistics;
