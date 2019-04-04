@@ -140,7 +140,18 @@ function getRoundStatusByRoundIndex(round_index,callback){
 			data['countofPOWUnit'] = arrPowunits.length;
 			data['countofTrustMEUnit'] = arrTrustMEunits.length;
 			data['countofCoinbaseUnit'] = arrCoinbaseunits.length;
-			callback(data);
+			round.getDifficultydByRoundIndex(db, round_index, function (difficultyOfRound){
+				data['difficultyOfRound'] = difficultyOfRound;
+				round.getStatisticsByRoundIndex(db, round_index, function (err, totalMine, totalPublishCoin, depositRatio, inflationRatio){
+					if(err)
+						return callback(data);	
+					data['totalMine'] = totalMine;
+					data['totalPublishCoin'] = totalPublishCoin;
+					data['depositRatio'] = depositRatio;
+					data['inflationRatio'] = inflationRatio;
+					callback(data);
+				});
+			});
 		});
 
 }
