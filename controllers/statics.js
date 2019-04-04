@@ -130,10 +130,10 @@ function getRoundStatus(round_index,callback){
 
 function getRoundStatusByRoundIndex(round_index,callback){
 	var data = {};
-	var peerList = gossiper.getLivePeerUrls();
-	console.log("Statistics peerList live:" + JSON.stringify(peerList));
-	var peerList1 = gossiper.getAllPeerUrls();
-	console.log("Statistics peerList all:" + JSON.stringify(peerList1));
+	// var peerList = gossiper.getLivePeerUrls();
+	// console.log("Statistics peerList live:" + JSON.stringify(peerList));
+	// var peerList1 = gossiper.getAllPeerUrls();
+	// console.log("Statistics peerList all:" + JSON.stringify(peerList1));
 	db.query("SELECT pow_type\n\
 		FROM units \n\
 		WHERE round_index =? and pow_type IS NOT NULL ", [round_index], function(rows) {
