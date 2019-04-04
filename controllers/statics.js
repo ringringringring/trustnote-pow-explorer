@@ -150,26 +150,26 @@ function getRoundStatusByRoundIndex(round_index,callback){
 				data['totalMine'] = assocCachedStatistics[round_index].totalMine;
 				data['totalPublishCoin'] = assocCachedStatistics[round_index].totalPublishCoin;
 				data['depositRatio'] = assocCachedStatistics[round_index].depositRatio;
-				data['inflationRatio'] = assocCachedStatistics[round_index].inflationRatio;
-				console.log("Statistics cache:" + JSON.stringify(assocCachedStatistics));
-				console.log("Statistics data cache:" + JSON.stringify(data));
+				data['inflationRatio'] = assocCachedStatistics[round_index].inflationRatio*100;
+				console.log("Statistics round_index:" + round_index + ", cache:" + JSON.stringify(assocCachedStatistics));
+				console.log("Statistics round_index:" + round_index + ", data cache:" + JSON.stringify(data));
 				return callback(data);
 			}
 			round.getDifficultydByRoundIndex(db, round_index, function (difficultyOfRound){
-				round.getStatisticsByRoundIndex(db, round_index, function (err, totalMine, totalPublishCoin, depositRatio, inflationRatio){
+				round.getStatisticsByRoundIndex(db, round_index-1, function (err, totalMine, totalPublishCoin, depositRatio, inflationRatio){
 					if(err)
 						return callback(data);
 					data['difficultyOfRound'] = difficultyOfRound;	
 					data['totalMine'] = totalMine;
 					data['totalPublishCoin'] = totalPublishCoin;
 					data['depositRatio'] = depositRatio;
-					data['inflationRatio'] = inflationRatio;
+					data['inflationRatio'] = inflationRatio*100;
 					assocCachedStatistics[round_index] = {"difficultyOfRound": difficultyOfRound,
 														  "totalMine": totalMine,
 														  "totalPublishCoin": totalPublishCoin,
 														  "depositRatio": depositRatio,
 														  "inflationRatio": inflationRatio};
-					console.log("Statistics data:" + JSON.stringify(data));														
+					console.log("Statistics round_index:" + round_index + ", data:" + JSON.stringify(data));														
 					callback(data);
 				});
 			});
