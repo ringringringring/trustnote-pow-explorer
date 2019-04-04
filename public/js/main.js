@@ -1173,7 +1173,8 @@ function fnGetRoundStatus(){
 
 // 每一轮 详细状态
 socket.on('getRoundStatus', function (roundStatus) {
-	// console.log('--- 每一轮 status: ---', roundStatus);
+	console.log('--- 每一轮 status: ---', roundStatus);
+
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
 	if(roundStatus.countofPOWUnit > 10){
@@ -1181,6 +1182,16 @@ socket.on('getRoundStatus', function (roundStatus) {
 	} else{
 		$('#numPow').text(roundStatus.countofPOWUnit);
 	}
+
+	$('.depositRatio').text(roundStatus.depositRatio);
+	$('.inflationRatio').text(roundStatus.inflationRatio);
+
+	$('.issuedCoin').text(roundStatus.totalMine);
+	$('.nonIssuedCoin').text(roundStatus.totalPublishCoin);
+
+
+	$('#difficulty').text(roundStatus.difficultyOfRound);
+	$('#roundSwitch').text(roundStatus.roundIndex);
 
 	// if(current_round_index + 1 != 0){
 	// 	$('.roundSwitchNext').text(current_round_index + 1); // 距离 下一轮
