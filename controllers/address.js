@@ -196,13 +196,13 @@ function getAddressInfo(address, cb) {
 						if (rowsDefinitions) {
 							cb(objTransactions, unspent, objBalance, end, rowsDefinitions[0].definition, newLastInputsROWID, newLastOutputsROWID);
 						} else {
-							db.query("SELECT * FROM shared_addresses WHERE shared_address = ?", [rowsUnitAuthors[0].definition_chash], function(rowsSharedDefinitions) {
-								if (rowsSharedDefinitions) {
-									cb(objTransactions, unspent, objBalance, end, rowsSharedDefinitions[0].definition, newLastInputsROWID, newLastOutputsROWID);
-								} else {
+							// db.query("SELECT * FROM shared_addresses WHERE shared_address = ?", [rowsUnitAuthors[0].definition_chash], function(rowsSharedDefinitions) {
+							// 	if (rowsSharedDefinitions) {
+							// 		cb(objTransactions, unspent, objBalance, end, rowsSharedDefinitions[0].definition, newLastInputsROWID, newLastOutputsROWID);
+							// 	} else {
 									cb(objTransactions, unspent, objBalance, end, false, newLastInputsROWID, newLastOutputsROWID);
-								}
-							});
+							// 	}
+							// });
 						}
 					});
 				} else {
