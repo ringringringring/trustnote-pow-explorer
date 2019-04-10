@@ -170,6 +170,8 @@ function getRoundStatusByRoundIndex(round_index,callback){
 					data['totalPublishCoin'] = totalPublishCoin;
 					data['depositRatio'] = depositRatio;
 					data['inflationRatio'] = inflationRatio*100;
+					var network = require('trustnote-pow-common/p2p/network.js');
+					data['OnLinePeers'] = network.getOnLinePeers();
 					assocCachedStatistics[round_index] = {"difficultyOfRound": difficultyOfRound,
 														  "totalMine": totalMine,
 														  "totalPublishCoin": totalPublishCoin,
