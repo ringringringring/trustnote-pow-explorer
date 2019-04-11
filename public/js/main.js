@@ -1172,6 +1172,7 @@ function fnGetOnLinePeers(){
 	socket.emit('getOnLinePeers');
 }
 fnGetOnLinePeers();
+fnGetRoundStatus();
 
 socket.on('getOnlinePeers', function (peers) {
 	// console.log('peers', peers);
