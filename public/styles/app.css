@@ -552,7 +552,7 @@ div.detailsDiv {
 div.detailsDivR {
 	float: left;
 	/* width: 1430px; */
-	width: 1050px;
+	width: 1010px;
 	height: 350px;
 	/* background: #2980b9; */
 	/* border-radius: 10px;
@@ -564,7 +564,7 @@ div.detailsDivR {
 div.detailsDivRR {
 	float: left;
 	/* width: 1430px; */
-	width: 360px;
+	width: 400px;
 	/* background: red; */
 	border-left: 1px solid #E9EFF7;
 	height: 310px;
@@ -634,22 +634,22 @@ div.top3 {
 }
 div.top3 div.box {
 	float: left;
-	margin-right: 20px;
+	margin-right: 26px;
 }
 div.top3 div.box.noMargin {
 	margin: 0;
 }
 div.top3 div.personBox {
 	box-sizing: border-box;
-	width: 80px;
-	height: 85px;
+	width: 70px;
+	height: 80px;
 	background: #E9EFF7;
 	border-radius: 5px;
 	text-align: center;
 	padding-top: 17px;
 }
 div.top3 div.personBox img {
-	width: 44px;
+	width: 40px;
 }
 div.top3 p {
 	font-size: 18px;
