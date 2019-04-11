@@ -157,6 +157,7 @@ function getRoundStatusByRoundIndex(round_index,callback){
 				data['totalPublishCoin'] = assocCachedStatistics[round_index].totalPublishCoin;
 				data['depositRatio'] = assocCachedStatistics[round_index].depositRatio;
 				data['inflationRatio'] = assocCachedStatistics[round_index].inflationRatio*100;
+				data['OnLinePeers'] = assocCachedStatistics[round_index].OnLinePeers;
 				console.log("Statistics round_index:" + round_index + ", cache:" + JSON.stringify(assocCachedStatistics));
 				console.log("Statistics round_index:" + round_index + ", data cache:" + JSON.stringify(data));
 				return callback(data);
@@ -176,7 +177,8 @@ function getRoundStatusByRoundIndex(round_index,callback){
 														  "totalMine": totalMine,
 														  "totalPublishCoin": totalPublishCoin,
 														  "depositRatio": depositRatio,
-														  "inflationRatio": inflationRatio};
+														  "inflationRatio": inflationRatio,
+														  "OnLinePeers": data['OnLinePeers']};
 					console.log("Statistics round_index:" + round_index + ", data:" + JSON.stringify(data));														
 					callback(data);
 				});
