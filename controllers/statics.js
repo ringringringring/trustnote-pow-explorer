@@ -128,15 +128,20 @@ function getRoundStatus(round_index,callback){
 
 }
 
+function getOnlinePeers(){
+	var network = require('trustnote-pow-common/p2p/network.js');
+	return network.getOnLinePeers();
+}
+
 function getRoundStatusByRoundIndex(round_index,callback){
 	var data = {};
 	// var peerList = gossiper.getLivePeerUrls();
 	// console.log("Statistics peerList live:" + JSON.stringify(peerList));
 	// var peerList1 = gossiper.getAllPeerUrls();
 	// console.log("Statistics peerList all:" + JSON.stringify(peerList1));
-	db.query("SELECT pow_type\n\
-		FROM units \n\
-		WHERE round_index =? and pow_type IS NOT NULL ", [round_index], function(rows) {
+	db.query("SELECT pow_type, address \n\
+		FROM units join unit_authors USING(unit) \n\
+		WHERE round_index =? and pow_type IS NOT NULL ORDER BY pow_type,main_chain_index,unit ", [round_index], function(rows) {
 			var arrPowunits = rows.filter(function (unit){
 				return unit.pow_type == 1 ;
 			});
@@ -149,10 +154,10 @@ function getRoundStatusByRoundIndex(round_index,callback){
 
 			data['roundIndex'] = round_index;
 			data['countofPOWUnit'] = arrPowunits.length;
+			data['arrPowUnits'] = arrPowunits;
 			data['countofTrustMEUnit'] = arrTrustMEunits.length;
 			data['countofCoinbaseUnit'] = arrCoinbaseunits.length;
-			var network = require('trustnote-pow-common/p2p/network.js');
-			data['OnLinePeers'] = network.getOnLinePeers();
+	
 			if (assocCachedStatistics[round_index]){
 				data['difficultyOfRound'] = assocCachedStatistics[round_index].difficultyOfRound;
 				data['totalMine'] = assocCachedStatistics[round_index].totalMine;
@@ -216,6 +221,8 @@ setInterval(shrinkRoundCache, 1000*1000);
 
 exports.getStatistics = getStatistics;
 exports.getRoundStatus = getRoundStatus;
+exports.getOnlinePeers = getOnlinePeers;
+
 setTimeout(updateStatistics,1000*5);
 setInterval(updateStatistics,10*60*1000);
 
