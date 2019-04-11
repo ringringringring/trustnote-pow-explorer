@@ -1173,6 +1173,7 @@ function fnGetOnLinePeers(){
 }
 
 socket.on('getOnlinePeers', function (peers) {
+	console.log('peers', peers);
 	if(peers.OnLinePeers){
 		if($('.peer')){
 			$('.peer').remove();
