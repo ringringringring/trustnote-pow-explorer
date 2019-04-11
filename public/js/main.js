@@ -1171,6 +1171,7 @@ setInterval(fnGetOnLinePeers, 1000 * 60);
 function fnGetOnLinePeers(){
 	socket.emit('getOnLinePeers');
 }
+fnGetOnLinePeers();
 
 socket.on('getOnlinePeers', function (peers) {
 	// console.log('peers', peers);
