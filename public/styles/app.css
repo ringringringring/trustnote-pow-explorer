@@ -423,7 +423,7 @@ div.topNav {
 }
 div.logo {
 	margin: 0 auto;
-	padding-top: 55px;
+	padding-top: 40px;
 	width: 108px;
 	height: 103px;
 }
@@ -440,11 +440,11 @@ div.logo a {
 
 div.status {
 	margin: 0 auto;
-	margin-top: 55px;
+	margin-top: 40px;
 	width: 980px;
 	height: 50px;
 	/* background: red; */
-	font-size: 24px;
+	font-size: 22px;
     color: #fff;
     font-weight: 300;
 }
@@ -452,6 +452,7 @@ div.statusL, div.statusR {
 	position: relative;
 	width: 470px;
 	float: left;
+	margin-bottom: 20px;
 }
 span.fontspace {
 	letter-spacing: 2px;
@@ -459,16 +460,17 @@ span.fontspace {
 	font-weight: 300 !important;
 }
 div.statusL span, div.statusR span {
-	font-size: 36px;
+	font-size: 34px;
 	font-weight: 500;
 }
 div.statusL div.line {
 	position: absolute;
 	width: 1px;
-	height: 40px;
-	top: 5px;
+	height: 24px;
+	top: 14px;
 	right: 0;
-	background: #fff;
+	background: #E9EFF7;
+	opacity: 0.5;
 }
 div.statusL {
 	text-align: right;
@@ -523,6 +525,11 @@ div.detailsDiv {
 	width: 1430px;
 	height: 350px;
 	/* background: red; */
+
+	border-radius: 10px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 20px 50px 0 rgba(0,82,204,0.06);
 }
 /* div.detailsDivL {
 	float: left;
@@ -543,14 +550,25 @@ div.detailsDiv {
 	font-weight: 300;
 } */
 div.detailsDivR {
-	/* float: right; */
-	width: 1430px;
+	float: left;
+	/* width: 1430px; */
+	width: 1050px;
 	height: 350px;
 	/* background: #2980b9; */
-	border-radius: 10px;
+	/* border-radius: 10px;
 	background: #fff;
 	overflow: hidden;
-	box-shadow: 0 20px 50px 0 rgba(0,82,204,0.06);
+	box-shadow: 0 20px 50px 0 rgba(0,82,204,0.06); */
+	/* border-right: 1px solid #E9EFF7; */
+}
+div.detailsDivRR {
+	float: left;
+	/* width: 1430px; */
+	width: 360px;
+	/* background: red; */
+	border-left: 1px solid #E9EFF7;
+	height: 310px;
+	margin-top: 20px;
 }
 div.top1 {
 	width: 94%;
@@ -609,25 +627,29 @@ div.top2 div span {
 /* 下面 第三层 */
 div.top3 {
 	/* background: red; */
-	width: 1050px;
+	/* width: 1050px; */
 	margin: 0 auto;
 	margin-top: 20px;
+	padding-left: 35px;
 }
 div.top3 div.box {
 	float: left;
-	margin-right: 40px;
+	margin-right: 20px;
 }
 div.top3 div.box.noMargin {
 	margin: 0;
 }
 div.top3 div.personBox {
 	box-sizing: border-box;
-	width: 65px;
-	height: 75px;
+	width: 80px;
+	height: 85px;
 	background: #E9EFF7;
 	border-radius: 5px;
 	text-align: center;
 	padding-top: 17px;
+}
+div.top3 div.personBox img {
+	width: 44px;
 }
 div.top3 p {
 	font-size: 18px;

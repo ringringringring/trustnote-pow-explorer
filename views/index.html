@@ -7,6 +7,34 @@
 	<link rel="stylesheet" href="/styles/app.css?v7">
 	<!-- <link rel="icon" href="/img/icon.png"> -->
 	<link rel="icon" href="/img/logo-0.png">
+	<style>
+		span.onpeer {
+			font-size: 20px;
+			color: #333;
+			width: 94%;
+			margin-left: 3%;
+			text-align: center;
+			display: inline-block;
+			border-bottom: 1px solid #E9EFF7;
+			padding-bottom: 13px;
+		}
+		ul.peers {
+			overflow: auto;
+			height: 255px;
+			padding-left: 20px;
+		}
+		li.peer {
+			list-style: none;
+			font-size: 16px;
+			height: 36px;
+			line-height: 36px;
+			padding-left: 20px;
+			word-break: keep-all;
+		}
+		li:nth-child(2n + 1){
+			background: #E9EFF7;
+		}
+	</style>
 </head>
 <body>
 	<!-- 详细信息 -->
@@ -217,6 +245,25 @@
 
 			<div class="cb"></div>
 		</div>
+	</div>
+
+	<div class="detailsDivRR">
+		<span class="onpeer englishWeb">Online Peers: <span class="peernumber"></span></span>
+		<span style="display: none;" class="onpeer chineseWeb">在线节点数: <span class="peernumber"></span></span>
+		<ul class="peers">
+			<!-- <li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li>
+			<li class="peer">ws://119.28.14.51:9193</li> -->
+		</ul>
 	</div>
 	<div class="cb"></div>
 </div>
