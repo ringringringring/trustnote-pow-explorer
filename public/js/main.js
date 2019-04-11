@@ -1193,11 +1193,6 @@ socket.on('getRoundStatus', function (roundStatus) {
 	$('#difficulty').text(roundStatus.difficultyOfRound);
 	$('#roundSwitch').text(roundStatus.roundIndex);
 
-	// if(current_round_index + 1 != 0){
-	// 	$('.roundSwitchNext').text(current_round_index + 1); // 距离 下一轮
-	// 	$('.roundSwitchStillPow').text(8 - roundStatus.countofPOWUnit); // 还剩 x 个PoW
-	// }
-
 	$('.personBox').css('background','#E9EFF7');
 	$('.personBoxImg').attr('src','img/personB.png');
 
@@ -1206,33 +1201,16 @@ socket.on('getRoundStatus', function (roundStatus) {
 		$('.personBoxImg').eq(i).attr('src','img/personW.png');
 	}
 
-	// if (roundStatus.countofPOWUnit == 0) {
-	// 	$("#0").circleChart({
-	// 		redraw: true,
-	// 		animate: false,
-	// 		value: (8 - roundStatus.countofPOWUnit) / 8 * 100,
-	// 		onDraw: function (el, circle) {
-	// 			circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
-	// 		}
-	// 	});
-	// }else if(roundStatus.countofPOWUnit >= 8){
-	// 	$("#0").circleChart({
-	// 		redraw: false,
-	// 		animate: true,
-	// 		value: 0.001,
-	// 		onDraw: function (el, circle) {
-	// 			circle.text('0 PoW');
-	// 		}
-	// 	});
-	// }else {
-	// 	$("#0").circleChart({
-	// 		redraw: false,
-	// 		animate: true,
-	// 		value: (8 - roundStatus.countofPOWUnit)/8 * 100,
-	// 		onDraw: function (el, circle) {
-	// 			circle.text(8 - roundStatus.countofPOWUnit + ' PoW');
-	// 		}
-	// 	});
-	// }
+	if(roundStatus.OnLinePeers){
+		if($('.peer')){
+			$('.peer').remove();
+		}
+		$('.peernumber').html(roundStatus.OnLinePeers.length);
+		for(var i = 0; i < roundStatus.OnLinePeers.length; i++){
+			$('.peers').append('<li class="peer" >'+ roundStatus.OnLinePeers[i].peer +'</li>');
+		}
+	}
+
+	
 })
 
