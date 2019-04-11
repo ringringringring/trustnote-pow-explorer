@@ -151,15 +151,14 @@ function getRoundStatusByRoundIndex(round_index,callback){
 			data['countofPOWUnit'] = arrPowunits.length;
 			data['countofTrustMEUnit'] = arrTrustMEunits.length;
 			data['countofCoinbaseUnit'] = arrCoinbaseunits.length;
+			var network = require('trustnote-pow-common/p2p/network.js');
+			data['OnLinePeers'] = network.getOnLinePeers();
 			if (assocCachedStatistics[round_index]){
 				data['difficultyOfRound'] = assocCachedStatistics[round_index].difficultyOfRound;
 				data['totalMine'] = assocCachedStatistics[round_index].totalMine;
 				data['totalPublishCoin'] = assocCachedStatistics[round_index].totalPublishCoin;
 				data['depositRatio'] = assocCachedStatistics[round_index].depositRatio;
 				data['inflationRatio'] = assocCachedStatistics[round_index].inflationRatio*100;
-				data['OnLinePeers'] = assocCachedStatistics[round_index].OnLinePeers;
-				console.log("Statistics round_index:" + round_index + ", cache:" + JSON.stringify(assocCachedStatistics));
-				console.log("Statistics round_index:" + round_index + ", data cache:" + JSON.stringify(data));
 				return callback(data);
 			}
 			round.getDifficultydByRoundIndex(db, round_index, function (difficultyOfRound){
@@ -171,14 +170,11 @@ function getRoundStatusByRoundIndex(round_index,callback){
 					data['totalPublishCoin'] = totalPublishCoin;
 					data['depositRatio'] = depositRatio;
 					data['inflationRatio'] = inflationRatio*100;
-					var network = require('trustnote-pow-common/p2p/network.js');
-					data['OnLinePeers'] = network.getOnLinePeers();
 					assocCachedStatistics[round_index] = {"difficultyOfRound": difficultyOfRound,
 														  "totalMine": totalMine,
 														  "totalPublishCoin": totalPublishCoin,
 														  "depositRatio": depositRatio,
-														  "inflationRatio": inflationRatio,
-														  "OnLinePeers": data['OnLinePeers']};
+														  "inflationRatio": inflationRatio};
 					console.log("Statistics round_index:" + round_index + ", data:" + JSON.stringify(data));														
 					callback(data);
 				});
