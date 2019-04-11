@@ -1173,14 +1173,14 @@ function fnGetOnLinePeers(){
 }
 
 socket.on('getOnlinePeers', function (peers) {
-	console.log('peers', peers);
-	if(peers.OnLinePeers){
+	// console.log('peers', peers);
+	if(peers.length > 0){
 		if($('.peer')){
 			$('.peer').remove();
 		}
-		$('.peernumber').html(peers.OnLinePeers.length);
-		for(var i = 0; i < peers.OnLinePeers.length; i++){
-			$('.peers').append('<li class="peer" >'+ peers.OnLinePeers[i].peer +'</li>');
+		$('.peernumber').html(peers.length);
+		for(var i = 0; i < peers.length; i++){
+			$('.peers').append('<li class="peer" >'+ peers[i].peer +'</li>');
 		}
 	}
 });
@@ -1191,7 +1191,7 @@ function fnGetRoundStatus(){
 
 // 每一轮 详细状态
 socket.on('getRoundStatus', function (roundStatus) {
-	console.log('--- 每一轮 status: ---', roundStatus);
+	// console.log('--- 每一轮 status: ---', roundStatus);
 
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
