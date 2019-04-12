@@ -1199,12 +1199,16 @@ var StraddSenconds;
 var StrdurationH;
 var StrdurationM;
 
+var couldShow = false;
+
 // transTimeStamp
 socket.on('transTimeStamp', function (time) {
 	if(time == -1){
 		$('#durationHour').text('error');
 		return false;
 	}
+
+	couldShow = true;
 	var durationT = new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 - time; // 时间差 (处理时区问题)
 	durationH = new Date(durationT).getHours();
 	durationM = new Date(durationT).getMinutes();
@@ -1232,6 +1236,7 @@ socket.on('transTimeStamp', function (time) {
 })
 // 定时器 1s
 setInterval(function(){
+	if(!couldShow){return false;}
 	addSenconds++;
 	if(addSenconds == 60){
 		addSenconds = 0;
