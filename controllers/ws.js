@@ -179,11 +179,17 @@ function staticdata(){
 }
 
 function getRoundStatus(data){
-	console.log("get round -staticdata")
+	// console.log("get round -staticdata")
 	var ws = this;
 	staticslib.getRoundStatus(data.round_index, function(roundStatus){
 		ws.emit('getRoundStatus', roundStatus);
 	});
+}
+function getOnlinePeers(){
+	// console.log("get round -staticdata")
+	var ws = this;
+	var peers = staticslib.getOnlinePeers();
+	ws.emit('getOnlinePeers', peers);
 }
 
 exports.start = start;
@@ -195,3 +201,4 @@ exports.highlightNode = highlightNode;
 exports.nextPageTransactions = nextPageTransactions;
 exports.staticdata = staticdata;
 exports.getRoundStatus = getRoundStatus;
+exports.getOnlinePeers = getOnlinePeers;

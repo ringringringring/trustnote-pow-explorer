@@ -1166,6 +1166,26 @@ socket.on('staticdata', function (data) {
 
 // 定时器 去获取当前轮次的 状态
 setInterval(fnGetRoundStatus, 4000);
+setInterval(fnGetOnLinePeers, 1000 * 60);
+
+function fnGetOnLinePeers(){
+	socket.emit('getOnLinePeers');
+}
+fnGetOnLinePeers();
+fnGetRoundStatus();
+
+socket.on('getOnlinePeers', function (peers) {
+	// console.log('peers', peers);
+	if(peers.length > 0){
+		if($('.peer')){
+			$('.peer').remove();
+		}
+		$('.peernumber').html(peers.length);
+		for(var i = 0; i < peers.length; i++){
+			$('.peers').append('<li class="peer" >'+ peers[i].peer +'</li>');
+		}
+	}
+});
 
 function fnGetRoundStatus(){
 	socket.emit('getRoundStatus', {round_index: current_round_index});
@@ -1173,7 +1193,7 @@ function fnGetRoundStatus(){
 
 // 每一轮 详细状态
 socket.on('getRoundStatus', function (roundStatus) {
-	console.log('--- 每一轮 status: ---', roundStatus);
+	// console.log('--- 每一轮 status: ---', roundStatus);
 
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
@@ -1184,7 +1204,7 @@ socket.on('getRoundStatus', function (roundStatus) {
 	}
 
 	$('.depositRatio').text(roundStatus.depositRatio);
-	$('.inflationRatio').text(roundStatus.inflationRatio);
+	$('.inflationRatio').text(roundStatus.inflationRatio.toFixed(2));
 
 	$('.issuedCoin').text(roundStatus.totalMine.toString().substr(0,roundStatus.totalMine.toString().length - 6));
 	$('.nonIssuedCoin').text(roundStatus.totalPublishCoin.toString().substr(0, roundStatus.totalPublishCoin.toString().length - 6));
@@ -1199,15 +1219,13 @@ socket.on('getRoundStatus', function (roundStatus) {
 	for(var i = 0; i < roundStatus.countofPOWUnit; i++){
 		$('.personBox').eq(i).css('background','#3192F2');
 		$('.personBoxImg').eq(i).attr('src','img/personW.png');
+		// $('.personBoxImg').eq(i).attr('title','我的地址：12345');
 	}
 
-	if(roundStatus.OnLinePeers){
-		if($('.peer')){
-			$('.peer').remove();
-		}
-		$('.peernumber').html(roundStatus.OnLinePeers.length);
-		for(var i = 0; i < roundStatus.OnLinePeers.length; i++){
-			$('.peers').append('<li class="peer" >'+ roundStatus.OnLinePeers[i].peer +'</li>');
+	if(roundStatus.arrPowUnits){
+		$('.personBox').attr('title','');
+		for(var i = 0; i < roundStatus.arrPowUnits.length; i++){
+			$('.personBox').eq(i).attr('title', roundStatus.arrPowUnits[i].address);
 		}
 	}
 
