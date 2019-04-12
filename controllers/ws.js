@@ -5,6 +5,7 @@ var db = require('trustnote-pow-common/db/db.js');
 var units = require('./units');
 var address = require('./address');
 var staticslib = require('./statics');
+var round = require('trustnote-pow-common/pow/round.js');
 
 function start(data) {
 	var ws = this;
@@ -192,6 +193,13 @@ function getOnlinePeers(){
 	ws.emit('getOnlinePeers', peers);
 }
 
+function getDurationTime(lastRound){
+	var ws = this;
+	round.getLastTimestampByRoundIndex(lastRound.curRound, function(timeStamp){
+		ws.emit('transTimeStamp', timeStamp);
+	})
+}
+
 exports.start = start;
 exports.next = next;
 exports.prev = prev;
@@ -202,3 +210,5 @@ exports.nextPageTransactions = nextPageTransactions;
 exports.staticdata = staticdata;
 exports.getRoundStatus = getRoundStatus;
 exports.getOnlinePeers = getOnlinePeers;
+exports.getDurationTime = getDurationTime;
+

@@ -1164,16 +1164,19 @@ socket.on('staticdata', function (data) {
 // 	$('#difficulty').text(data.difficulty); // 难度系数
 // })
 
-// 定时器 去获取当前轮次的 状态
+// 定时器
 setInterval(fnGetRoundStatus, 4000);
 setInterval(fnGetOnLinePeers, 1000 * 60);
-
+fnGetOnLinePeers();
+fnGetRoundStatus();
 function fnGetOnLinePeers(){
 	socket.emit('getOnLinePeers');
 }
-fnGetOnLinePeers();
-fnGetRoundStatus();
+function fnGetRoundStatus(){
+	socket.emit('getRoundStatus', {round_index: current_round_index});
+}
 
+// 在线节点数
 socket.on('getOnlinePeers', function (peers) {
 	// console.log('peers', peers);
 	if(peers.length > 0){
@@ -1187,14 +1190,88 @@ socket.on('getOnlinePeers', function (peers) {
 	}
 });
 
-function fnGetRoundStatus(){
-	socket.emit('getRoundStatus', {round_index: current_round_index});
-}
+var curRound;
+var addSenconds = 0;
+var durationH;
+var durationM;
+
+var StraddSenconds;
+var StrdurationH;
+var StrdurationM;
+
+// transTimeStamp
+socket.on('transTimeStamp', function (time) {
+	if(time == -1){
+		$('#durationHour').text('error');
+		return false;
+	}
+	var durationT = new Date().getTime() - time; // 时间差
+	durationH = new Date(durationT).getHours();
+	durationM = new Date(durationT).getMinutes();
+	addSenconds = new Date(durationT).getSeconds();
+	if(durationH.toString().length == 1){
+		StrdurationH = '0' + durationH.toString();
+	}else {
+		StrdurationH = durationH.toString();
+	}
+
+	if(durationM.toString().length == 1){
+		StrdurationM = '0' + durationM.toString();
+	}else {
+		StrdurationM = durationM.toString();
+	}
+
+	if(addSenconds.toString().length == 1){
+		StraddSenconds = '0' + addSenconds.toString();
+	}else {
+		StraddSenconds = addSenconds.toString();
+	}
+	$('#durationHour').text(StrdurationH);
+	$('#durationMin').text(StrdurationM);
+	$('#durationSenc').text(StraddSenconds);
+})
+// 定时器 1s
+setInterval(function(){
+	addSenconds++;
+	if(addSenconds == 60){
+		addSenconds = 0;
+		durationM++;
+		if(durationM == 60){
+			durationM = 0;
+			durationH++;
+			if(durationH.toString().length == 1){
+				StrdurationH = '0' + durationH.toString();
+			}else {
+				StrdurationH = durationH.toString();
+			}
+			$('#durationHour').text(StrdurationH);
+		}
+		if(durationM.toString().length == 1){
+			StrdurationM = '0' + durationM.toString();
+		}else {
+			StrdurationM = durationM.toString();
+		}
+		$('#durationMin').text(StrdurationM);
+	}
+	if(addSenconds.toString().length == 1){
+		StraddSenconds = '0' + addSenconds.toString();
+	}else {
+		StraddSenconds = addSenconds.toString();
+	}
+	$('#durationSenc').text(StraddSenconds);
+}, 1000);
 
 // 每一轮 详细状态
 socket.on('getRoundStatus', function (roundStatus) {
-	// console.log('--- 每一轮 status: ---', roundStatus);
 
+	// 切换轮次时候 发送
+	if(curRound !== roundStatus.roundIndex){
+		curRound = roundStatus.roundIndex;
+		socket.emit('getDurationTime', {curRound: curRound - 1});
+		// console.log(curRound - 1);
+	}
+	
+	// console.log('--- 每一轮 status: ---', roundStatus);
 	$('#numTrustme').text(roundStatus.countofTrustMEUnit);
 	$('#numCoinbase').text(roundStatus.countofCoinbaseUnit);
 	if(roundStatus.countofPOWUnit > 10){
@@ -1202,33 +1279,24 @@ socket.on('getRoundStatus', function (roundStatus) {
 	} else{
 		$('#numPow').text(roundStatus.countofPOWUnit);
 	}
-
 	$('.depositRatio').text(roundStatus.depositRatio);
 	$('.inflationRatio').text(roundStatus.inflationRatio.toFixed(2));
-
 	$('.issuedCoin').text(roundStatus.totalMine.toString().substr(0,roundStatus.totalMine.toString().length - 6));
 	$('.nonIssuedCoin').text(roundStatus.totalPublishCoin.toString().substr(0, roundStatus.totalPublishCoin.toString().length - 6));
-
-
 	$('#difficulty').text(roundStatus.difficultyOfRound);
 	$('#roundSwitch').text(roundStatus.roundIndex);
-
 	$('.personBox').css('background','#E9EFF7');
 	$('.personBoxImg').attr('src','img/personB.png');
-
 	for(var i = 0; i < roundStatus.countofPOWUnit; i++){
 		$('.personBox').eq(i).css('background','#3192F2');
 		$('.personBoxImg').eq(i).attr('src','img/personW.png');
 		// $('.personBoxImg').eq(i).attr('title','我的地址：12345');
 	}
-
 	if(roundStatus.arrPowUnits){
 		$('.personBox').attr('title','');
 		for(var i = 0; i < roundStatus.arrPowUnits.length; i++){
 			$('.personBox').eq(i).attr('title', roundStatus.arrPowUnits[i].address);
 		}
 	}
-
-	
 })
 

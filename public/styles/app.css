@@ -568,10 +568,10 @@ div.detailsDivRR {
 	/* background: red; */
 	border-left: 1px solid #E9EFF7;
 	height: 310px;
-	margin-top: 20px;
+	margin-top: 19px;
 }
 div.top1 {
-	width: 94%;
+	width: 96%;
 	margin: 0 auto;
 	height: 60px;
 	line-height: 60px;
@@ -581,19 +581,18 @@ div.top1 {
 	border-bottom: 1px solid #E9EFF7;
 }
 div.top1 div.top1L {
-	box-sizing: border-box;
-	width: 50%;
+	width: 33%;
 	float: left;
 	position: relative;
-	text-align: right;
-	padding-right: 70px;
+	text-align: center;
 }
 div.top1 div.top1R {
-	box-sizing: border-box;
-	padding-left: 70px;
-	width: 50%;
+	width: 33%;
 	float: left;
+	text-align: center;
+	position: relative;
 }
+div.top1 div.top1R div.line,
 div.top1 div.top1L div.line {
 	position: absolute;
 	width: 1px;

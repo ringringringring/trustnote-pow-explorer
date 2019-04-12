@@ -42,6 +42,7 @@ io.on('connection', function(socket) {
 	socket.on('staticdata', ws.staticdata);
 	socket.on('getRoundStatus', ws.getRoundStatus);
 	socket.on('getOnLinePeers', ws.getOnlinePeers);
+	socket.on('getDurationTime', ws.getDurationTime);
 	socket.on('start', ws.start);
 	socket.on('next', ws.next);
 	socket.on('prev', ws.prev);
