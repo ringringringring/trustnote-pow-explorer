@@ -1205,7 +1205,7 @@ socket.on('transTimeStamp', function (time) {
 		$('#durationHour').text('error');
 		return false;
 	}
-	var durationT = new Date().getTime() + new Date().getTimezoneOffset() * 60 - time; // 时间差 (处理时区问题)
+	var durationT = new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 - time; // 时间差 (处理时区问题)
 	durationH = new Date(durationT).getHours();
 	durationM = new Date(durationT).getMinutes();
 	addSenconds = new Date(durationT).getSeconds();
